@@ -402,27 +402,19 @@ export const MasterWebsiteCustomizer: React.FC = () => {
           <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400 pointer-events-none" />
           <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 pointer-events-none" />
 
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] shrink-0">
-              <Settings className="w-7 h-7 animate-[spin_12s_linear_infinite]" />
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] shrink-0">
+              <Settings className="w-5 h-5 animate-[spin_12s_linear_infinite]" />
             </div>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
-                </span>
-                <span className="text-[11px] font-mono tracking-widest uppercase text-cyan-300 font-bold">
-                  MASTER CMS & COMPLETE WEBSITE CUSTOMIZER
-                </span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-black font-display tracking-tight text-white uppercase">
-                Central Site Architecture & Customization Console
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+              </span>
+              <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight text-white">
+                Website Settings
               </h1>
-              <p className="text-xs text-slate-300 max-w-2xl font-normal">
-                Direct manual control to edit, upload, modify, and delete everything across United Global School's live public portal, faculty directories, notices, and institutional metadata.
-              </p>
             </div>
           </div>
 
