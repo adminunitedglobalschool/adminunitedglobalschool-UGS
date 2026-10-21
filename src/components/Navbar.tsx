@@ -178,74 +178,69 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
             </div>
           ) : null}
 
-          {/* Zone 3: 1 primary action with Role Switcher */}
+          {/* Zone 3: 1 primary action with Role Switcher (Hidden on public website) */}
           <div className="flex items-center gap-3 shrink-0">
             
-            {/* Role Switcher Pill */}
-            <div className="relative">
-              <button
-                onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white text-xs font-medium transition-all shadow-sm focus:outline-none"
-                aria-expanded={isRoleDropdownOpen}
-              >
-                <span className="flex items-center gap-1.5 whitespace-nowrap">
-                  {currentRoleObj.icon}
-                  <span className="font-semibold text-slate-100">{currentRoleObj.label}</span>
-                </span>
-
-                {/* Futuristic 3 Dots for Mobile View */}
-                <span className="flex md:hidden items-center gap-1 pl-1 border-l border-slate-700/80" title="Switch Portal">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee] animate-pulse" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80 shadow-[0_0_6px_#22d3ee]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/50 shadow-[0_0_4px_#22d3ee]" />
-                </span>
-
-                {/* Desktop Chevron */}
-                <ChevronDown className={`hidden md:block w-3.5 h-3.5 text-slate-400 transition-transform ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isRoleDropdownOpen && (
-                <div 
-                  className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
-                  onMouseLeave={() => setIsRoleDropdownOpen(false)}
+            {/* Role Switcher Pill - Only shown in management/portals, removed on Public Website */}
+            {role !== 'public' && (
+              <div className="relative">
+                <button
+                  onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white text-xs font-medium transition-all shadow-sm focus:outline-none"
+                  aria-expanded={isRoleDropdownOpen}
                 >
-                  <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Select School Portal
-                  </div>
-                  <div className="mt-1 space-y-1">
-                    {roleOptions.filter(opt => opt.key !== 'settings').map(opt => (
-                      <button
-                        key={opt.key}
-                        onClick={() => {
-                          setRole(opt.key);
-                          setIsRoleDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors ${
-                          role === opt.key 
-                            ? 'bg-cyan-500/10 border border-cyan-500/30 text-white' 
-                            : 'hover:bg-slate-800/80 text-slate-300'
-                        }`}
-                      >
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-slate-800/80">
-                          {opt.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-xs font-semibold text-white flex items-center justify-between">
-                            {opt.label}
-                            {role === opt.key && (
-                              <span className="text-[10px] text-cyan-400 font-medium">Active</span>
-                            )}
+                  <span className="flex items-center gap-1.5 whitespace-nowrap">
+                    {currentRoleObj.icon}
+                    <span className="font-semibold text-slate-100">{currentRoleObj.label}</span>
+                  </span>
+
+                  {/* Desktop Chevron */}
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isRoleDropdownOpen && (
+                  <div 
+                    className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                    onMouseLeave={() => setIsRoleDropdownOpen(false)}
+                  >
+                    <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Select School Portal
+                    </div>
+                    <div className="mt-1 space-y-1">
+                      {roleOptions.filter(opt => opt.key !== 'settings').map(opt => (
+                        <button
+                          key={opt.key}
+                          onClick={() => {
+                            setRole(opt.key);
+                            setIsRoleDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors ${
+                            role === opt.key 
+                              ? 'bg-cyan-500/10 border border-cyan-500/30 text-white' 
+                              : 'hover:bg-slate-800/80 text-slate-300'
+                          }`}
+                        >
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-slate-800/80">
+                            {opt.icon}
                           </div>
-                          <div className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
-                            {opt.desc}
+                          <div className="flex-1">
+                            <div className="text-xs font-semibold text-white flex items-center justify-between">
+                              {opt.label}
+                              {role === opt.key && (
+                                <span className="text-[10px] text-cyan-400 font-medium">Active</span>
+                              )}
+                            </div>
+                            <div className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+                              {opt.desc}
+                            </div>
                           </div>
-                        </div>
-                      </button>
-                    ))}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* Mobile menu trigger - Only shown on public website */}
             {role === 'public' && (
@@ -372,6 +367,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   <span>Principal</span>
                 </button>
               </div>
+            </div>
+
+            {/* Subtle Faculty / Admin Portal Access for authorized staff */}
+            <div className="pt-2 border-t border-slate-800 flex justify-center">
+              <button
+                onClick={() => {
+                  setRole('admin');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[11px] font-medium text-slate-400 hover:text-cyan-400 py-1 transition-colors cursor-pointer"
+              >
+                Staff & Admin Portal Access
+              </button>
             </div>
           </div>
         )}
