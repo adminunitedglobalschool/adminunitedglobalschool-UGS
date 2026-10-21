@@ -264,13 +264,13 @@ export const HeroSection: React.FC = () => {
 
                   {/* 3 Floating Buttons Side-by-Side */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    {/* 1. Apply for Admission Button */}
+                    {/* 1. Online Admission Button */}
                     <button
                       onClick={openAdmissionModal}
                       className="px-3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-1.5 transition-all group active:scale-95 cursor-pointer ring-1 ring-cyan-300/40 whitespace-nowrap"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-cyan-200 group-hover:rotate-12 transition-transform shrink-0" />
-                      <span className="truncate">Apply for Admission</span>
+                      <span className="truncate">Online Admission</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
                     </button>
 
@@ -283,13 +283,13 @@ export const HeroSection: React.FC = () => {
                       <span className="truncate">Offline Admission Form</span>
                     </button>
 
-                    {/* 3. Appointment with Principal Button */}
+                    {/* 3. Principal Button */}
                     <button
                       onClick={openPrincipalAppointmentModal}
                       className="px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-purple-300 hover:text-white border border-purple-500/40 hover:border-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-950/40 transition-all active:scale-95 cursor-pointer whitespace-nowrap"
                     >
                       <UserCheck className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                      <span className="truncate">Appointment with Principal</span>
+                      <span className="truncate">Principal</span>
                     </button>
                   </div>
                 </div>

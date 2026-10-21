@@ -349,7 +349,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   className="w-full text-left px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs flex items-center gap-2"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Apply for Admission (Online)</span>
+                  <span>Online Admission</span>
                 </button>
                 <button
                   onClick={() => {
@@ -369,7 +369,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   className="w-full text-left px-3 py-2 rounded-xl bg-slate-900 border border-purple-500/30 text-purple-300 font-semibold text-xs flex items-center gap-2"
                 >
                   <UserCheck className="w-3.5 h-3.5" />
-                  <span>Appointment with Principal</span>
+                  <span>Principal</span>
                 </button>
               </div>
             </div>
