@@ -1,0 +1,273 @@
+{
+  "entities": {
+    "SiteConfig": {
+      "title": "SiteConfig",
+      "description": "United Global School public branding, contact info, and website content configuration",
+      "type": "object",
+      "properties": {
+        "schoolName": { "type": "string" },
+        "tagline": { "type": "string" },
+        "affiliationCode": { "type": "string" },
+        "udiseCode": { "type": "string" },
+        "campusLocation": { "type": "string" },
+        "address": { "type": "string" },
+        "pinCode": { "type": "string" },
+        "phone1": { "type": "string" },
+        "phone2": { "type": "string" },
+        "email": { "type": "string" },
+        "operatingHours": { "type": "string" },
+        "heroHeading": { "type": "string" },
+        "heroSubheading": { "type": "string" },
+        "admissionOpenText": { "type": "string" },
+        "bannerNotice": { "type": "string" }
+      },
+      "required": ["schoolName", "affiliationCode", "email"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Enrolled student demographic, scholastic, and fee status record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "admissionNo": { "type": "string" },
+        "name": { "type": "string" },
+        "guardianName": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "grade": { "type": "string" },
+        "section": { "type": "string" },
+        "rollNo": { "type": "number" },
+        "dob": { "type": "string" },
+        "address": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "avatar": { "type": "string" },
+        "attendanceRate": { "type": "number" },
+        "feeStatus": { "type": "string" },
+        "totalFee": { "type": "number" },
+        "paidFee": { "type": "number" },
+        "pendingFee": { "type": "number" },
+        "house": { "type": "string" },
+        "mentorTeacher": { "type": "string" }
+      },
+      "required": ["admissionNo", "name", "grade", "section"]
+    },
+    "Teacher": {
+      "title": "Teacher",
+      "description": "Faculty member, qualification, subject mentorship, and salary details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "empId": { "type": "string" },
+        "name": { "type": "string" },
+        "designation": { "type": "string" },
+        "subject": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "qualification": { "type": "string" },
+        "experience": { "type": "string" },
+        "salary": { "type": "number" },
+        "salaryStatus": { "type": "string" },
+        "attendanceRate": { "type": "number" },
+        "attendanceStatus": { "type": "string" },
+        "joiningDate": { "type": "string" },
+        "avatar": { "type": "string" },
+        "bloodGroup": { "type": "string" }
+      },
+      "required": ["empId", "name", "subject", "designation"]
+    },
+    "Staff": {
+      "title": "Staff",
+      "description": "Administrative and operational staff member record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "empId": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "department": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "salary": { "type": "number" },
+        "salaryStatus": { "type": "string" },
+        "shift": { "type": "string" },
+        "attendanceStatus": { "type": "string" },
+        "joiningDate": { "type": "string" },
+        "avatar": { "type": "string" },
+        "zone": { "type": "string" }
+      },
+      "required": ["empId", "name", "role", "department"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Daily student roll-call entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "grade": { "type": "string" },
+        "section": { "type": "string" },
+        "rollNo": { "type": "number" },
+        "status": { "type": "string" }
+      },
+      "required": ["date", "studentId", "status"]
+    },
+    "FeeTransaction": {
+      "title": "FeeTransaction",
+      "description": "Official financial payment receipt and collection ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "receiptNo": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "admissionNo": { "type": "string" },
+        "grade": { "type": "string" },
+        "section": { "type": "string" },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "transactionRef": { "type": "string" },
+        "term": { "type": "string" },
+        "status": { "type": "string" },
+        "collectedBy": { "type": "string" }
+      },
+      "required": ["receiptNo", "studentId", "amount", "date", "status"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Institutional notice, academic circular, or event alert",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "date": { "type": "string" },
+        "targetRole": { "type": "string" },
+        "isUrgent": { "type": "boolean" }
+      },
+      "required": ["title", "content", "category", "date"]
+    },
+    "ClassTopper": {
+      "title": "ClassTopper",
+      "description": "Board examination class topper, olympiad distinction, and academic prodigy record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "admissionNo": { "type": "string" },
+        "grade": { "type": "string" },
+        "section": { "type": "string" },
+        "scorePercentage": { "type": "number" },
+        "rankBadge": { "type": "string" },
+        "stream": { "type": "string" },
+        "house": { "type": "string" },
+        "avatar": { "type": "string" },
+        "mentor": { "type": "string" },
+        "boardYear": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "grade", "scorePercentage"]
+    },
+    "RolePermissions": {
+      "title": "RolePermissions",
+      "description": "Institutional access clearance matrix for Teacher and Staff portals",
+      "type": "object",
+      "properties": {
+        "teacher": { "type": "object" },
+        "staff": { "type": "object" }
+      },
+      "required": ["teacher", "staff"]
+    },
+    "Administrator": {
+      "title": "Administrator",
+      "description": "Executive school director, board trustee, or administrative authority",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "empId": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "accessLevel": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "qualification": { "type": "string" },
+        "status": { "type": "string" },
+        "avatar": { "type": "string" },
+        "joiningDate": { "type": "string" },
+        "securityClearance": { "type": "string" }
+      },
+      "required": ["empId", "name", "role"]
+    },
+    "UserCredential": {
+      "title": "UserCredential",
+      "description": "User login credential, access PIN, clearance role, and granular permission rights issued by administrator",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "role": { "type": "string" },
+        "department": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string" },
+        "clearanceLevel": { "type": "string" },
+        "issuedDate": { "type": "string" },
+        "lastLogin": { "type": "string" },
+        "permissions": { "type": "object" },
+        "notes": { "type": "string" }
+      },
+      "required": ["username", "name", "role", "password"]
+    }
+  },
+  "firestore": {
+    "/site_config/{docId}": {
+      "schema": { "$ref": "#/entities/SiteConfig" },
+      "description": "Public school branding, hero copy, and metadata configuration"
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Central student directory database"
+    },
+    "/teachers/{teacherId}": {
+      "schema": { "$ref": "#/entities/Teacher" },
+      "description": "Faculty and mentor roster database"
+    },
+    "/staff/{staffId}": {
+      "schema": { "$ref": "#/entities/Staff" },
+      "description": "Administrative and operational staff database"
+    },
+    "/administrators/{adminId}": {
+      "schema": { "$ref": "#/entities/Administrator" },
+      "description": "Executive administration and governance directory"
+    },
+    "/attendance_records/{recordId}": {
+      "schema": { "$ref": "#/entities/AttendanceRecord" },
+      "description": "Daily scholastic roll-call ledger"
+    },
+    "/fee_transactions/{txnId}": {
+      "schema": { "$ref": "#/entities/FeeTransaction" },
+      "description": "Audit trail of fee payments and receipts"
+    },
+    "/announcements/{noticeId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "School notices, examination circulars, and announcements"
+    },
+    "/toppers/{topperId}": {
+      "schema": { "$ref": "#/entities/ClassTopper" },
+      "description": "Academic titans, board toppers, and olympiad prodigies"
+    },
+    "/role_permissions/{permId}": {
+      "schema": { "$ref": "#/entities/RolePermissions" },
+      "description": "Live Teacher and Staff portal capabilities and view clearances"
+    },
+    "/user_credentials/{userId}": {
+      "schema": { "$ref": "#/entities/UserCredential" },
+      "description": "User login credentials, passkeys, and assigned permissions"
+    }
+  }
+}

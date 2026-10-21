@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Public school content (Website, announcements, toppers, faculty)
+    match /site_config/{docId} {
+      allow read: if true;
+      allow write: if isValidId(docId);
+    }
+
+    match /announcements/{noticeId} {
+      allow read: if true;
+      allow write: if isValidId(noticeId);
+    }
+
+    match /toppers/{topperId} {
+      allow read: if true;
+      allow write: if isValidId(topperId);
+    }
+
+    match /teachers/{teacherId} {
+      allow read: if true;
+      allow write: if isValidId(teacherId);
+    }
+
+    // Student records and operations (Allow read on query/list + get, write on valid document ID)
+    match /students/{studentId} {
+      allow read: if true;
+      allow write: if isValidId(studentId);
+    }
+
+    match /staff/{staffId} {
+      allow read: if true;
+      allow write: if isValidId(staffId);
+    }
+
+    match /administrators/{adminId} {
+      allow read: if true;
+      allow write: if isValidId(adminId);
+    }
+
+    match /attendance_records/{recordId} {
+      allow read: if true;
+      allow write: if isValidId(recordId);
+    }
+
+    match /fee_transactions/{txnId} {
+      allow read: if true;
+      allow write: if isValidId(txnId);
+    }
+
+    match /role_permissions/{permId} {
+      allow read: if true;
+      allow write: if isValidId(permId);
+    }
+
+    match /user_credentials/{userId} {
+      allow read: if true;
+      allow write: if isValidId(userId);
+    }
+
+    // Connection validation document
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
