@@ -44,9 +44,6 @@ export const SuccessStoriesPage: React.FC = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display text-white tracking-tight leading-tight">
             Scrolling Laurels & Triumph Stories
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            United Global School champions holistic student excellence. From National Robotics Hackathons to Assam State Athletics and classical Assamese music honors, our students embody passion and resilience.
-          </p>
 
           {/* Quick Metrics */}
           <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">

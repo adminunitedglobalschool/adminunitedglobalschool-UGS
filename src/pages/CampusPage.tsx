@@ -142,9 +142,6 @@ export const CampusPage: React.FC = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display text-white tracking-tight leading-tight">
             Future-Ready Campus & Advanced Laboratories
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Spanning over 5.2 lush acres in Bhakatgaon, Rupahi Town, United Global School is engineered to stimulate intellectual curiosity, athletic endurance, and creative expression.
-          </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4 text-xs">
             <span className="flex items-center gap-1.5 text-slate-300">
