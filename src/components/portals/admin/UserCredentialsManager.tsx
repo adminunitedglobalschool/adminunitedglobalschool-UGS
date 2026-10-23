@@ -210,7 +210,7 @@ export const UserCredentialsManager: React.FC = () => {
       return;
     }
     const cleanName = formData.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const prefix = formData.role === 'teacher' ? 'faculty' : formData.role === 'administrator' ? 'admin' : 'staff';
+    const prefix = formData.role === 'teacher' ? 'faculty' : formData.role === 'administrator' ? 'admin' : formData.role === 'student' ? 'student' : 'staff';
     const suggested = `ugs.${prefix}.${cleanName.slice(0, 10)}`;
     setFormData(prev => ({ ...prev, username: suggested }));
   };
@@ -225,7 +225,8 @@ export const UserCredentialsManager: React.FC = () => {
       department: newRole === 'teacher' ? 'Academic Department' :
                   newRole === 'accountant' ? 'Accounts & Treasury' :
                   newRole === 'examination_head' ? 'Examination & Assessment Cell' :
-                  newRole === 'administrator' ? 'Executive Administration' : 'Campus Operations'
+                  newRole === 'administrator' ? 'Executive Administration' : 
+                  newRole === 'student' ? 'Scholastic Division' : 'Campus Operations'
     }));
   };
 
@@ -382,11 +383,12 @@ Issued By: Directorate Executive Console
             className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:border-purple-500 focus:outline-none"
           >
             <option value="all">All Roles ({userCredentials.length})</option>
+            <option value="administrator">Administrators</option>
             <option value="teacher">Teachers</option>
+            <option value="student">Students</option>
             <option value="staff">Staff</option>
             <option value="accountant">Accountants</option>
             <option value="examination_head">Exam Controllers</option>
-            <option value="administrator">Administrators</option>
           </select>
 
           <select

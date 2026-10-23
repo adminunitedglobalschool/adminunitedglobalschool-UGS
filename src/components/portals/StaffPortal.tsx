@@ -14,7 +14,10 @@ import {
   Bus,
   ShieldCheck,
   Check,
-  ShieldAlert
+  ShieldAlert,
+  LogOut,
+  User,
+  X
 } from 'lucide-react';
 import { Student } from '../../types/school';
 
@@ -25,9 +28,18 @@ export const StaffPortal: React.FC = () => {
     recordPayment, 
     openReceiptModal, 
     setRole, 
+    setPublicPage,
     showToast,
     rolePermissions 
   } = useSchool();
+
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleLogout = () => {
+    setRole('public');
+    setPublicPage('home');
+    showToast('Logged out successfully from Staff & Accounts Desk.');
+  };
 
   const canCollectFees = rolePermissions.staff.canCollectFees;
   const canViewDefaulters = rolePermissions.staff.canViewDefaulters;
@@ -120,12 +132,97 @@ export const StaffPortal: React.FC = () => {
           </div>
         </div>
 
-        <button
-          onClick={() => setRole('public')}
-          className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-medium transition-colors self-start md:self-auto"
-        >
-          Exit to Website
-        </button>
+        {/* Profile Icon and Logout Action */}
+        <div className="flex items-center gap-2.5 self-start md:self-auto">
+          {/* Profile Button */}
+          <div className="relative">
+            <button
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-amber-500/30 hover:border-amber-400 text-slate-200 hover:text-white transition-all shadow-sm cursor-pointer group"
+              title="View Staff Profile"
+            >
+              <div className="relative">
+                <div className="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+                  <User className="w-4 h-4" />
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
+              </div>
+              <div className="text-left hidden sm:block">
+                <div className="text-xs font-semibold text-white leading-tight">Mr. Pranjal Baruah</div>
+                <div className="text-[10px] text-amber-400 font-medium leading-tight">Accounts Officer</div>
+              </div>
+            </button>
+
+            {/* Profile Dropdown / Card */}
+            {isProfileOpen && (
+              <div 
+                className="absolute right-0 mt-2 w-80 bg-slate-900 border border-amber-500/40 rounded-2xl shadow-2xl p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                onMouseLeave={() => setIsProfileOpen(false)}
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                      PB
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-white">Mr. Pranjal Baruah</div>
+                      <div className="text-xs text-amber-400">Chief Accounts & Bursar</div>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setIsProfileOpen(false)}
+                    className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="py-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Staff ID:</span>
+                    <span className="text-slate-200 font-mono">STF-ACC-101</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Department:</span>
+                    <span className="text-amber-400 font-semibold">Bursar & Digital Fee Counter</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Terminal:</span>
+                    <span className="text-emerald-400 font-medium">Counter #01 (Active POS)</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Official Email:</span>
+                    <span className="text-slate-200 font-mono">accounts@unitedglobalschool.in</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-slate-400">Authorization:</span>
+                    <span className="text-emerald-400 font-semibold">Fee Collection & Audit Clearance</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-800">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-rose-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Log Out of Staff & Fees Desk</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Dedicated Log Out Button */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 text-rose-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer active:scale-95"
+            title="Log out of Staff Portal"
+          >
+            <LogOut className="w-3.5 h-3.5 text-rose-400" />
+            <span>Log Out</span>
+          </button>
+        </div>
       </div>
 
       {/* Top Tabs (Enforced by Admin Permissions) */}

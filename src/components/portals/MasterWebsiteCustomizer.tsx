@@ -31,9 +31,14 @@ import {
   Eye,
   Star,
   Award,
-  Zap
+  Zap,
+  Key,
+  LogOut,
+  User,
+  ShieldAlert
 } from 'lucide-react';
 import { RolePermissionsCustomizer } from './admin/RolePermissionsCustomizer';
+import { UserCredentialsManager } from './admin/UserCredentialsManager';
 
 export const MasterWebsiteCustomizer: React.FC = () => {
   const { 
@@ -56,10 +61,20 @@ export const MasterWebsiteCustomizer: React.FC = () => {
     deleteAnnouncement, 
     resetToDefaults, 
     setRole, 
-    showToast 
+    setPublicPage,
+    showToast,
+    userCredentials 
   } = useSchool();
 
-  const [activeTab, setActiveTab] = useState<'branding' | 'faculty' | 'toppers' | 'notices' | 'students' | 'backup' | 'permissions'>('permissions');
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleLogout = () => {
+    setRole('public');
+    setPublicPage('home');
+    showToast('Logged out successfully from Super Admin Portal.');
+  };
+
+  const [activeTab, setActiveTab] = useState<'credentials' | 'permissions' | 'branding' | 'faculty' | 'toppers' | 'notices' | 'students' | 'backup'>('credentials');
 
   // Helper for uploading photos from local files
   const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>, onComplete: (base64Url: string) => void) => {
@@ -395,68 +410,127 @@ export const MasterWebsiteCustomizer: React.FC = () => {
       <div className="relative group">
         <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500/30 via-blue-600/30 to-purple-600/30 blur-xl opacity-40 group-hover:opacity-60 transition-all duration-700 animate-pulse pointer-events-none" />
 
-        <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-slate-900/95 backdrop-blur-xl border border-cyan-500/40 animate-cyber-glow shadow-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-slate-900/95 backdrop-blur-xl border border-purple-500/40 shadow-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Cyber Corner HUD Tech Accents */}
-          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 pointer-events-none" />
-          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-400 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400 pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-purple-400 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-purple-400 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-purple-400 pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-purple-400 pointer-events-none" />
 
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] shrink-0">
-              <Settings className="w-5 h-5 animate-[spin_12s_linear_infinite]" />
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 via-indigo-600 to-cyan-500 border border-purple-400/50 flex items-center justify-center text-white shadow-[0_0_20px_rgba(168,85,247,0.35)] shrink-0">
+              <ShieldAlert className="w-6 h-6 text-white" />
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-              </span>
-              <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight text-white">
-                Website Settings
-              </h1>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-400"></span>
+                </span>
+                <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight text-white">
+                  Super Admin Portal
+                </h1>
+                <span className="text-[10px] text-purple-300 font-mono font-bold px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/30">
+                  Master Directorate
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                Central Directorate & Credentials Gateway · Issue User Logins, Set Role Permissions & School Website CMS
+              </p>
             </div>
           </div>
 
-          {/* Quick Hub Navigation & Factory Reset */}
+          {/* Quick Hub Navigation, Profile & Logout */}
           <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <button
               onClick={() => setRole('admin')}
-              className="px-4 py-2 rounded-xl bg-purple-600/20 border border-purple-500/40 hover:bg-purple-600/30 text-purple-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-purple-600/20 border border-purple-500/40 hover:bg-purple-600/30 text-purple-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
-              <span>Back to Admin Panel</span>
+              <span>Admin Panel (Operations)</span>
             </button>
 
             <button
               onClick={() => setRole('public')}
-              className="px-4 py-2 rounded-xl bg-slate-950 border border-slate-700 hover:border-cyan-400 text-slate-200 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 hover:border-cyan-400 text-slate-200 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
             >
               <Eye className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Preview Live Site</span>
+              <span>Public Website</span>
             </button>
 
-            <button
-              onClick={handleExportJSON}
-              className="px-4 py-2 rounded-xl bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
-              title="Download Full JSON Config"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export Config</span>
-            </button>
+            {/* Profile Dropdown Button */}
+            <div className="relative">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-purple-500/30 hover:border-purple-400 text-slate-200 hover:text-white transition-all shadow-sm cursor-pointer"
+                title="Super Admin Profile"
+              >
+                <div className="w-6 h-6 rounded-lg bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-purple-300">
+                  <User className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs font-semibold text-white hidden sm:inline">Dr. Mukut Sharma</span>
+              </button>
 
+              {isProfileOpen && (
+                <div 
+                  className="absolute right-0 mt-2 w-80 bg-slate-900 border border-purple-500/40 rounded-2xl shadow-2xl p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                  onMouseLeave={() => setIsProfileOpen(false)}
+                >
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        MS
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
+                        <div className="text-xs text-purple-300">Super Admin & Principal</div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => setIsProfileOpen(false)}
+                      className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="py-3 space-y-2 text-xs">
+                    <div className="flex justify-between py-1 border-b border-slate-800/60">
+                      <span className="text-slate-400">Account:</span>
+                      <span className="text-slate-200 font-mono truncate max-w-[170px]">adminunitedglobalschool@gmail.com</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-slate-800/60">
+                      <span className="text-slate-400">Authority:</span>
+                      <span className="text-purple-300 font-semibold">Super Administrator (Root)</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-slate-800/60">
+                      <span className="text-slate-400">Clearance:</span>
+                      <span className="text-emerald-400 font-semibold">Level 5 (Unrestricted)</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-800">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-rose-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>Log Out of Super Admin</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Dedicated Log Out Button */}
             <button
-              onClick={() => {
-                if (window.confirm('Reset all website information, faculty additions, and notices to factory default?')) {
-                  resetToDefaults();
-                  setBrandingForm({ ...DEFAULT_SITE_CONFIG });
-                }
-              }}
-              className="px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/30 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-all flex items-center gap-1.5"
-              title="Reset to Original Defaults"
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 text-rose-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer active:scale-95"
+              title="Log Out"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Defaults</span>
+              <LogOut className="w-3.5 h-3.5 text-rose-400" />
+              <span>Log Out</span>
             </button>
           </div>
         </div>
@@ -482,6 +556,42 @@ export const MasterWebsiteCustomizer: React.FC = () => {
               <span className="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[9px] font-mono font-bold">
                 ROOT ADMIN
               </span>
+            </div>
+
+            {/* Featured Super Admin Module: USER CREDENTIALS */}
+            <div className="space-y-1.5">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-purple-400 font-bold px-1">
+                SUPER ADMIN MASTER CONTROL
+              </div>
+              <button
+                onClick={() => setActiveTab('credentials')}
+                className={`w-full p-3.5 rounded-2xl text-left transition-all relative overflow-hidden group border cursor-pointer ${
+                  activeTab === 'credentials'
+                    ? 'bg-gradient-to-r from-purple-600/30 via-indigo-600/25 to-cyan-500/20 border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.3)] ring-1 ring-purple-300'
+                    : 'bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-950'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${
+                    activeTab === 'credentials'
+                      ? 'bg-gradient-to-br from-purple-500 to-indigo-600 text-white font-bold shadow-md shadow-purple-500/30'
+                      : 'bg-slate-800/80 text-purple-400 border border-slate-700'
+                  }`}>
+                    <Key className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-bold text-white flex items-center justify-between">
+                      <span>User Credentials</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                        {userCredentials.length} ISSUED
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-2">
+                      Issue logins for Admin, Teachers, Students & Staff
+                    </p>
+                  </div>
+                </div>
+              </button>
             </div>
 
             {/* Featured Hero Button: ROLES & PERMISSIONS */}
@@ -650,10 +760,23 @@ export const MasterWebsiteCustomizer: React.FC = () => {
           {/* Main Navigation Tabs with Custom Horizontal Scrollbar */}
           <div className="flex items-center gap-2.5 border-b border-slate-800 pb-3 overflow-x-auto custom-horizontal-scrollbar scroll-smooth">
             
-            {/* 0. Roles & Permission Featured Button */}
+            {/* 0. Super Admin User Credentials Hub Premier Button */}
+            <button
+              onClick={() => setActiveTab('credentials')}
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
+                activeTab === 'credentials'
+                  ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-white font-bold shadow-lg shadow-purple-600/30 ring-1 ring-purple-300'
+                  : 'bg-slate-900 border border-purple-500/40 text-purple-300 hover:text-white hover:border-purple-400'
+              }`}
+            >
+              <Key className="w-4 h-4 text-purple-400" />
+              <span>User Credentials ({userCredentials.length})</span>
+            </button>
+
+            {/* 1. Roles & Permission Featured Button */}
             <button
               onClick={() => setActiveTab('permissions')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'permissions'
                   ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold shadow-md shadow-cyan-500/30'
                   : 'bg-slate-900 border border-cyan-500/40 text-cyan-300 hover:text-white hover:border-cyan-400'
@@ -665,7 +788,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('branding')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'branding'
                   ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -677,7 +800,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('faculty')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'faculty'
                   ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -689,7 +812,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('toppers')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'toppers'
                   ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -701,7 +824,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('notices')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'notices'
                   ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -713,7 +836,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('students')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'students'
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -725,7 +848,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('backup')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'backup'
                   ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
@@ -736,7 +859,12 @@ export const MasterWebsiteCustomizer: React.FC = () => {
             </button>
           </div>
 
-          {/* TAB 0: ROLES & PERMISSIONS MATRIX */}
+          {/* TAB 0: SUPER ADMIN USER CREDENTIALS HUB */}
+          {activeTab === 'credentials' && (
+            <UserCredentialsManager />
+          )}
+
+          {/* TAB 1: ROLES & PERMISSIONS MATRIX */}
           {activeTab === 'permissions' && (
             <RolePermissionsCustomizer />
           )}

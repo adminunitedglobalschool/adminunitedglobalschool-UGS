@@ -181,8 +181,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
           {/* Zone 3: 1 primary action with Role Switcher (Hidden on public website) */}
           <div className="flex items-center gap-3 shrink-0">
             
-            {/* Role Switcher Pill - Only shown in management/portals, removed on Public Website */}
-            {role !== 'public' && (
+            {/* Role Switcher Pill - Only accessible to root Admin, strictly hidden in Teacher & Student portals */}
+            {role === 'admin' && (
               <div className="relative">
                 <button
                   onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}

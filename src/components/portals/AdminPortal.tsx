@@ -5,6 +5,7 @@ import { TeacherAdminView } from './admin/TeacherAdminView';
 import { AdministratorAdminView } from './admin/AdministratorAdminView';
 import { StaffAdminView } from './admin/StaffAdminView';
 import { PvcSheetPrintView } from './admin/PvcSheetPrintView';
+import { UserCredentialsManager } from './admin/UserCredentialsManager';
 import { 
   ShieldCheck, 
   Users, 
@@ -28,7 +29,10 @@ import {
   Receipt,
   FileCheck,
   Award,
-  Settings
+  Settings,
+  LogOut,
+  User,
+  X
 } from 'lucide-react';
 
 export const AdminPortal: React.FC = () => {
@@ -42,11 +46,21 @@ export const AdminPortal: React.FC = () => {
     addAnnouncement, 
     openReceiptModal, 
     setRole, 
+    setPublicPage,
     showToast,
+    userCredentials,
     firebaseConnected 
   } = useSchool();
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'teachers' | 'administrators' | 'staff' | 'fees' | 'circulars' | 'pvc-sheet'>('overview');
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleLogout = () => {
+    setRole('public');
+    setPublicPage('home');
+    showToast('Logged out successfully from Super Admin Panel.');
+  };
+
+  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'teachers' | 'administrators' | 'staff' | 'credentials' | 'fees' | 'circulars' | 'pvc-sheet'>('overview');
   const [studentSubTab, setStudentSubTab] = useState<'directory' | 'collect-fee' | 'admit-card' | 'results' | 'add' | 'idcard' | 'pvc-sheet'>('directory');
   
   // Announcement state
@@ -86,7 +100,117 @@ export const AdminPortal: React.FC = () => {
   return (
     <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-200">
       
-      {/* Portal Top Bar */}
+      {/* Admin Panel Header with Profile Icon and Log Out Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 border border-purple-400/40 flex items-center justify-center text-white shadow-lg shadow-purple-600/30 shrink-0">
+            <ShieldCheck className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg sm:text-xl font-bold font-display text-white">
+                Super Admin Control Center
+              </h1>
+              <span className="text-[10px] text-purple-300 font-mono font-semibold px-2 py-0.5 rounded-full bg-purple-500/15 border border-purple-500/30">
+                Master Clearance · All Access
+              </span>
+            </div>
+            <p className="text-xs text-slate-400">
+              United Global School · Central Institutional Oversight & User Credentials Gateway
+            </p>
+          </div>
+        </div>
+
+        {/* Profile Icon and Logout Action */}
+        <div className="flex items-center gap-2.5 self-end sm:self-auto">
+          {/* Profile Button */}
+          <div className="relative">
+            <button
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-purple-500/30 hover:border-purple-400 text-slate-200 hover:text-white transition-all shadow-sm cursor-pointer group"
+              title="View Admin Profile"
+            >
+              <div className="relative">
+                <div className="w-7 h-7 rounded-lg bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <User className="w-4 h-4" />
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
+              </div>
+              <div className="text-left hidden md:block">
+                <div className="text-xs font-semibold text-white leading-tight">Dr. Mukut Sharma</div>
+                <div className="text-[10px] text-purple-300 font-medium leading-tight">Principal Desk</div>
+              </div>
+            </button>
+
+            {/* Profile Dropdown / Card */}
+            {isProfileOpen && (
+              <div 
+                className="absolute right-0 mt-2 w-80 bg-slate-900 border border-purple-500/40 rounded-2xl shadow-2xl p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                onMouseLeave={() => setIsProfileOpen(false)}
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                      MS
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
+                      <div className="text-xs text-purple-300">Principal & Super Admin</div>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setIsProfileOpen(false)}
+                    className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="py-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Email:</span>
+                    <span className="text-slate-200 font-mono truncate max-w-[170px]" title="adminunitedglobalschool@gmail.com">adminunitedglobalschool@gmail.com</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Institutional Role:</span>
+                    <span className="text-purple-300 font-semibold">Executive Head</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <span className="text-slate-400">Clearance Level:</span>
+                    <span className="text-emerald-400 font-semibold">Root / Level 5 (Full)</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-slate-400">Campus:</span>
+                    <span className="text-slate-200">Bhakatgaon, Rupahi Town</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-800">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-rose-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Log Out of Admin</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Dedicated Log Out Button */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 text-rose-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer active:scale-95"
+            title="Log out of Admin Panel"
+          >
+            <LogOut className="w-3.5 h-3.5 text-rose-400" />
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Portal Top Bar Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-slate-800">
         {/* Core Administration Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-2 w-full">
@@ -157,6 +281,19 @@ export const AdminPortal: React.FC = () => {
           >
             <CreditCard className="w-4 h-4 text-amber-400" />
             <span>Staff</span>
+          </button>
+
+          {/* Super Admin Login Credentials Hub Button */}
+          <button
+            onClick={() => setActiveTab('credentials')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm ${
+              activeTab === 'credentials'
+                ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-white font-bold shadow-purple-600/30 ring-1 ring-purple-300'
+                : 'bg-slate-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white'
+            }`}
+          >
+            <Key className="w-4 h-4 text-purple-400" />
+            <span>Login Credentials ({userCredentials.length})</span>
           </button>
 
           {/* 5. Collect Fees Unique Action */}
@@ -239,18 +376,37 @@ export const AdminPortal: React.FC = () => {
                 studentSubTab === 'collect-fee' ? 'Student Administration · Collect Fees Digital Counter' :
                 studentSubTab === 'admit-card' ? 'Student Administration · Admit Cards & Hall Tickets' :
                 studentSubTab === 'results' ? 'Student Administration · Examination Results & Marksheets' :
+                studentSubTab === 'add' ? 'Student Administration · Register New Student' :
                 'Student Administration'
               ) :
                activeTab === 'teachers' ? 'Faculty & Teacher Administration' :
                activeTab === 'administrators' ? 'School Directorate Cabinet' :
                activeTab === 'staff' ? 'Operational Staff Management' :
+               activeTab === 'credentials' ? 'Super Admin Master Access · Login Credentials & Role Permissions Hub' :
                activeTab === 'pvc-sheet' ? '9-PVC Card A4 Sheet Print Studio' :
                activeTab === 'fees' ? 'Fee Collection Audit Log' :
                'Broadcast Circular Desk'}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
+            {/* Add Student Button in Breadcrumb Section */}
+            <button
+              onClick={() => {
+                setActiveTab('students');
+                setStudentSubTab('add');
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer ${
+                activeTab === 'students' && studentSubTab === 'add'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-cyan-500/25 ring-1 ring-cyan-300'
+                  : 'bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 hover:text-white'
+              }`}
+              title="Add a new student"
+            >
+              <UserPlus className="w-3.5 h-3.5" />
+              <span>Add Student</span>
+            </button>
+
             <div className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border ${
               firebaseConnected
                 ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-300'
@@ -259,9 +415,10 @@ export const AdminPortal: React.FC = () => {
               <span className={`w-1.5 h-1.5 rounded-full ${firebaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
               <span>{firebaseConnected ? 'Firebase Live' : 'Firebase Reconnecting'}</span>
             </div>
+
             <button
               onClick={() => setActiveTab('overview')}
-              className="text-xs text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
             >
               ← Return to Overview
             </button>
@@ -542,6 +699,44 @@ export const AdminPortal: React.FC = () => {
               </button>
             </div>
 
+            {/* Super Admin Login Credentials & Access Control Card */}
+            <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-purple-950/30 to-slate-900 border border-purple-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/30 to-indigo-600/30 border border-purple-400/50 flex items-center justify-center text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.2)] shrink-0">
+                  <Key className="w-6 h-6 text-purple-300" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-white">
+                      Super Admin Credentials & Login Access Gateway
+                    </h3>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30 font-mono font-bold">
+                      Master Key Control
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Issue, edit, generate, and revoke secure login credentials for Administrators, Teachers, Students, and Accounts Staff.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2.5 mt-2 text-[11px] font-mono text-slate-400">
+                    <span className="text-purple-300 font-semibold">{userCredentials.filter(u => u.role === 'administrator').length} Admins</span>
+                    <span>·</span>
+                    <span className="text-emerald-300 font-semibold">{userCredentials.filter(u => u.role === 'teacher').length} Teachers</span>
+                    <span>·</span>
+                    <span className="text-blue-300 font-semibold">{userCredentials.filter(u => u.role === 'student').length} Students</span>
+                    <span>·</span>
+                    <span className="text-amber-300 font-semibold">{userCredentials.filter(u => u.role === 'staff' || u.role === 'accountant').length} Staff</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveTab('credentials')}
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md shadow-purple-600/30 flex items-center justify-center gap-2 transition-all whitespace-nowrap cursor-pointer shrink-0"
+              >
+                <Key className="w-4 h-4" />
+                <span>Issue & Manage Credentials</span>
+              </button>
+            </div>
+
           </div>
 
           {/* Right Col: Quick Notice Publisher & Fee Health */}
@@ -780,6 +975,11 @@ export const AdminPortal: React.FC = () => {
       {/* VIEW 8: 9 PVC CARDS A4 SHEET PRINT STUDIO */}
       {activeTab === 'pvc-sheet' && (
         <PvcSheetPrintView />
+      )}
+
+      {/* VIEW 9: SUPER ADMIN CREDENTIALS & LOGIN MANAGEMENT */}
+      {activeTab === 'credentials' && (
+        <UserCredentialsManager />
       )}
 
     </div>

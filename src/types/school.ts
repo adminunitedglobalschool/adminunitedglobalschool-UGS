@@ -1,4 +1,4 @@
-export type UserRole = 'public' | 'admin' | 'teacher' | 'student' | 'staff' | 'settings';
+export type UserRole = 'public' | 'admin' | 'super_admin' | 'teacher' | 'student' | 'staff' | 'settings';
 
 export type PublicPage = 'home' | 'campus' | 'success' | 'fees' | 'circulars';
 

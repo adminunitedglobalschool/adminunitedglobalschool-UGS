@@ -874,6 +874,58 @@ export const INITIAL_USER_CREDENTIALS: UserCredential[] = [
       canDisburseSalaries: true,
     },
     notes: 'Vice Principal & Academic Administrator with elevated access.'
+  },
+  {
+    id: 'cred-5',
+    name: 'Aryan Bora',
+    username: 'ugs.student.aryan',
+    password: 'UGS@Aryan#2026',
+    role: 'student',
+    department: 'Class 10-A (Science Stream)',
+    email: 'aryan.bora@student.unitedglobalschool.edu.in',
+    phone: '+91 94350 11223',
+    status: 'active',
+    clearanceLevel: 'Level 1: Scholastic Access',
+    issuedDate: '2026-04-01',
+    lastLogin: '2026-10-18 10:15 AM',
+    permissions: {
+      canMarkAttendance: false,
+      canEditGradebook: false,
+      canCollectFees: false,
+      canViewDefaulters: false,
+      canManageCirculars: false,
+      canEditWebsite: false,
+      canAccessStudentRecords: false,
+      canPrintIdCards: false,
+      canDisburseSalaries: false,
+    },
+    notes: 'Student Head Prefect. Admission No: UGS/2023/101.'
+  },
+  {
+    id: 'cred-6',
+    name: 'Ananya Saikia',
+    username: 'ugs.student.ananya',
+    password: 'UGS@Ananya#2026',
+    role: 'student',
+    department: 'Class 10-A (Science Stream)',
+    email: 'ananya.saikia@student.unitedglobalschool.edu.in',
+    phone: '+91 94350 22334',
+    status: 'active',
+    clearanceLevel: 'Level 1: Scholastic Access',
+    issuedDate: '2026-04-01',
+    lastLogin: '2026-10-17 04:20 PM',
+    permissions: {
+      canMarkAttendance: false,
+      canEditGradebook: false,
+      canCollectFees: false,
+      canViewDefaulters: false,
+      canManageCirculars: false,
+      canEditWebsite: false,
+      canAccessStudentRecords: false,
+      canPrintIdCards: false,
+      canDisburseSalaries: false,
+    },
+    notes: 'Academic Distinction Scholar. Admission No: UGS/2023/102.'
   }
 ];
 

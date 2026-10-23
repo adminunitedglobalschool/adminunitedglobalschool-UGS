@@ -20,7 +20,7 @@ import { TeacherPortal } from './components/portals/TeacherPortal';
 import { StudentPortal } from './components/portals/StudentPortal';
 import { StaffPortal } from './components/portals/StaffPortal';
 import { MasterWebsiteCustomizer } from './components/portals/MasterWebsiteCustomizer';
-import { CheckCircle2, ShieldCheck, Users, GraduationCap, CreditCard } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const { role, setRole, publicPage, toastMessage } = useSchool();
@@ -40,58 +40,6 @@ const AppContent: React.FC = () => {
 
       {/* Top Navbar */}
       <Navbar />
-
-      {/* Role Navigation Strip for instantaneous switching across portals (active in portal views) */}
-      {role !== 'public' && (
-        <div className="no-print bg-slate-900/60 border-b border-slate-800/80 py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-start sm:justify-center gap-2 overflow-x-auto scrollbar-none text-xs">
-            <button
-              onClick={() => setRole('admin')}
-              className={`px-3 py-1 rounded-lg transition-colors whitespace-nowrap text-xs font-medium flex items-center gap-1.5 ${
-                role === 'admin' 
-                  ? 'bg-purple-600 text-white font-bold' 
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
-              Admin Panel
-            </button>
-            <button
-              onClick={() => setRole('teacher')}
-              className={`px-3 py-1 rounded-lg transition-colors whitespace-nowrap text-xs font-medium flex items-center gap-1.5 ${
-                role === 'teacher' 
-                  ? 'bg-emerald-600 text-white font-bold' 
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <Users className="w-3.5 h-3.5 text-emerald-400" />
-              Teachers Portal
-            </button>
-            <button
-              onClick={() => setRole('student')}
-              className={`px-3 py-1 rounded-lg transition-colors whitespace-nowrap text-xs font-medium flex items-center gap-1.5 ${
-                role === 'student' 
-                  ? 'bg-blue-600 text-white font-bold' 
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <GraduationCap className="w-3.5 h-3.5 text-blue-400" />
-              Student Portal
-            </button>
-            <button
-              onClick={() => setRole('staff')}
-              className={`px-3 py-1 rounded-lg transition-colors whitespace-nowrap text-xs font-medium flex items-center gap-1.5 ${
-                role === 'staff' 
-                  ? 'bg-amber-600 text-slate-950 font-bold' 
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <CreditCard className="w-3.5 h-3.5 text-amber-400" />
-              Staff & Fees
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Main View Port */}
       <main className="flex-1">
@@ -113,10 +61,10 @@ const AppContent: React.FC = () => {
         )}
 
         {role === 'admin' && <AdminPortal />}
+        {(role === 'super_admin' || role === 'settings') && <MasterWebsiteCustomizer />}
         {role === 'teacher' && <TeacherPortal />}
         {role === 'student' && <StudentPortal />}
         {role === 'staff' && <StaffPortal />}
-        {role === 'settings' && <MasterWebsiteCustomizer />}
       </main>
 
       {/* Global Modals */}
