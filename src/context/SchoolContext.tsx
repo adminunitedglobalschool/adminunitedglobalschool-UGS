@@ -53,6 +53,18 @@ export const DEFAULT_SITE_CONFIG: SchoolWebsiteConfig = {
   heroSubheading: 'United Global School converges academic rigor with applied robotics, athletic discipline, and ethical leadership to shape visionary global thinkers.',
   admissionOpenText: 'Admissions Open 2026–27',
   bannerNotice: 'Admissions Open for Session 2026-27 | Limited Seats in Science & Robotics Stream',
+  logoUrl: '',
+  heroImageUrl: '',
+  campusImages: [
+    { id: 'c1', title: 'Futuristic STEM & Robotics Laboratory', category: 'STEM & Tech', url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80' },
+    { id: 'c2', title: 'Physics & Applied Sciences Studio', category: 'Scientific Labs', url: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80' },
+    { id: 'c3', title: 'Central Knowledge Library & Digital Commons', category: 'Resource Center', url: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80' },
+    { id: 'c4', title: 'Olympic Multipurpose Sports Arena', category: 'Athletics & Fitness', url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80' }
+  ],
+  tickerEnabled: true,
+  tickerSpeed: 'normal',
+  tickerBadgeText: 'UGS LIVE DISPATCH',
+  tickerCustomBroadcast: 'ADMISSIONS OPEN 2026–27 · ONLINE APPLICATIONS & PRINCIPAL COUNSELING ACTIVE · ALL-ASSAM STEM SCHOLARSHIP EXAMINATION REGISTRATIONS OPEN',
 };
 
 interface SchoolContextType {

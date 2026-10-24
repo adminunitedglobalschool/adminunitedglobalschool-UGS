@@ -4,6 +4,7 @@ import { UserRole } from '../types/school';
 import { 
   GraduationCap, 
   ShieldCheck, 
+  ShieldAlert,
   Users, 
   UserCheck, 
   CreditCard, 
@@ -28,18 +29,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
     setPublicPage, 
     openAdmissionModal,
     openOfflineAdmissionModal,
-    openPrincipalAppointmentModal 
+    openPrincipalAppointmentModal,
+    siteConfig
   } = useSchool();
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const roleOptions: { key: UserRole; label: string; icon: React.ReactNode; desc: string }[] = [
     { key: 'public', label: 'Public Website', icon: <School className="w-4 h-4 text-cyan-400" />, desc: 'School Showcase, Campus & Admissions' },
-    { key: 'admin', label: 'Admin Portal', icon: <ShieldCheck className="w-4 h-4 text-purple-400" />, desc: 'Principal & Executive Management' },
+    { key: 'super_admin', label: 'Super Admin Portal', icon: <ShieldAlert className="w-4 h-4 text-rose-400" />, desc: 'Master Credentials, RBAC & Website CMS' },
+    { key: 'admin', label: 'Admin Panel', icon: <ShieldCheck className="w-4 h-4 text-purple-400" />, desc: 'Operational Management & Students' },
     { key: 'teacher', label: 'Teacher Portal', icon: <Users className="w-4 h-4 text-emerald-400" />, desc: 'Attendance Marker & Gradebook' },
     { key: 'student', label: 'Student Portal', icon: <GraduationCap className="w-4 h-4 text-blue-400" />, desc: 'Fees, Attendance & Assignments' },
     { key: 'staff', label: 'Staff / Accounts', icon: <CreditCard className="w-4 h-4 text-amber-400" />, desc: 'Digital Fee Counter & Administration' },
-    { key: 'settings', label: 'Website Customizer', icon: <Settings className="w-4 h-4 text-cyan-400" />, desc: 'Live Manual Edit, Upload & Delete' },
   ];
 
   const currentRoleObj = roleOptions.find(r => r.key === role) || roleOptions[0];
@@ -68,15 +70,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               onClick={() => setRole('public')}
               className="flex items-center gap-2.5 text-left group focus:outline-none"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-                <School className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform overflow-hidden">
+                {siteConfig.logoUrl ? (
+                  <img src={siteConfig.logoUrl} alt={siteConfig.schoolName} className="w-full h-full object-contain p-1" />
+                ) : (
+                  <School className="w-5 h-5 text-white" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold font-display text-white tracking-tight whitespace-nowrap">
-                  United Global School
+                  {siteConfig.schoolName || 'United Global School'}
                 </span>
                 <span className="text-[11px] text-cyan-400 font-medium tracking-wide">
-                  Bhakatgaon, Rupahi Town
+                  {siteConfig.tagline || 'Bhakatgaon, Rupahi Town'}
                 </span>
               </div>
             </button>
@@ -171,22 +177,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                 )}
               </button>
             </nav>
+          ) : role === 'super_admin' ? (
+            <div className="hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900 border border-rose-500/30 text-xs font-mono text-rose-300">
+              <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse shadow-[0_0_8px_#fb7185]" />
+              <span className="font-semibold tracking-wide uppercase">Super Admin Master Directorate</span>
+            </div>
           ) : role === 'admin' ? (
             <div className="hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900 border border-purple-500/30 text-xs font-mono text-purple-300">
               <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_#c084fc]" />
-              <span className="font-semibold tracking-wide uppercase">UGS Administration Management</span>
+              <span className="font-semibold tracking-wide uppercase">UGS Admin Operations</span>
             </div>
           ) : null}
 
-          {/* Zone 3: 1 primary action with Role Switcher (Hidden on public website) */}
+          {/* Zone 3: 1 primary action with Role Switcher (Only accessible to Super Admin and Admin, strictly hidden in Teacher & Student portals) */}
           <div className="flex items-center gap-3 shrink-0">
             
-            {/* Role Switcher Pill - Only accessible to root Admin, strictly hidden in Teacher & Student portals */}
-            {role === 'admin' && (
+            {(role === 'admin' || role === 'super_admin') && (
               <div className="relative">
                 <button
                   onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white text-xs font-medium transition-all shadow-sm focus:outline-none"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white text-xs font-medium transition-all shadow-sm focus:outline-none cursor-pointer"
                   aria-expanded={isRoleDropdownOpen}
                 >
                   <span className="flex items-center gap-1.5 whitespace-nowrap">
@@ -207,14 +217,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                       Select School Portal
                     </div>
                     <div className="mt-1 space-y-1">
-                      {roleOptions.filter(opt => opt.key !== 'settings').map(opt => (
+                      {roleOptions.map(opt => (
                         <button
                           key={opt.key}
                           onClick={() => {
                             setRole(opt.key);
                             setIsRoleDropdownOpen(false);
                           }}
-                          className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors ${
+                          className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
                             role === opt.key 
                               ? 'bg-cyan-500/10 border border-cyan-500/30 text-white' 
                               : 'hover:bg-slate-800/80 text-slate-300'
@@ -369,16 +379,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               </div>
             </div>
 
-            {/* Subtle Faculty / Admin Portal Access for authorized staff */}
-            <div className="pt-2 border-t border-slate-800 flex justify-center">
+            {/* Faculty / Admin Portal Access for authorized staff */}
+            <div className="pt-2 border-t border-slate-800 flex items-center justify-center gap-4">
+              <button
+                onClick={() => {
+                  setRole('super_admin');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[11px] font-medium text-rose-400 hover:text-rose-300 py-1 transition-colors cursor-pointer"
+              >
+                Super Admin Portal
+              </button>
+              <span className="text-slate-600">·</span>
               <button
                 onClick={() => {
                   setRole('admin');
                   setMobileMenuOpen(false);
                 }}
-                className="text-[11px] font-medium text-slate-400 hover:text-cyan-400 py-1 transition-colors cursor-pointer"
+                className="text-[11px] font-medium text-purple-400 hover:text-purple-300 py-1 transition-colors cursor-pointer"
               >
-                Staff & Admin Portal Access
+                Admin Panel
               </button>
             </div>
           </div>

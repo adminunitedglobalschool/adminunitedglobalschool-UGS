@@ -32,7 +32,8 @@ import {
   Settings,
   LogOut,
   User,
-  X
+  X,
+  ShieldAlert
 } from 'lucide-react';
 
 export const AdminPortal: React.FC = () => {
@@ -57,7 +58,7 @@ export const AdminPortal: React.FC = () => {
   const handleLogout = () => {
     setRole('public');
     setPublicPage('home');
-    showToast('Logged out successfully from Super Admin Panel.');
+    showToast('Logged out successfully from Admin Panel.');
   };
 
   const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'teachers' | 'administrators' | 'staff' | 'credentials' | 'fees' | 'circulars' | 'pvc-sheet'>('overview');
@@ -100,7 +101,7 @@ export const AdminPortal: React.FC = () => {
   return (
     <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-200">
       
-      {/* Admin Panel Header with Profile Icon and Log Out Button */}
+      {/* Admin Panel Header with Profile Icon, Super Admin switch, and Log Out Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
         <div className="flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 border border-purple-400/40 flex items-center justify-center text-white shadow-lg shadow-purple-600/30 shrink-0">
@@ -109,20 +110,31 @@ export const AdminPortal: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-lg sm:text-xl font-bold font-display text-white">
-                Super Admin Control Center
+                Admin Panel
               </h1>
               <span className="text-[10px] text-purple-300 font-mono font-semibold px-2 py-0.5 rounded-full bg-purple-500/15 border border-purple-500/30">
-                Master Clearance · All Access
+                Operational Directorate
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              United Global School · Central Institutional Oversight & User Credentials Gateway
+              United Global School · Student Administration, Admissions, Attendance & Digital Fees
             </p>
           </div>
         </div>
 
-        {/* Profile Icon and Logout Action */}
-        <div className="flex items-center gap-2.5 self-end sm:self-auto">
+        {/* Action Controls: Jump to Super Admin, Profile Icon, and Logout */}
+        <div className="flex items-center gap-2.5 self-end sm:self-auto flex-wrap">
+          {/* Direct Switch to Super Admin Portal */}
+          <button
+            onClick={() => setRole('super_admin')}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-400 text-rose-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer"
+            title="Open Super Admin Portal for Credentials Issuance, Permissions Matrix & Website CMS"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
+            <span className="hidden sm:inline">Super Admin Portal</span>
+            <span className="sm:hidden">Super Admin</span>
+          </button>
+
           {/* Profile Button */}
           <div className="relative">
             <button
@@ -155,7 +167,7 @@ export const AdminPortal: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
-                      <div className="text-xs text-purple-300">Principal & Super Admin</div>
+                      <div className="text-xs text-purple-300">Principal & Operational Head</div>
                     </div>
                   </div>
                   <button 
@@ -173,11 +185,11 @@ export const AdminPortal: React.FC = () => {
                   </div>
                   <div className="flex justify-between py-1 border-b border-slate-800/60">
                     <span className="text-slate-400">Institutional Role:</span>
-                    <span className="text-purple-300 font-semibold">Executive Head</span>
+                    <span className="text-purple-300 font-semibold">Principal & Head of School</span>
                   </div>
                   <div className="flex justify-between py-1 border-b border-slate-800/60">
                     <span className="text-slate-400">Clearance Level:</span>
-                    <span className="text-emerald-400 font-semibold">Root / Level 5 (Full)</span>
+                    <span className="text-emerald-400 font-semibold">Executive Level 4 (Operations)</span>
                   </div>
                   <div className="flex justify-between py-1">
                     <span className="text-slate-400">Campus:</span>
@@ -191,7 +203,7 @@ export const AdminPortal: React.FC = () => {
                     className="w-full py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-rose-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Log Out of Admin</span>
+                    <span>Log Out of Admin Panel</span>
                   </button>
                 </div>
               </div>

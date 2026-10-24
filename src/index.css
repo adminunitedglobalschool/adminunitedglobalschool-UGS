@@ -100,4 +100,37 @@
   scrollbar-color: #06b6d4 #090e1a;
 }
 
+/* Futuristic HUD Notification Marquee */
+@keyframes futuristicMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-futuristic-marquee {
+  display: flex;
+  width: max-content;
+  animation: futuristicMarquee 32s linear infinite;
+}
+
+.animate-futuristic-marquee:hover {
+  animation-play-state: paused !important;
+}
+
+.marquee-speed-slow {
+  animation-duration: 50s !important;
+}
+
+.marquee-speed-normal {
+  animation-duration: 32s !important;
+}
+
+.marquee-speed-fast {
+  animation-duration: 18s !important;
+}
+
+
 

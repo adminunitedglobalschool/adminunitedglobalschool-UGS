@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSchool } from '../context/SchoolContext';
 import stemLabImg from '../assets/images/stem_robotics_lab_1791694879429.jpg';
 import sportsImg from '../assets/images/school_sports_athletics_1791694891463.jpg';
 import artsImg from '../assets/images/holistic_arts_culture_1791694901718.jpg';
@@ -14,13 +15,19 @@ import {
 } from 'lucide-react';
 
 export const CampusFacilities: React.FC = () => {
+  const { siteConfig } = useSchool();
   const [activeTab, setActiveTab] = useState<'stem' | 'sports' | 'arts' | 'campus'>('stem');
+
+  const getFacilityImage = (id: string, defaultImg: string) => {
+    const found = siteConfig?.campusImages?.find(item => item.id === id);
+    return found?.url || defaultImg;
+  };
 
   const facilityDetails = {
     stem: {
       title: 'Advanced STEM & AI Robotics Innovation Hub',
       desc: 'Equipped with industrial grade 3D printers, modular robotic assembly kits, microcontroller workstations, and AI vision processors. Students turn theoretical algorithms into tangible physical prototypes.',
-      image: stemLabImg,
+      image: getFacilityImage('stem', stemLabImg),
       highlights: [
         'Dedicated 3D CAD modeling & rapid prototyping benches',
         'Robotics competitions practice arena with obstacles',
@@ -32,7 +39,7 @@ export const CampusFacilities: React.FC = () => {
     sports: {
       title: 'Olympic-Standard Sports Arena & Turf',
       desc: 'Spanning over 5 acres in Bhakatgaon, our sports complex features a synthetic 400-meter sprint track, FIFA-standard football turf, badminton courts, and dedicated martial arts dojo.',
-      image: sportsImg,
+      image: getFacilityImage('sports', sportsImg),
       highlights: [
         '400-meter all-weather synthetic athletic track',
         'Natural grass football ground with floodlights',
@@ -44,7 +51,7 @@ export const CampusFacilities: React.FC = () => {
     arts: {
       title: 'Cultural Heritage & Performing Arts Pavilion',
       desc: 'A naturally lit, acoustically tuned studio celebrating both Assamese folk heritage (Bihu, Sattriya, Borgeet) and western orchestral music, oil canvas painting, and classical theater.',
-      image: artsImg,
+      image: getFacilityImage('arts', artsImg),
       highlights: [
         'Acoustically treated instrumental music lab (Violin, Tabla, Keyboard)',
         'Fine arts studio with natural sunlight and gallery displays',
@@ -56,7 +63,7 @@ export const CampusFacilities: React.FC = () => {
     campus: {
       title: 'Eco-Smart & Safe Green Campus in Bhakatgaon',
       desc: 'Our green campus produces 65 kW of solar clean energy, harvests rainwater, and maintains 100% CCTV surveillance across all corridors, classrooms, and transport buses.',
-      image: stemLabImg,
+      image: getFacilityImage('campus', stemLabImg),
       highlights: [
         '65 kW Rooftop Solar Photovoltaic Grid',
         'GPS-tracked school buses covering Rupahi Town, Nagaon & bypass routes',

@@ -20,6 +20,7 @@ import { TeacherPortal } from './components/portals/TeacherPortal';
 import { StudentPortal } from './components/portals/StudentPortal';
 import { StaffPortal } from './components/portals/StaffPortal';
 import { MasterWebsiteCustomizer } from './components/portals/MasterWebsiteCustomizer';
+import { FuturisticNotificationTicker } from './components/FuturisticNotificationTicker';
 import { CheckCircle2 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
@@ -40,6 +41,9 @@ const AppContent: React.FC = () => {
 
       {/* Top Navbar */}
       <Navbar />
+
+      {/* Futuristic Notification Scroll Bar (Live HUD Stream) */}
+      <FuturisticNotificationTicker />
 
       {/* Main View Port */}
       <main className="flex-1">

@@ -2,6 +2,13 @@ export type UserRole = 'public' | 'admin' | 'super_admin' | 'teacher' | 'student
 
 export type PublicPage = 'home' | 'campus' | 'success' | 'fees' | 'circulars';
 
+export interface CampusImageItem {
+  id: string;
+  title: string;
+  category: string;
+  url: string;
+}
+
 export interface SchoolWebsiteConfig {
   schoolName: string;
   tagline: string;
@@ -18,6 +25,13 @@ export interface SchoolWebsiteConfig {
   heroSubheading: string;
   admissionOpenText: string;
   bannerNotice: string;
+  logoUrl?: string;
+  heroImageUrl?: string;
+  campusImages?: CampusImageItem[];
+  tickerEnabled?: boolean;
+  tickerSpeed?: 'slow' | 'normal' | 'fast';
+  tickerBadgeText?: string;
+  tickerCustomBroadcast?: string;
 }
 
 export interface Student {

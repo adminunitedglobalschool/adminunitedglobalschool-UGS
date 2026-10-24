@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setRole, setPublicPage, openAdmissionModal, openDonateModal } = useSchool();
+  const { setRole, setPublicPage, openAdmissionModal, openDonateModal, siteConfig } = useSchool();
 
   return (
     <footer className="border-t border-slate-800 bg-slate-950 text-slate-400 text-xs">
@@ -22,15 +22,19 @@ export const Footer: React.FC = () => {
           {/* Brand Info */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white">
-                <School className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white overflow-hidden shrink-0">
+                {siteConfig.logoUrl ? (
+                  <img src={siteConfig.logoUrl} alt={siteConfig.schoolName} className="w-full h-full object-contain p-1" />
+                ) : (
+                  <School className="w-5 h-5 text-white" />
+                )}
               </div>
               <div>
                 <span className="text-base font-bold font-display text-white tracking-tight block">
-                  United Global School
+                  {siteConfig.schoolName || 'United Global School'}
                 </span>
                 <span className="text-[11px] text-cyan-400">
-                  Bhakatgaon, Rupahi Town
+                  {siteConfig.tagline || 'Bhakatgaon, Rupahi Town'}
                 </span>
               </div>
             </div>
@@ -40,8 +44,8 @@ export const Footer: React.FC = () => {
             </p>
 
             <div className="pt-2 text-[11px] text-slate-400 space-y-1">
-              <div>CBSE Affiliation Code: <strong>UGS-AS-2026-89</strong></div>
-              <div>School U-DISE Code: <strong>18100508901</strong></div>
+              <div>CBSE Affiliation Code: <strong>{siteConfig.affiliationCode || 'UGS-AS-2026-89'}</strong></div>
+              <div>School U-DISE Code: <strong>{siteConfig.udiseCode || '18100508901'}</strong></div>
             </div>
           </div>
 
@@ -125,22 +129,42 @@ export const Footer: React.FC = () => {
           {/* Dedicated Portals */}
           <div className="lg:col-span-3 space-y-3">
             <div className="text-xs font-bold text-white uppercase tracking-wider">
-              School Management
+              School Management Portals
             </div>
             <ul className="space-y-2">
               <li>
                 <button 
-                  onClick={() => setRole('admin')}
-                  className="hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                  onClick={() => {
+                    setRole('super_admin');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-rose-400 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                  Admin & Principal Panel
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                  <span className="font-semibold text-rose-300">Super Admin Portal</span>
+                  <span className="text-[10px] text-slate-400">(Credentials & CMS)</span>
                 </button>
               </li>
               <li>
                 <button 
-                  onClick={() => setRole('teacher')}
-                  className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+                  onClick={() => {
+                    setRole('admin');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-purple-400 transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                  <span className="font-semibold text-purple-300">Admin Panel</span>
+                  <span className="text-[10px] text-slate-400">(Operations & Students)</span>
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => {
+                    setRole('teacher');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   Teachers Attendance Desk
@@ -148,8 +172,11 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button 
-                  onClick={() => setRole('student')}
-                  className="hover:text-blue-400 transition-colors flex items-center gap-1.5"
+                  onClick={() => {
+                    setRole('student');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-blue-400 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                   Student Portal (Fees & Records)
@@ -157,8 +184,11 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button 
-                  onClick={() => setRole('staff')}
-                  className="hover:text-amber-400 transition-colors flex items-center gap-1.5"
+                  onClick={() => {
+                    setRole('staff');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-amber-400 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                   Accounts & Digital Fee Counter
@@ -166,17 +196,8 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button 
-                  onClick={() => setRole('settings')}
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  Website Customizer & CMS (Edit Everything)
-                </button>
-              </li>
-              <li>
-                <button 
                   onClick={openAdmissionModal}
-                  className="text-cyan-400 hover:text-cyan-300 font-semibold"
+                  className="text-cyan-400 hover:text-cyan-300 font-semibold cursor-pointer"
                 >
                   Online Admission Application
                 </button>
@@ -184,30 +205,30 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact Details in Bhakatgaon, Rupahi Town */}
-          <div className="lg:col-span-3 space-y-3">
-            <div className="text-xs font-bold text-white uppercase tracking-wider">
-              Campus Location
+            {/* Contact Details in Bhakatgaon, Rupahi Town */}
+            <div className="lg:col-span-3 space-y-3">
+              <div className="text-xs font-bold text-white uppercase tracking-wider">
+                Campus Location
+              </div>
+              <div className="space-y-2.5 text-xs text-slate-400">
+                <div className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <span>{siteConfig.campusLocation || 'Bhakatgaon, Rupahi Town, Nagaon District, Assam, PIN - 782125'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>{siteConfig.phone1 || '+91 94350 88210'} {siteConfig.phone2 ? `/ ${siteConfig.phone2}` : ''}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>{siteConfig.email || 'adminunitedglobalschool@gmail.com'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>{siteConfig.operatingHours || 'Mon – Sat: 08:00 AM – 03:30 PM IST'}</span>
+                </div>
+              </div>
             </div>
-            <div className="space-y-2.5 text-xs text-slate-400">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                <span>Bhakatgaon, Rupahi Town, Nagaon District, Assam, PIN - 782125</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>+91 94350 88210 / +91 98640 12345</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>adminunitedglobalschool@gmail.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>Mon – Sat: 08:00 AM – 03:30 PM IST</span>
-              </div>
-            </div>
-          </div>
 
         </div>
 

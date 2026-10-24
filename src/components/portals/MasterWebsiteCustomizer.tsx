@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSchool, DEFAULT_SITE_CONFIG } from '../../context/SchoolContext';
 import { Teacher, Student, Announcement, ClassTopper } from '../../types/school';
 import { 
@@ -35,8 +35,15 @@ import {
   Key,
   LogOut,
   User,
-  ShieldAlert
+  ShieldAlert,
+  Camera,
+  RefreshCw,
+  Video,
+  Image as ImageIcon,
+  Radio,
+  Gauge
 } from 'lucide-react';
+import heroCampusImg from '../../assets/images/hero_united_global_school_1791694864291.jpg';
 import { RolePermissionsCustomizer } from './admin/RolePermissionsCustomizer';
 import { UserCredentialsManager } from './admin/UserCredentialsManager';
 
@@ -74,7 +81,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
     showToast('Logged out successfully from Super Admin Portal.');
   };
 
-  const [activeTab, setActiveTab] = useState<'credentials' | 'permissions' | 'branding' | 'faculty' | 'toppers' | 'notices' | 'students' | 'backup'>('credentials');
+  const [activeTab, setActiveTab] = useState<'credentials' | 'permissions' | 'ticker' | 'images' | 'address' | 'branding' | 'faculty' | 'toppers' | 'notices' | 'students' | 'backup'>('credentials');
 
   // Helper for uploading photos from local files
   const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>, onComplete: (base64Url: string) => void) => {
@@ -98,6 +105,10 @@ export const MasterWebsiteCustomizer: React.FC = () => {
   // Form State for Branding
   const [brandingForm, setBrandingForm] = useState({ ...siteConfig });
 
+  useEffect(() => {
+    setBrandingForm({ ...siteConfig });
+  }, [siteConfig]);
+
   // Faculty Management State
   const [editingTeacher, setEditingTeacher] = useState<Teacher | null>(null);
   const [isAddingTeacher, setIsAddingTeacher] = useState(false);
@@ -114,6 +125,97 @@ export const MasterWebsiteCustomizer: React.FC = () => {
     salary: 52000,
     avatar: '',
   });
+
+  // Camera capture state for Teacher in Super Admin Faculty CMS
+  const [isTeacherCameraOpen, setIsTeacherCameraOpen] = useState(false);
+  const [teacherCameraStream, setTeacherCameraStream] = useState<MediaStream | null>(null);
+  const [teacherFacingMode, setTeacherFacingMode] = useState<'user' | 'environment'>('user');
+  const [teacherCameraError, setTeacherCameraError] = useState<string | null>(null);
+  const teacherVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Stop camera tracks helper
+  const stopTeacherCamera = () => {
+    if (teacherCameraStream) {
+      teacherCameraStream.getTracks().forEach(track => track.stop());
+      setTeacherCameraStream(null);
+    }
+    setIsTeacherCameraOpen(false);
+    setTeacherCameraError(null);
+  };
+
+  // Start camera helper
+  const startTeacherCamera = async (mode: 'user' | 'environment' = teacherFacingMode) => {
+    setTeacherCameraError(null);
+    setIsTeacherCameraOpen(true);
+
+    if (teacherCameraStream) {
+      teacherCameraStream.getTracks().forEach(track => track.stop());
+    }
+
+    try {
+      const constraints: MediaStreamConstraints = {
+        video: {
+          facingMode: mode,
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        },
+        audio: false
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      setTeacherCameraStream(stream);
+
+      if (teacherVideoRef.current) {
+        teacherVideoRef.current.srcObject = stream;
+        teacherVideoRef.current.play().catch(() => {});
+      }
+    } catch (err: any) {
+      console.warn('Teacher camera access issue:', err);
+      setTeacherCameraError(
+        err?.name === 'NotAllowedError'
+          ? 'Camera permission denied. Please allow camera access in browser settings.'
+          : 'Unable to connect to camera device. Please upload a photo file instead.'
+      );
+    }
+  };
+
+  const switchTeacherCamera = () => {
+    const nextMode = teacherFacingMode === 'user' ? 'environment' : 'user';
+    setTeacherFacingMode(nextMode);
+    startTeacherCamera(nextMode);
+  };
+
+  const captureTeacherPhoto = () => {
+    if (!teacherVideoRef.current) return;
+    const video = teacherVideoRef.current;
+    const canvas = document.createElement('canvas');
+
+    const vWidth = video.videoWidth || 640;
+    const vHeight = video.videoHeight || 480;
+    const cropSize = Math.min(vWidth, vHeight);
+    const startX = (vWidth - cropSize) / 2;
+    const startY = (vHeight - cropSize) / 2;
+
+    canvas.width = 400;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(video, startX, startY, cropSize, cropSize, 0, 0, 400, 400);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+      setTeacherFormData(prev => ({ ...prev, avatar: dataUrl }));
+      showToast('Teacher photo captured successfully!');
+      stopTeacherCamera();
+    }
+  };
+
+  // Clean up camera stream on unmount
+  useEffect(() => {
+    return () => {
+      if (teacherCameraStream) {
+        teacherCameraStream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [teacherCameraStream]);
 
   // Topper Management State
   const [editingTopper, setEditingTopper] = useState<ClassTopper | null>(null);
@@ -153,6 +255,38 @@ export const MasterWebsiteCustomizer: React.FC = () => {
     e.preventDefault();
     updateSiteConfig(brandingForm);
     setJsonConfigText(JSON.stringify(brandingForm, null, 2));
+    showToast('School branding & site content saved successfully!');
+  };
+
+  const handleSaveImages = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    updateSiteConfig(brandingForm);
+    setJsonConfigText(JSON.stringify(brandingForm, null, 2));
+    showToast('School logo, hero banner & website media updated successfully!');
+  };
+
+  const handleSaveAddress = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    updateSiteConfig(brandingForm);
+    setJsonConfigText(JSON.stringify(brandingForm, null, 2));
+    showToast('Campus address, location & contact details saved successfully!');
+  };
+
+  const handleSaveTicker = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    updateSiteConfig(brandingForm);
+    setJsonConfigText(JSON.stringify(brandingForm, null, 2));
+    showToast('Futuristic Notification Scroll Bar settings updated and live broadcasted!');
+  };
+
+  const updateCampusImage = (index: number, updatedFields: Partial<{ id: string; title: string; category: string; url: string }>) => {
+    const list = brandingForm.campusImages && brandingForm.campusImages.length > 0
+      ? [...brandingForm.campusImages] 
+      : [...(DEFAULT_SITE_CONFIG.campusImages || [])];
+    if (list[index]) {
+      list[index] = { ...list[index], ...updatedFields };
+      setBrandingForm(prev => ({ ...prev, campusImages: list }));
+    }
   };
 
   const handleSaveTeacher = (e: React.FormEvent) => {
@@ -195,6 +329,8 @@ export const MasterWebsiteCustomizer: React.FC = () => {
       });
       setIsAddingTeacher(false);
     }
+
+    stopTeacherCamera();
 
     setTeacherFormData({
       name: '',
@@ -435,9 +571,6 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   Master Directorate
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Central Directorate & Credentials Gateway · Issue User Logins, Set Role Permissions & School Website CMS
-              </p>
             </div>
           </div>
 
@@ -617,7 +750,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-bold text-white flex items-center justify-between">
-                      <span>Roles & Permission</span>
+                      <span>Roles & Permission Matrix</span>
                       <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
                         RBAC
                       </span>
@@ -637,33 +770,59 @@ export const MasterWebsiteCustomizer: React.FC = () => {
               </div>
 
               <div className="space-y-1">
+                {/* 1. Logo & Any Website Images CMS */}
+                <button
+                  onClick={() => setActiveTab('images')}
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
+                    activeTab === 'images'
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 border border-cyan-400 text-cyan-200 font-bold shadow-md shadow-cyan-500/20'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <ImageIcon className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span className="truncate">Logo & Website Images CMS</span>
+                </button>
+
+                {/* 2. Campus Address & Location Registry */}
+                <button
+                  onClick={() => setActiveTab('address')}
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
+                    activeTab === 'address'
+                      ? 'bg-gradient-to-r from-emerald-500/20 to-teal-600/20 border border-emerald-400 text-emerald-200 font-bold shadow-md shadow-emerald-500/20'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="truncate">Campus Address & Location</span>
+                </button>
+
                 <button
                   onClick={() => setActiveTab('branding')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'branding'
-                      ? 'bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 font-bold shadow-sm'
+                      ? 'bg-purple-500/15 border border-purple-400/40 text-purple-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
-                  <School className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <School className="w-4 h-4 text-purple-400 shrink-0" />
                   <span className="truncate">School Identity & Content</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('faculty')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'faculty'
                       ? 'bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
                   <Users className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span className="truncate">Faculty CMS ({teachers.length})</span>
+                  <span className="truncate">Faculty & Teachers CMS ({teachers.length})</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('toppers')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'toppers'
                       ? 'bg-amber-400/15 border border-amber-400/40 text-amber-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -675,38 +834,38 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
                 <button
                   onClick={() => setActiveTab('notices')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'notices'
                       ? 'bg-purple-600/15 border border-purple-400/40 text-purple-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
                   <Bell className="w-4 h-4 text-purple-400 shrink-0" />
-                  <span className="truncate">Circulars & Notices ({announcements.length})</span>
+                  <span className="truncate">Circulars & Notices CMS ({announcements.length})</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('students')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'students'
                       ? 'bg-blue-600/15 border border-blue-400/40 text-blue-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
                   <GraduationCap className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="truncate">Students Roster ({students.length})</span>
+                  <span className="truncate">Students Roster CMS ({students.length})</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('backup')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all text-left cursor-pointer ${
                     activeTab === 'backup'
                       ? 'bg-amber-500/15 border border-amber-400/40 text-amber-300 font-bold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
                   <FileCode className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span className="truncate">Backup & JSON Sync</span>
+                  <span className="truncate">Backup, JSON & Raw Sync</span>
                 </button>
               </div>
             </div>
@@ -756,108 +915,6 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
         {/* Right Column: Main Customizer Content Area */}
         <div className="lg:col-span-9 space-y-6">
-          
-          {/* Main Navigation Tabs with Custom Horizontal Scrollbar */}
-          <div className="flex items-center gap-2.5 border-b border-slate-800 pb-3 overflow-x-auto custom-horizontal-scrollbar scroll-smooth">
-            
-            {/* 0. Super Admin User Credentials Hub Premier Button */}
-            <button
-              onClick={() => setActiveTab('credentials')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'credentials'
-                  ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-white font-bold shadow-lg shadow-purple-600/30 ring-1 ring-purple-300'
-                  : 'bg-slate-900 border border-purple-500/40 text-purple-300 hover:text-white hover:border-purple-400'
-              }`}
-            >
-              <Key className="w-4 h-4 text-purple-400" />
-              <span>User Credentials ({userCredentials.length})</span>
-            </button>
-
-            {/* 1. Roles & Permission Featured Button */}
-            <button
-              onClick={() => setActiveTab('permissions')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'permissions'
-                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold shadow-md shadow-cyan-500/30'
-                  : 'bg-slate-900 border border-cyan-500/40 text-cyan-300 hover:text-white hover:border-cyan-400'
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Roles & Permission Matrix</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('branding')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'branding'
-                  ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <School className="w-4 h-4" />
-              <span>School Identity & Content</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('faculty')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'faculty'
-                  ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <Users className="w-4 h-4" />
-              <span>Faculty & Teachers CMS ({teachers.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('toppers')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'toppers'
-                  ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <Trophy className="w-4 h-4" />
-              <span>Class Toppers CMS ({toppers.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('notices')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'notices'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <Bell className="w-4 h-4" />
-              <span>Circulars & Notices CMS ({announcements.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('students')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'students'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <GraduationCap className="w-4 h-4" />
-              <span>Students Roster CMS ({students.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('backup')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer ${
-                activeTab === 'backup'
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              <FileCode className="w-4 h-4" />
-              <span>Backup, JSON & Raw Sync</span>
-            </button>
-          </div>
 
           {/* TAB 0: SUPER ADMIN USER CREDENTIALS HUB */}
           {activeTab === 'credentials' && (
@@ -867,6 +924,548 @@ export const MasterWebsiteCustomizer: React.FC = () => {
           {/* TAB 1: ROLES & PERMISSIONS MATRIX */}
           {activeTab === 'permissions' && (
             <RolePermissionsCustomizer />
+          )}
+
+          {/* TAB: LOGO & WEBSITE IMAGES CMS */}
+          {activeTab === 'images' && (
+            <div className="space-y-6">
+              <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6 shadow-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                  <div>
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2 font-display">
+                      <ImageIcon className="w-5 h-5 text-cyan-400" />
+                      Logo, Hero Banner & Website Media CMS
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Super Admin exclusive portal to change the School Logo, Hero Image, and any campus facility images across the website.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => handleSaveImages()}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save All Media Changes</span>
+                  </button>
+                </div>
+
+                {/* 1. School Logo & Institutional Crest */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-cyan-400" />
+                        1. Official School Logo & Crest Emblem
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Appears in the header navigation bar, glowing hero crest, document watermarks, and footer credentials.
+                      </p>
+                    </div>
+                    {brandingForm.logoUrl && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setBrandingForm(prev => ({ ...prev, logoUrl: '' }));
+                          showToast('Logo reset to default UGS emblem');
+                        }}
+                        className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer font-medium"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        Reset to Default
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+                    {/* Live Preview Box */}
+                    <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center space-y-2">
+                      <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+                        Live Logo Preview
+                      </div>
+                      <div className="w-24 h-24 rounded-2xl bg-slate-950 border border-cyan-400/40 p-2 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.25)] relative overflow-hidden group">
+                        {brandingForm.logoUrl ? (
+                          <img
+                            src={brandingForm.logoUrl}
+                            alt="School Logo"
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-cyan-400">
+                            <School className="w-10 h-10" />
+                            <span className="text-[9px] font-mono font-bold mt-1 tracking-wider">UGS EMBLEM</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-slate-300 font-bold">
+                        {brandingForm.schoolName || 'United Global School'}
+                      </div>
+                    </div>
+
+                    {/* Controls & Inputs */}
+                    <div className="md:col-span-2 space-y-3.5">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-300 mb-1">
+                          Direct Logo Image URL
+                        </label>
+                        <input
+                          type="url"
+                          placeholder="https://... (PNG, SVG, or JPG image link)"
+                          value={brandingForm.logoUrl || ''}
+                          onChange={(e) => setBrandingForm(prev => ({ ...prev, logoUrl: e.target.value }))}
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-cyan-400 focus:outline-none font-mono"
+                        />
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-1">
+                        <label className="cursor-pointer px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 text-xs font-bold inline-flex items-center gap-2 transition-all shadow-sm">
+                          <Upload className="w-4 h-4" />
+                          <span>Upload Logo File (PNG/SVG/JPG)</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => handleImageFileUpload(e, (url) => setBrandingForm(prev => ({ ...prev, logoUrl: url })))}
+                          />
+                        </label>
+
+                        {/* Quick Presets */}
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] text-slate-400">Sample Badges:</span>
+                          <button
+                            type="button"
+                            onClick={() => setBrandingForm(prev => ({ ...prev, logoUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=UGSGlobalEmblem' }))}
+                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-300 font-mono cursor-pointer"
+                          >
+                            Shield Crest
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setBrandingForm(prev => ({ ...prev, logoUrl: 'https://api.dicebear.com/7.x/shapes/svg?seed=UnitedGlobalSchool' }))}
+                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-300 font-mono cursor-pointer"
+                          >
+                            Academic Laurel
+                          </button>
+                        </div>
+                      </div>
+
+                      <p className="text-[11px] text-slate-400">
+                        Recommendation: A high-contrast transparent PNG or SVG crest (min 200x200px) displays optimally on both dark and cyber gradient headers.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Hero Section Main Campus Banner */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-blue-400" />
+                        2. Hero Section Main Campus Banner
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        The primary cinematic visual background that appears in the top Hero Section of the school website.
+                      </p>
+                    </div>
+                    {brandingForm.heroImageUrl && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setBrandingForm(prev => ({ ...prev, heroImageUrl: '' }));
+                          showToast('Hero image reset to default campus photography');
+                        }}
+                        className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer font-medium"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        Reset to Default Hero
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Wide Cinematic Banner Live Preview */}
+                  <div className="relative rounded-2xl overflow-hidden border border-slate-700 shadow-xl aspect-[21/9] sm:aspect-[24/9] max-h-56 bg-slate-900 group">
+                    <img
+                      src={brandingForm.heroImageUrl || heroCampusImg}
+                      alt="Hero Section Campus"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-4">
+                      <div className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest font-bold">
+                        ACTIVE HERO SECTION PREVIEW
+                      </div>
+                      <div className="text-sm sm:text-base font-bold text-white font-display">
+                        {brandingForm.schoolName || 'United Global School'}
+                      </div>
+                      <div className="text-xs text-slate-300">
+                        {brandingForm.tagline || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Banner Controls & URL Input */}
+                  <div className="space-y-3.5">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">
+                        Hero Campus Image URL
+                      </label>
+                      <input
+                        type="url"
+                        placeholder="https://... (Direct image link for hero background)"
+                        value={brandingForm.heroImageUrl || ''}
+                        onChange={(e) => setBrandingForm(prev => ({ ...prev, heroImageUrl: e.target.value }))}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-blue-400 focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <label className="cursor-pointer px-4 py-2.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/50 text-blue-300 text-xs font-bold inline-flex items-center gap-2 transition-all shadow-sm">
+                        <Upload className="w-4 h-4" />
+                        <span>Upload Hero Banner File</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleImageFileUpload(e, (url) => setBrandingForm(prev => ({ ...prev, heroImageUrl: url })))}
+                        />
+                      </label>
+
+                      <div className="text-xs text-slate-400">or choose from Curated Campus Presets:</div>
+                    </div>
+
+                    {/* Curated Presets */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                      {[
+                        {
+                          label: 'Campus Quadrangle',
+                          url: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80'
+                        },
+                        {
+                          label: 'AI & Robotics Lab',
+                          url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80'
+                        },
+                        {
+                          label: 'Academic Complex',
+                          url: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80'
+                        },
+                        {
+                          label: 'Sports Stadium & Turf',
+                          url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1600&q=80'
+                        }
+                      ].map((preset, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setBrandingForm(prev => ({ ...prev, heroImageUrl: preset.url }));
+                            showToast(`Applied "${preset.label}" hero banner preset!`);
+                          }}
+                          className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400/60 text-left transition-all group cursor-pointer"
+                        >
+                          <div className="h-16 rounded-lg overflow-hidden bg-slate-950 mb-1.5 border border-slate-850">
+                            <img src={preset.url} alt={preset.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                          </div>
+                          <span className="text-[11px] font-bold text-slate-300 group-hover:text-cyan-300 block truncate">
+                            {preset.label}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Campus Facilities & Website Media Gallery */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-emerald-400" />
+                        3. Campus Facilities & Website Media Gallery (Any Image)
+                      </h4>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Customize photography and media across the Campus Tour, STEM Labs, Sports Arena, and Performing Arts pavilion.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {((brandingForm.campusImages && brandingForm.campusImages.length > 0)
+                      ? brandingForm.campusImages
+                      : (DEFAULT_SITE_CONFIG.campusImages || [])
+                    ).map((media, index) => (
+                      <div key={media.id || index} className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-950 border border-slate-700 shrink-0">
+                            <img
+                              src={media.url}
+                              alt={media.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+
+                          <div className="flex-1 min-w-0 space-y-2">
+                            <div>
+                              <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 uppercase font-bold">
+                                {media.category || 'Facility'}
+                              </span>
+                              <input
+                                type="text"
+                                value={media.title}
+                                onChange={(e) => updateCampusImage(index, { title: e.target.value })}
+                                placeholder="Image Title"
+                                className="w-full mt-1 px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:border-cyan-400"
+                              />
+                            </div>
+
+                            <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-[11px] font-bold text-slate-200 border border-slate-700 inline-flex items-center gap-1.5 transition-all">
+                              <Upload className="w-3.5 h-3.5 text-cyan-400" />
+                              <span>Replace Image File</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => handleImageFileUpload(e, (url) => updateCampusImage(index, { url }))}
+                              />
+                            </label>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+                            Direct Image URL
+                          </label>
+                          <input
+                            type="url"
+                            value={media.url}
+                            onChange={(e) => updateCampusImage(index, { url: e.target.value })}
+                            placeholder="https://..."
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-[11px] text-slate-300 font-mono focus:outline-none focus:border-cyan-400"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-2 flex justify-end">
+                  <button
+                    onClick={() => handleSaveImages()}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save All Website Images & Logo Changes</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: CAMPUS ADDRESS & LOCATION REGISTRY */}
+          {activeTab === 'address' && (
+            <form onSubmit={handleSaveAddress} className="space-y-6">
+              <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6 shadow-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                  <div>
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2 font-display">
+                      <MapPin className="w-5 h-5 text-emerald-400" />
+                      Campus Address, Geo Telemetry & Contact Directorate
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Super Admin control to configure school location, postal address, town designation, phone helplines, emails, and operating hours.
+                    </p>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save Address & Contacts</span>
+                  </button>
+                </div>
+
+                {/* Live Campus Location Preview Card */}
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-950 to-teal-950/40 border border-emerald-500/30 space-y-3">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Live Website Address Badge Preview
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <div className="text-base font-bold text-white font-display flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>{brandingForm.campusLocation || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}</span>
+                      </div>
+                      <p className="text-xs text-slate-400">
+                        Official Campus: {brandingForm.tagline || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300">
+                      <div className="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                        <Phone className="w-3.5 h-3.5 text-cyan-400" />
+                        <span className="font-mono">{brandingForm.phone1}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                        <Mail className="w-3.5 h-3.5 text-purple-400" />
+                        <span>{brandingForm.email}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                        <span className="text-emerald-400 font-bold font-mono">CBSE:</span>
+                        <span className="font-mono">{brandingForm.affiliationCode}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Fields: Campus Physical Location */}
+                <div className="space-y-4">
+                  <div className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold border-b border-slate-800 pb-2">
+                    PHYSICAL CAMPUS ADDRESS & TOWN DESIGNATION
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Full Campus Postal Address *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={brandingForm.campusLocation}
+                        onChange={e => setBrandingForm({ ...brandingForm, campusLocation: e.target.value })}
+                        placeholder="Bhakatgaon, Rupahi Town, Nagaon, Assam 782125, India"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
+                      />
+                      <span className="text-[10px] text-slate-400 mt-1 block">
+                        Displays in the website footer, contact deck, and official admissions prospectus.
+                      </span>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Town, District & State Subtitle *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={brandingForm.tagline}
+                        onChange={e => setBrandingForm({ ...brandingForm, tagline: e.target.value })}
+                        placeholder="Bhakatgaon, Rupahi Town · Nagaon, Assam"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
+                      />
+                      <span className="text-[10px] text-slate-400 mt-1 block">
+                        Displays in the header wordmark, hero cyber badge, and social metadata.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Fields: Direct Communication Lines */}
+                <div className="space-y-4 pt-2">
+                  <div className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold border-b border-slate-800 pb-2">
+                    DIRECT COMMUNICATION LINES & TELEMETRY
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Primary Campus Phone *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={brandingForm.phone1}
+                        onChange={e => setBrandingForm({ ...brandingForm, phone1: e.target.value })}
+                        placeholder="+91 94350 12345"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Secondary / Admission Helpline Phone
+                      </label>
+                      <input
+                        type="text"
+                        value={brandingForm.phone2}
+                        onChange={e => setBrandingForm({ ...brandingForm, phone2: e.target.value })}
+                        placeholder="+91 98640 67890"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Official Directorate Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={brandingForm.email}
+                        onChange={e => setBrandingForm({ ...brandingForm, email: e.target.value })}
+                        placeholder="admissions@unitedglobalschool.edu.in"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Campus Operating & Visiting Hours
+                      </label>
+                      <input
+                        type="text"
+                        value={brandingForm.operatingHours}
+                        onChange={e => setBrandingForm({ ...brandingForm, operatingHours: e.target.value })}
+                        placeholder="Monday – Saturday: 08:00 AM – 04:30 PM IST"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        CBSE Affiliation Code *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={brandingForm.affiliationCode}
+                        onChange={e => setBrandingForm({ ...brandingForm, affiliationCode: e.target.value })}
+                        placeholder="CBSE/AFF/230198/2026"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        School U-DISE Code *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={brandingForm.udiseCode}
+                        onChange={e => setBrandingForm({ ...brandingForm, udiseCode: e.target.value })}
+                        placeholder="18100304512"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex justify-end">
+                  <button
+                    type="submit"
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save Campus Address & Location Details</span>
+                  </button>
+                </div>
+              </div>
+            </form>
           )}
 
       {/* TAB 1: BRANDING & GENERAL WEBSITE CONTENT */}
@@ -1098,10 +1697,11 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   <button 
                     type="button" 
                     onClick={() => {
+                      stopTeacherCamera();
                       setIsAddingTeacher(false);
                       setEditingTeacher(null);
                     }}
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-400 hover:text-white cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -1207,21 +1807,114 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     />
                   </div>
 
-                  <div className="sm:col-span-2 lg:col-span-3 pt-3 border-t border-slate-800">
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                      Teacher Profile Photo / Avatar
-                    </label>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-700 overflow-hidden flex items-center justify-center shrink-0">
-                        {teacherFormData.avatar ? (
-                          <img src={teacherFormData.avatar} alt="Preview" className="w-full h-full object-cover" />
+                  <div className="sm:col-span-2 lg:col-span-3 pt-4 border-t border-slate-800 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <label className="block text-xs font-semibold text-white">
+                          Teacher Profile Photo / Biometric Avatar
+                        </label>
+                        <p className="text-[11px] text-slate-400">
+                          Captured or uploaded solely by Super Admin. Teachers cannot alter or upload their own photo.
+                        </p>
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] font-bold">
+                        Super Admin Authorization
+                      </span>
+                    </div>
+
+                    {/* Live Camera Viewfinder Modal/Box */}
+                    {isTeacherCameraOpen && (
+                      <div className="p-4 rounded-2xl bg-slate-900 border border-emerald-500/40 shadow-2xl space-y-3 animate-in fade-in duration-200">
+                        <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                          <span className="text-xs font-bold text-white flex items-center gap-2">
+                            <Camera className="w-4 h-4 text-emerald-400" />
+                            Live Teacher Photo Capture Viewfinder
+                          </span>
+                          <button
+                            type="button"
+                            onClick={stopTeacherCamera}
+                            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {teacherCameraError ? (
+                          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                            <AlertTriangle className="w-4 h-4 shrink-0" />
+                            <span>{teacherCameraError}</span>
+                          </div>
                         ) : (
-                          <Users className="w-6 h-6 text-slate-500" />
+                          <div className="relative rounded-xl overflow-hidden bg-black aspect-video max-w-md mx-auto border border-emerald-500/30 flex items-center justify-center">
+                            <video
+                              ref={teacherVideoRef}
+                              autoPlay
+                              playsInline
+                              muted
+                              className="w-full h-full object-cover transform -scale-x-100"
+                            />
+                            {/* Framing Overlay */}
+                            <div className="absolute inset-0 pointer-events-none border-2 border-emerald-400/50 rounded-xl m-4 flex items-center justify-center">
+                              <div className="w-32 h-40 border border-dashed border-cyan-400/80 rounded-2xl flex items-center justify-center text-[10px] font-mono text-cyan-300/80">
+                                Position Face
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex items-center justify-center gap-3 pt-1">
+                          <button
+                            type="button"
+                            onClick={captureTeacherPhoto}
+                            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/30 flex items-center gap-2 transition-all cursor-pointer"
+                          >
+                            <Camera className="w-4 h-4" />
+                            <span>Snap & Use Photo</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={switchTeacherCamera}
+                            className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                            title="Flip camera"
+                          >
+                            <RefreshCw className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Flip Camera</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={stopTeacherCamera}
+                            className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Standard Photo Actions */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="relative w-14 h-14 rounded-2xl bg-slate-900 border-2 border-emerald-500/40 overflow-hidden flex items-center justify-center shrink-0 shadow-md">
+                        {teacherFormData.avatar ? (
+                          <img src={teacherFormData.avatar} alt="Teacher Preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <Users className="w-7 h-7 text-slate-500" />
                         )}
                       </div>
-                      <label className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white cursor-pointer text-xs font-medium transition-colors">
-                        <Upload className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Upload Photo from Computer</span>
+
+                      {/* Capture Live Photo Button */}
+                      <button
+                        type="button"
+                        onClick={() => startTeacherCamera('user')}
+                        className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer"
+                      >
+                        <Camera className="w-4 h-4 text-emerald-400" />
+                        <span>Capture Live Photo (Webcam)</span>
+                      </button>
+
+                      {/* File Upload Button */}
+                      <label className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white cursor-pointer text-xs font-medium transition-colors">
+                        <Upload className="w-4 h-4 text-emerald-400" />
+                        <span>Upload Photo File</span>
                         <input 
                           type="file" 
                           accept="image/*" 
@@ -1229,13 +1922,26 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                           onChange={(e) => handleImageFileUpload(e, (url) => setTeacherFormData(prev => ({ ...prev, avatar: url })))}
                         />
                       </label>
-                      <span className="text-[11px] text-slate-500">or enter image URL:</span>
+
+                      {teacherFormData.avatar && (
+                        <button
+                          type="button"
+                          onClick={() => setTeacherFormData(prev => ({ ...prev, avatar: '' }))}
+                          className="px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs transition-colors cursor-pointer"
+                        >
+                          Remove Photo
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <span className="text-[11px] text-slate-500 shrink-0">Direct Image URL:</span>
                       <input
                         type="url"
                         placeholder="https://... or data:image/..."
                         value={teacherFormData.avatar}
                         onChange={e => setTeacherFormData({ ...teacherFormData, avatar: e.target.value })}
-                        className="flex-1 min-w-[200px] px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-emerald-400 focus:outline-none"
+                        className="flex-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-emerald-400 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -1245,10 +1951,11 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => {
+                      stopTeacherCamera();
                       setIsAddingTeacher(false);
                       setEditingTeacher(null);
                     }}
-                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700"
+                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 cursor-pointer"
                   >
                     Cancel
                   </button>

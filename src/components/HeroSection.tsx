@@ -15,7 +15,8 @@ import {
   Award,
   FileText,
   UserCheck,
-  Heart
+  Heart,
+  ShieldAlert
 } from 'lucide-react';
 import heroCampusImg from '../assets/images/hero_united_global_school_1791694864291.jpg';
 
@@ -28,7 +29,8 @@ export const HeroSection: React.FC = () => {
     openOfflineAdmissionModal,
     openPrincipalAppointmentModal,
     openDonateModal,
-    openPublicGallery 
+    openPublicGallery,
+    siteConfig
   } = useSchool();
 
   return (
@@ -63,35 +65,28 @@ export const HeroSection: React.FC = () => {
                   {/* Animated Light Sweep Line */}
                   <div className="absolute inset-y-0 w-28 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none animate-cyber-shine" />
 
-                  {/* Top Micro Telemetry Strip */}
-                  <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-cyan-500/20">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-cyan-300 font-bold">
-                        ACADEMIC INSTITUTION · BHAKATGAON
-                      </span>
-                    </div>
-                    <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono font-semibold text-cyan-400 tracking-wider">
-                      CBSE AFFILIATED
-                    </span>
-                  </div>
-
-                  {/* United Global School Main Title */}
-                  <div className="flex items-center gap-3.5 sm:gap-4">
-                    {/* Glowing Logo Emblem */}
-                    <div className="relative shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-600/30 to-indigo-600/20 border border-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.35)]">
-                      <School className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300" />
+                  {/* United Global School Main Title - Center Aligned */}
+                  <div className="flex flex-col items-center justify-center text-center gap-4 sm:gap-5">
+                    {/* Glowing Logo Emblem - Enlarged */}
+                    <div className="relative shrink-0 flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-cyan-500/25 via-blue-600/30 to-indigo-600/30 border-2 border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.45)] group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+                      <div className="absolute inset-1 rounded-2xl bg-cyan-400/10 animate-pulse pointer-events-none" />
+                      {siteConfig.logoUrl ? (
+                        <img 
+                          src={siteConfig.logoUrl} 
+                          alt={siteConfig.schoolName} 
+                          className="w-full h-full object-contain p-2 rounded-2xl relative z-10" 
+                        />
+                      ) : (
+                        <School className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-300 relative z-10" />
+                      )}
                     </div>
 
-                    <div className="space-y-0.5 sm:space-y-1">
-                      <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black font-display tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 leading-[1.1]">
-                        United Global School
+                    <div className="space-y-1 text-center">
+                      <h1 className="text-xl sm:text-2xl md:text-3xl font-black font-display tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 whitespace-nowrap text-center">
+                        {siteConfig.schoolName || 'United Global School'}
                       </h1>
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono text-cyan-400/90 font-medium">
-                        <span>BHAKATGAON, RUPAHI TOWN</span>
+                      <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs font-mono text-cyan-400/90 font-medium text-center">
+                        <span>{siteConfig.tagline || 'BHAKATGAON, RUPAHI TOWN'}</span>
                         <span className="text-slate-600">·</span>
                         <span className="text-slate-400">NAGAON, ASSAM</span>
                       </div>
@@ -184,15 +179,16 @@ export const HeroSection: React.FC = () => {
               {/* 4 Futuristic Portal Buttons */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                 <button
-                  onClick={() => setRole('public')}
+                  onClick={() => setRole('super_admin')}
                   className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                    role === 'public'
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold shadow-md shadow-cyan-500/25 ring-1 ring-cyan-400'
-                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-cyan-500/40 hover:bg-slate-900'
+                    role === 'super_admin'
+                      ? 'bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 text-white font-bold shadow-md shadow-rose-600/30 ring-1 ring-rose-400'
+                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-rose-500/50 hover:bg-rose-950/30'
                   }`}
+                  title="Super Admin Portal (Master Credentials, Permissions & Website CMS)"
                 >
-                  <School className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">School Website</span>
+                  <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  <span className="truncate">Super Admin</span>
                 </button>
 
                 <button
@@ -236,8 +232,8 @@ export const HeroSection: React.FC = () => {
             {/* Hero Image Container with Floating Admission & Visitation Deck at Top */}
             <div className="relative rounded-3xl overflow-hidden border border-slate-700/70 shadow-2xl bg-slate-900 flex-1 min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] group">
               <img
-                src={heroCampusImg}
-                alt="United Global School Campus, Bhakatgaon, Rupahi Town"
+                src={siteConfig.heroImageUrl || heroCampusImg}
+                alt={`${siteConfig.schoolName || 'United Global School'} Campus, Bhakatgaon, Rupahi Town`}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
               />

@@ -317,9 +317,6 @@ Issued By: Directorate Executive Console
               <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
                 User Access & Credential Provisioning Hub
               </h2>
-              <p className="text-xs text-slate-300 max-w-2xl font-normal">
-                Direct administrator control to issue login usernames, secure passwords, and granular operational permissions for faculty, accounts, exam officers, and staff members.
-              </p>
             </div>
           </div>
 

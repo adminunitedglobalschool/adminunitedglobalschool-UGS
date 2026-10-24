@@ -227,9 +227,16 @@ export const TeacherPortal: React.FC = () => {
                     <span className="text-slate-400">Institutional Email:</span>
                     <span className="text-slate-200 font-mono">mukut.sharma@unitedglobalschool.in</span>
                   </div>
-                  <div className="flex justify-between py-1">
+                  <div className="flex justify-between py-1 border-b border-slate-800/60">
                     <span className="text-slate-400">Portal Clearance:</span>
                     <span className="text-emerald-400 font-semibold">Attendance & Gradebook Verified</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-slate-400">Photo & Profile:</span>
+                    <span className="text-amber-300 font-medium flex items-center gap-1 text-[11px]">
+                      <Lock className="w-3 h-3 text-amber-400" />
+                      Locked by Super Admin
+                    </span>
                   </div>
                 </div>
 
