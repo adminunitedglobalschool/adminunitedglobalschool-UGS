@@ -770,6 +770,24 @@ export const MasterWebsiteCustomizer: React.FC = () => {
               </div>
 
               <div className="space-y-1">
+                {/* Futuristic Notification Scroll Bar CMS */}
+                <button
+                  onClick={() => setActiveTab('ticker')}
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all text-left cursor-pointer ${
+                    activeTab === 'ticker'
+                      ? 'bg-gradient-to-r from-amber-500/20 to-cyan-500/20 border border-amber-400 text-amber-200 font-bold shadow-md shadow-amber-500/20'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 truncate">
+                    <Radio className="w-4 h-4 text-amber-400 shrink-0 animate-pulse" />
+                    <span className="truncate">Futuristic Notification Scroll Bar</span>
+                  </div>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-400/20 text-amber-300 border border-amber-400/40 shrink-0">
+                    HUD
+                  </span>
+                </button>
+
                 {/* 1. Logo & Any Website Images CMS */}
                 <button
                   onClick={() => setActiveTab('images')}
@@ -924,6 +942,249 @@ export const MasterWebsiteCustomizer: React.FC = () => {
           {/* TAB 1: ROLES & PERMISSIONS MATRIX */}
           {activeTab === 'permissions' && (
             <RolePermissionsCustomizer />
+          )}
+
+          {/* TAB: FUTURISTIC NOTIFICATION SCROLL BAR CMS */}
+          {activeTab === 'ticker' && (
+            <div className="space-y-6">
+              <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6 shadow-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                  <div>
+                    <h3 className="text-lg font-bold text-white flex items-center gap-2 font-display">
+                      <Radio className="w-5 h-5 text-amber-400 animate-pulse" />
+                      Futuristic Notification Scroll Bar (Live HUD Stream)
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Navbar ke neeche scroll hone wale futuristic ticker ko configure karein — speed, custom live broadcast text, aur display toggle karein.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => handleSaveTicker()}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-cyan-500 hover:from-amber-400 hover:to-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save & Broadcast Live</span>
+                  </button>
+                </div>
+
+                {/* 1. Live Interactive HUD Preview */}
+                <div className="p-5 rounded-2xl bg-slate-950/90 border border-amber-500/30 space-y-3 relative overflow-hidden">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                      Live HUD Marquee Preview
+                    </span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                      {brandingForm.tickerEnabled !== false ? '● ACTIVE STREAM' : '○ MUTED / HIDDEN'}
+                    </span>
+                  </div>
+
+                  {/* Visual Preview Box */}
+                  <div className="rounded-xl border border-slate-800 bg-slate-900/90 p-3 overflow-hidden relative">
+                    <div className="flex items-center gap-3">
+                      <div className="shrink-0 px-2 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-mono font-bold flex items-center gap-1.5">
+                        <Radio className="w-3 h-3 text-amber-400 animate-pulse" />
+                        <span>{brandingForm.tickerBadgeText || 'UGS LIVE DISPATCH'}</span>
+                      </div>
+                      <div className="overflow-hidden flex-1 text-xs text-slate-300 font-mono truncate">
+                        <span className="text-amber-300 font-bold mr-2">⚡ [LIVE BROADCAST]</span>
+                        {brandingForm.tickerCustomBroadcast || 'ADMISSIONS OPEN 2026–27 · CBSE AFFILIATED · STATE-OF-THE-ART DIGITAL CAMPUS'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Controls Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Master Power Toggle */}
+                  <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm font-bold text-white flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-cyan-400" />
+                          Master Ticker Visibility
+                        </div>
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          Website ke top par navbar ke neeche scroll bar show ya hide karein.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setBrandingForm(prev => ({ ...prev, tickerEnabled: true }))}
+                        className={`flex-1 p-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                          brandingForm.tickerEnabled !== false
+                            ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-lg shadow-emerald-500/10'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>Visible (Turned ON)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setBrandingForm(prev => ({ ...prev, tickerEnabled: false }))}
+                        className={`flex-1 p-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                          brandingForm.tickerEnabled === false
+                            ? 'bg-rose-500/20 border-rose-400 text-rose-300 shadow-lg shadow-rose-500/10'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <X className="w-4 h-4" />
+                        <span>Hidden (Turned OFF)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Scroll Speed Configuration */}
+                  <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
+                    <div className="text-sm font-bold text-white flex items-center gap-2">
+                      <Gauge className="w-4 h-4 text-amber-400" />
+                      Marquee Scroll Speed
+                    </div>
+                    <p className="text-xs text-slate-400">
+                      Notifications kis speed me scroll hongi select karein.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-2 pt-2">
+                      {(['slow', 'normal', 'fast'] as const).map(speed => (
+                        <button
+                          key={speed}
+                          type="button"
+                          onClick={() => setBrandingForm(prev => ({ ...prev, tickerSpeed: speed }))}
+                          className={`p-2.5 rounded-xl border text-xs font-bold capitalize transition-all cursor-pointer text-center ${
+                            (brandingForm.tickerSpeed || 'normal') === speed
+                              ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md shadow-amber-500/10'
+                              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          {speed === 'slow' && '🐢 Slow (45s)'}
+                          {speed === 'normal' && '⚡ Normal (28s)'}
+                          {speed === 'fast' && '🚀 Fast (18s)'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Holographic Badge Title & Custom Broadcast */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
+                  <div className="text-sm font-bold text-white flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-cyan-400" />
+                    HUD Badge Title & Breaking Telemetry Broadcast
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1.5">
+                        HUD Badge Title (Left Tag)
+                      </label>
+                      <input
+                        type="text"
+                        value={brandingForm.tickerBadgeText ?? 'UGS LIVE DISPATCH'}
+                        onChange={(e) => setBrandingForm(prev => ({ ...prev, tickerBadgeText: e.target.value }))}
+                        placeholder="e.g. UGS LIVE DISPATCH or NOTICE RADAR"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs font-mono focus:border-amber-400 focus:outline-none"
+                      />
+                      <span className="text-[10px] text-slate-500 mt-1 block">Left side me glowing chip ki heading</span>
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1.5">
+                        Breaking Broadcast Headline (Always Scrolls First)
+                      </label>
+                      <input
+                        type="text"
+                        value={brandingForm.tickerCustomBroadcast ?? ''}
+                        onChange={(e) => setBrandingForm(prev => ({ ...prev, tickerCustomBroadcast: e.target.value }))}
+                        placeholder="e.g. ADMISSIONS OPEN 2026–27 · ENTRANCE TEST SCHEDULED FOR NOVEMBER · MERIT SCHOLARSHIPS AVAILABLE"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs focus:border-amber-400 focus:outline-none"
+                      />
+                      <span className="text-[10px] text-slate-500 mt-1 block">Super Admin ka direct custom message jo ticker me sabse aage scroll hota hai</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Active Announcements Included in Marquee */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-white flex items-center gap-2">
+                        <Bell className="w-4 h-4 text-amber-400" />
+                        Active Notices Streaming in Ticker ({announcements.length})
+                      </h4>
+                      <p className="text-[11px] text-slate-400 mt-0.5">
+                        Circulars/Notices section ke sabhi circulars automatically is futuristic ticker me scroll hote hain.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('notices')}
+                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5 text-cyan-400" />
+                      Manage / Add Notice
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                    {announcements.slice(0, 6).map(notice => (
+                      <div
+                        key={notice.id}
+                        className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase ${
+                              notice.isUrgent ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-cyan-500/10 text-cyan-300'
+                            }`}>
+                              {notice.category}
+                            </span>
+                            <span className="text-[10px] text-slate-500 font-mono">{notice.date}</span>
+                          </div>
+                          <p className="text-xs font-semibold text-slate-200 line-clamp-1">{notice.title}</p>
+                        </div>
+                        <p className="text-[11px] text-slate-400 line-clamp-1 mt-1">{notice.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Action Footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBrandingForm(prev => ({
+                        ...prev,
+                        tickerEnabled: true,
+                        tickerSpeed: 'normal',
+                        tickerBadgeText: 'UGS LIVE DISPATCH',
+                        tickerCustomBroadcast: 'ADMISSIONS OPEN 2026–27 · CBSE AFFILIATED · STATE-OF-THE-ART DIGITAL CAMPUS · SCHOLARSHIP TESTS LIVE'
+                      }));
+                      showToast('Ticker settings reset to futuristic defaults');
+                    }}
+                    className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Reset to Default Values
+                  </button>
+
+                  <button
+                    onClick={() => handleSaveTicker()}
+                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-cyan-500 hover:from-amber-400 hover:to-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Save & Broadcast Live</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* TAB: LOGO & WEBSITE IMAGES CMS */}
