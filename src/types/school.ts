@@ -32,6 +32,7 @@ export interface SchoolWebsiteConfig {
   tickerSpeed?: 'slow' | 'normal' | 'fast';
   tickerBadgeText?: string;
   tickerCustomBroadcast?: string;
+  tickerLayoutMode?: 'single-line' | 'two-line';
 }
 
 export interface Student {
@@ -150,6 +151,7 @@ export interface Administrator {
 export interface Announcement {
   id: string;
   title: string;
+  subtitle?: string;
   category: 'Academic' | 'Notice' | 'Sports' | 'Event' | 'Examination';
   date: string;
   content: string;

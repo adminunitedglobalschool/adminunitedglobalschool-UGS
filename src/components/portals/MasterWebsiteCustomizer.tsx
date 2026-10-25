@@ -41,7 +41,8 @@ import {
   Video,
   Image as ImageIcon,
   Radio,
-  Gauge
+  Gauge,
+  Layers
 } from 'lucide-react';
 import heroCampusImg from '../../assets/images/hero_united_global_school_1791694864291.jpg';
 import { RolePermissionsCustomizer } from './admin/RolePermissionsCustomizer';
@@ -996,7 +997,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                 </div>
 
                 {/* 2. Controls Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   {/* Master Power Toggle */}
                   <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
                     <div className="flex items-center justify-between">
@@ -1011,7 +1012,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 pt-2">
+                    <div className="flex items-center gap-3 pt-2">
                       <button
                         type="button"
                         onClick={() => setBrandingForm(prev => ({ ...prev, tickerEnabled: true }))}
@@ -1022,7 +1023,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                         }`}
                       >
                         <CheckCircle2 className="w-4 h-4" />
-                        <span>Visible (Turned ON)</span>
+                        <span>Visible (ON)</span>
                       </button>
 
                       <button
@@ -1035,7 +1036,48 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                         }`}
                       >
                         <X className="w-4 h-4" />
-                        <span>Hidden (Turned OFF)</span>
+                        <span>Hidden (OFF)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Stream Layout Mode (1-Line vs 2-Line) */}
+                  <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
+                    <div>
+                      <div className="text-sm font-bold text-white flex items-center gap-2">
+                        <Layers className="w-4 h-4 text-cyan-400" />
+                        Stream Layout Mode
+                      </div>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Ek hi line (1-Line) ya dual-tier (2-Line) layout chunein (text upar/neeche cut nahi hoga).
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setBrandingForm(prev => ({ ...prev, tickerLayoutMode: 'single-line' }))}
+                        className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer text-center ${
+                          (brandingForm.tickerLayoutMode || 'single-line') === 'single-line'
+                            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-md shadow-cyan-500/10'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <div>1-Line View</div>
+                        <div className="text-[10px] text-slate-400 font-normal mt-0.5">Ek Hi Line (Clear)</div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setBrandingForm(prev => ({ ...prev, tickerLayoutMode: 'two-line' }))}
+                        className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer text-center ${
+                          brandingForm.tickerLayoutMode === 'two-line'
+                            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-md shadow-cyan-500/10'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <div>2-Line View</div>
+                        <div className="text-[10px] text-slate-400 font-normal mt-0.5">Do Line (Dual Tier)</div>
                       </button>
                     </div>
                   </div>

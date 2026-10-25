@@ -468,6 +468,7 @@ export const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ann-1',
     title: 'Inter-School STEM & Robotics Olympiad 2026 Selection Trials',
+    subtitle: 'Class 8 to 12 · Innovation Lab Trials · Autonomous AI Rovers & IoT',
     category: 'Academic',
     date: '2026-10-12',
     content: 'Students from Class 8 to 12 with interest in Autonomous AI Rovers and IoT solutions are invited for selection trials at the Innovation Lab on Saturday at 10:00 AM.',
@@ -477,6 +478,7 @@ export const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ann-2',
     title: 'Quarter 3 Digital Fee Submissions & Clearance Notice',
+    subtitle: 'Clear Q3 dues by October 25 via Online Portal or Counter',
     category: 'Notice',
     date: '2026-10-08',
     content: 'Parents and guardians are requested to clear Quarter 3 school fees via the online fee portal or cash counter by October 25 to avoid late automated charges.',
@@ -486,6 +488,7 @@ export const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ann-3',
     title: 'Annual State Athletic Meet Trials at Bhakatgaon Campus Turf',
+    subtitle: '100m Sprint, Long Jump & Football Squad Trials Commence Monday',
     category: 'Sports',
     date: '2026-10-06',
     content: 'Trials for 100m sprint, long jump, football squad and badminton commence from Monday under Director Deben Nath.',
@@ -495,6 +498,7 @@ export const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ann-4',
     title: 'Parent-Teacher Consultative Conference (Class 10 & 12 Board Prep)',
+    subtitle: 'Progress Review & Evaluative Assessments · One-on-One Consultations',
     category: 'Examination',
     date: '2026-10-01',
     content: 'Progress review meeting scheduled for upcoming mid-term evaluative assessments. Parents can book 15-minute one-on-one slots via student dashboard.',

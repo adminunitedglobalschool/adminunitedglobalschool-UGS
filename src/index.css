@@ -113,7 +113,7 @@
 .animate-futuristic-marquee {
   display: flex;
   width: max-content;
-  animation: futuristicMarquee 32s linear infinite;
+  animation: futuristicMarquee 60s linear infinite;
 }
 
 .animate-futuristic-marquee:hover {
@@ -121,15 +121,15 @@
 }
 
 .marquee-speed-slow {
-  animation-duration: 50s !important;
+  animation-duration: 95s !important;
 }
 
 .marquee-speed-normal {
-  animation-duration: 32s !important;
+  animation-duration: 60s !important;
 }
 
 .marquee-speed-fast {
-  animation-duration: 18s !important;
+  animation-duration: 40s !important;
 }
 
 
