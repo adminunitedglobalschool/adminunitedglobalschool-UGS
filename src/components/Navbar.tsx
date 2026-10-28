@@ -14,7 +14,13 @@ import {
   X,
   School,
   Settings,
-  FileText
+  FileText,
+  Maximize,
+  Minimize,
+  Minimize2,
+  Tablet,
+  LogIn,
+  Trophy
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -30,7 +36,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
     openAdmissionModal,
     openOfflineAdmissionModal,
     openPrincipalAppointmentModal,
-    siteConfig
+    openPublicGallery,
+    publicGalleryTab,
+    siteConfig,
+    isFullscreen,
+    toggleFullscreen,
+    isLeaveScreenView,
+    toggleLeaveScreenView
   } = useSchool();
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -64,33 +76,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-8 h-18">
           
-          {/* Zone 1: Single text element wordmark */}
+          {/* Zone 1: Campus Emblem / Logo */}
           <div className="flex items-center gap-3 shrink-0">
             <button 
-              onClick={() => setRole('public')}
-              className="flex items-center gap-2.5 text-left group focus:outline-none"
+              onClick={() => {
+                setRole('public');
+                setPublicPage('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              title={siteConfig.schoolName || 'United Global School'}
+              aria-label={siteConfig.schoolName || 'United Global School'}
+              className="flex items-center text-left group focus:outline-none cursor-pointer"
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform overflow-hidden">
                 {siteConfig.logoUrl ? (
-                  <img src={siteConfig.logoUrl} alt={siteConfig.schoolName} className="w-full h-full object-contain p-1" />
+                  <img src={siteConfig.logoUrl} alt={siteConfig.schoolName || 'United Global School'} className="w-full h-full object-contain p-1" />
                 ) : (
                   <School className="w-5 h-5 text-white" />
                 )}
               </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold font-display text-white tracking-tight whitespace-nowrap">
-                  {siteConfig.schoolName || 'United Global School'}
-                </span>
-                <span className="text-[11px] text-cyan-400 font-medium tracking-wide">
-                  {siteConfig.tagline || 'Bhakatgaon, Rupahi Town'}
-                </span>
-              </div>
             </button>
           </div>
 
-          {/* Zone 2: Navigation Links (Only shown on Public Website; hidden in Admin) */}
+          {/* Zone 2: Navigation Links (Only shown on Public Website; hidden in Admin & Tablet view) */}
           {role === 'public' ? (
-            <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+            <nav className={`${isLeaveScreenView ? 'hidden' : 'hidden md:flex'} items-center gap-3.5 lg:gap-5 xl:gap-6 text-sm font-medium text-slate-300`}>
               <button 
                 onClick={() => {
                   setPublicPage('home');
@@ -98,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   setMobileMenuOpen(false);
                 }}
                 className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
-                  publicPage === 'home' 
+                  publicPage === 'home' && !publicGalleryTab
                     ? 'text-cyan-400 font-semibold' 
                     : 'hover:text-cyan-400 text-slate-300'
                 }`}
@@ -171,10 +181,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                     : 'hover:text-cyan-400 text-slate-300'
                 }`}
               >
-                Circulars
+                Notices
                 {publicPage === 'circulars' && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
                 )}
+              </button>
+
+              {/* Teachers Gallery Button */}
+              <button 
+                onClick={() => {
+                  openPublicGallery('teachers');
+                  setMobileMenuOpen(false);
+                }}
+                className={`transition-all whitespace-nowrap shrink-0 relative py-1 px-2.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 cursor-pointer ${
+                  publicPage === 'home' && publicGalleryTab === 'teachers' 
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/50 shadow-sm shadow-emerald-500/20 ring-1 ring-emerald-500/30' 
+                    : 'text-slate-300 hover:text-emerald-300 bg-slate-900/60 border-slate-800 hover:border-emerald-500/40 hover:bg-emerald-950/20'
+                }`}
+                title="View Faculty & Teachers Gallery"
+              >
+                <Users className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Teachers Gallery</span>
+              </button>
+
+              {/* Class Toppers Gallery Button */}
+              <button 
+                onClick={() => {
+                  openPublicGallery('toppers');
+                  setMobileMenuOpen(false);
+                }}
+                className={`transition-all whitespace-nowrap shrink-0 relative py-1 px-2.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 cursor-pointer ${
+                  publicPage === 'home' && publicGalleryTab === 'toppers' 
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/50 shadow-sm shadow-amber-500/20 ring-1 ring-amber-500/30' 
+                    : 'text-slate-300 hover:text-amber-300 bg-slate-900/60 border-slate-800 hover:border-amber-500/40 hover:bg-amber-950/20'
+                }`}
+                title="View Class Toppers & Academic Titans Hall of Fame"
+              >
+                <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>Class Toppers Gallery</span>
               </button>
             </nav>
           ) : role === 'super_admin' ? (
@@ -189,74 +233,227 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
             </div>
           ) : null}
 
-          {/* Zone 3: 1 primary action with Role Switcher (Only accessible to Super Admin and Admin, strictly hidden in Teacher & Student portals) */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 3: UGS Login Desk Dropdown (Super Admin, Admin, Teachers, Student) */}
+          <div className="flex items-center gap-2.5 shrink-0">
             
-            {(role === 'admin' || role === 'super_admin') && (
-              <div className="relative">
-                <button
-                  onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white text-xs font-medium transition-all shadow-sm focus:outline-none cursor-pointer"
-                  aria-expanded={isRoleDropdownOpen}
-                >
+            {/* UGS Login Desk Button */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold shadow-md transition-all focus:outline-none cursor-pointer group active:scale-95 ${
+                  role === 'public'
+                    ? 'bg-gradient-to-r from-cyan-600/25 via-blue-600/25 to-indigo-600/25 hover:from-cyan-600/40 hover:to-indigo-600/40 border border-cyan-400/50 hover:border-cyan-300 text-white shadow-cyan-950/50 ring-1 ring-cyan-500/20'
+                    : 'bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 text-white'
+                }`}
+                aria-expanded={isRoleDropdownOpen}
+                title="UGS Login Desk (Super Admin, Admin Panel, Teachers & Student Portals)"
+              >
+                {role === 'public' ? (
+                  <>
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                    <LogIn className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform shrink-0" />
+                    <span className="font-bold tracking-wide whitespace-nowrap">UGS Login Desk</span>
+                  </>
+                ) : (
                   <span className="flex items-center gap-1.5 whitespace-nowrap">
                     {currentRoleObj.icon}
                     <span className="font-semibold text-slate-100">{currentRoleObj.label}</span>
                   </span>
+                )}
+                <ChevronDown className={`w-3.5 h-3.5 text-cyan-400 transition-transform ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-                  {/* Desktop Chevron */}
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isRoleDropdownOpen && (
-                  <div 
-                    className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
-                    onMouseLeave={() => setIsRoleDropdownOpen(false)}
-                  >
-                    <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      Select School Portal
+              {/* UGS Login Desk Dropdown Menu */}
+              {isRoleDropdownOpen && (
+                <div 
+                  className="absolute right-0 mt-2 w-80 bg-slate-950/95 border border-cyan-500/40 rounded-2xl shadow-2xl shadow-cyan-950/80 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 backdrop-blur-xl"
+                  onMouseLeave={() => setIsRoleDropdownOpen(false)}
+                >
+                  <div className="px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                      <span className="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                        UGS Login Desk
+                      </span>
                     </div>
-                    <div className="mt-1 space-y-1">
-                      {roleOptions.map(opt => (
+                    <span className="text-[10px] font-mono text-slate-400">
+                      SECURE ACCESS
+                    </span>
+                  </div>
+
+                  <div className="mt-1.5 space-y-1">
+                    {/* 1. Super Admin */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRole('super_admin');
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                        role === 'super_admin'
+                          ? 'bg-rose-500/15 border border-rose-500/40 text-white'
+                          : 'hover:bg-slate-900 text-slate-300 hover:text-white border border-transparent hover:border-slate-800'
+                      }`}
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg bg-rose-500/20 text-rose-400">
+                        <ShieldAlert className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Super Admin</span>
+                          {role === 'super_admin' && (
+                            <span className="text-[10px] text-rose-400 font-mono font-semibold">Active</span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          Master Credentials, Permissions & CMS
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* 2. Admin Panel */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRole('admin');
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                        role === 'admin'
+                          ? 'bg-purple-500/15 border border-purple-500/40 text-white'
+                          : 'hover:bg-slate-900 text-slate-300 hover:text-white border border-transparent hover:border-slate-800'
+                      }`}
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg bg-purple-500/20 text-purple-400">
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Admin Panel</span>
+                          {role === 'admin' && (
+                            <span className="text-[10px] text-purple-400 font-mono font-semibold">Active</span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          Operational Management & Students
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* 3. Teachers Portal */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRole('teacher');
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                        role === 'teacher'
+                          ? 'bg-emerald-500/15 border border-emerald-500/40 text-white'
+                          : 'hover:bg-slate-900 text-slate-300 hover:text-white border border-transparent hover:border-slate-800'
+                      }`}
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400">
+                        <Users className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Teachers Portal</span>
+                          {role === 'teacher' && (
+                            <span className="text-[10px] text-emerald-400 font-mono font-semibold">Active</span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          Attendance Marker & Gradebook
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* 4. Student Portal */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRole('student');
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                        role === 'student'
+                          ? 'bg-blue-500/15 border border-blue-500/40 text-white'
+                          : 'hover:bg-slate-900 text-slate-300 hover:text-white border border-transparent hover:border-slate-800'
+                      }`}
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg bg-blue-500/20 text-blue-400">
+                        <GraduationCap className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Student Portal</span>
+                          {role === 'student' && (
+                            <span className="text-[10px] text-blue-400 font-mono font-semibold">Active</span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          Fees, Attendance & Academic Records
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* 5. Staff / Accounts Portal */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRole('staff');
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                        role === 'staff'
+                          ? 'bg-amber-500/15 border border-amber-500/40 text-white'
+                          : 'hover:bg-slate-900 text-slate-300 hover:text-white border border-transparent hover:border-slate-800'
+                      }`}
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+                        <CreditCard className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Staff / Accounts</span>
+                          {role === 'staff' && (
+                            <span className="text-[10px] text-amber-400 font-mono font-semibold">Active</span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          Fee Counter & Terminal Desk
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* Return to Public Website (if in internal portal) */}
+                    {role !== 'public' && (
+                      <div className="pt-2 border-t border-slate-800/80">
                         <button
-                          key={opt.key}
+                          type="button"
                           onClick={() => {
-                            setRole(opt.key);
+                            setRole('public');
                             setIsRoleDropdownOpen(false);
                           }}
-                          className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                            role === opt.key 
-                              ? 'bg-cyan-500/10 border border-cyan-500/30 text-white' 
-                              : 'hover:bg-slate-800/80 text-slate-300'
-                          }`}
+                          className="w-full flex items-center justify-center gap-2 p-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-500/30 text-cyan-300 text-xs font-bold transition-all cursor-pointer"
                         >
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-slate-800/80">
-                            {opt.icon}
-                          </div>
-                          <div className="flex-1">
-                            <div className="text-xs font-semibold text-white flex items-center justify-between">
-                              {opt.label}
-                              {role === opt.key && (
-                                <span className="text-[10px] text-cyan-400 font-medium">Active</span>
-                              )}
-                            </div>
-                            <div className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
-                              {opt.desc}
-                            </div>
-                          </div>
+                          <School className="w-3.5 h-3.5 text-cyan-400" />
+                          <span>Return to Public Website</span>
                         </button>
-                      ))}
-                    </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
 
-            {/* Mobile menu trigger - Only shown on public website */}
+            {/* Mobile/Tablet menu trigger - Shown on mobile */}
             {role === 'public' && (
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 text-slate-400 hover:text-white rounded-lg focus:outline-none"
+                className="flex md:hidden p-2 text-slate-400 hover:text-white rounded-lg focus:outline-none"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -264,9 +461,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
           </div>
         </div>
 
-        {/* Mobile menu drawer (Only active for public website) */}
+        {/* Mobile/Tablet menu drawer (Active for public website) */}
         {mobileMenuOpen && role === 'public' && (
-          <div className="md:hidden border-t border-slate-800 py-4 space-y-3">
+          <div className={`${isLeaveScreenView ? 'block' : 'md:hidden'} border-t border-slate-800 py-4 space-y-3`}>
             <div className="flex flex-col space-y-2 text-sm font-medium text-slate-300">
               <button 
                 onClick={() => {
@@ -336,12 +533,40 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                     : 'hover:bg-slate-800 text-slate-200'
                 }`}
               >
-                Circulars
+                Notices
+              </button>
+              <button 
+                onClick={() => {
+                  openPublicGallery('teachers');
+                  setMobileMenuOpen(false);
+                }}
+                className={`text-left px-3 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                  publicPage === 'home' && publicGalleryTab === 'teachers'
+                    ? 'bg-emerald-500/20 text-emerald-300 font-bold'
+                    : 'hover:bg-slate-800 text-emerald-400'
+                }`}
+              >
+                <Users className="w-4 h-4 text-emerald-400" />
+                <span>Teachers Gallery</span>
+              </button>
+              <button 
+                onClick={() => {
+                  openPublicGallery('toppers');
+                  setMobileMenuOpen(false);
+                }}
+                className={`text-left px-3 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                  publicPage === 'home' && publicGalleryTab === 'toppers'
+                    ? 'bg-amber-500/20 text-amber-300 font-bold'
+                    : 'hover:bg-slate-800 text-amber-400'
+                }`}
+              >
+                <Trophy className="w-4 h-4 text-amber-400" />
+                <span>Class Toppers Gallery</span>
               </button>
             </div>
 
             {/* Mobile Admission & Visit Actions */}
-            <div className="pt-3 border-t border-slate-800 space-y-2">
+            <div className="pt-2 border-t border-slate-800 space-y-2">
               <span className="text-[10px] font-mono uppercase text-slate-400 tracking-wider px-3">
                 Admissions & Visitation 2026–27
               </span>
@@ -379,27 +604,63 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               </div>
             </div>
 
-            {/* Faculty / Admin Portal Access for authorized staff */}
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-center gap-4">
-              <button
-                onClick={() => {
-                  setRole('super_admin');
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[11px] font-medium text-rose-400 hover:text-rose-300 py-1 transition-colors cursor-pointer"
-              >
-                Super Admin Portal
-              </button>
-              <span className="text-slate-600">·</span>
-              <button
-                onClick={() => {
-                  setRole('admin');
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[11px] font-medium text-purple-400 hover:text-purple-300 py-1 transition-colors cursor-pointer"
-              >
-                Admin Panel
-              </button>
+            {/* UGS Login Desk for Mobile */}
+            <div className="pt-3 border-t border-slate-800 space-y-2">
+              <div className="flex items-center gap-2 px-3">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                <span className="text-[10px] font-mono uppercase text-cyan-400 font-bold tracking-wider">
+                  UGS Login Desk
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRole('super_admin');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold text-left cursor-pointer"
+                >
+                  <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+                  <span className="truncate">Super Admin</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRole('admin');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold text-left cursor-pointer"
+                >
+                  <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
+                  <span className="truncate">Admin Panel</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRole('teacher');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold text-left cursor-pointer"
+                >
+                  <Users className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="truncate">Teachers Portal</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRole('student');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold text-left cursor-pointer"
+                >
+                  <GraduationCap className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span className="truncate">Student Portal</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

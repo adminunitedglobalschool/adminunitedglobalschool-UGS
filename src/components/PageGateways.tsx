@@ -166,15 +166,15 @@ export const PageGateways: React.FC = () => {
                 Official Bulletin
               </div>
               <h3 className="text-lg font-bold font-display text-white mt-1 group-hover:text-purple-300 transition-colors">
-                Circulars & Notices
+                Notices & Circulars
               </h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-                Live circular dispatches, mid-term examination routines, sports trial notices, and official academic calendar 2026-27.
+                Live official notice dispatches, mid-term examination routines, sports trial notifications, and academic calendar 2026-27.
               </p>
             </div>
 
             <div className="pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-purple-400 mt-6">
-              <span>Read Circulars</span>
+              <span>Read Notices</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
             </div>
           </div>

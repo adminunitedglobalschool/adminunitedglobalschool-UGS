@@ -6,6 +6,7 @@ import {
   Sparkles, 
   Bell, 
   ChevronRight, 
+  ChevronDown,
   Pause, 
   Play, 
   Zap, 
@@ -13,15 +14,26 @@ import {
   Calendar, 
   ExternalLink,
   Gauge,
-  Layers
+  Layers,
+  FileText,
+  UserCheck
 } from 'lucide-react';
 
 export const FuturisticNotificationTicker: React.FC = () => {
-  const { siteConfig, announcements, setPublicPage, role } = useSchool();
+  const { 
+    siteConfig, 
+    announcements, 
+    setPublicPage, 
+    role,
+    openAdmissionModal,
+    openOfflineAdmissionModal,
+    openPrincipalAppointmentModal
+  } = useSchool();
   const [isPaused, setIsPaused] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState<Announcement | null>(null);
   const [manualSpeed, setManualSpeed] = useState<'slow' | 'normal' | 'fast' | null>(null);
   const [layoutMode, setLayoutMode] = useState<'single-line' | 'two-line'>(() => siteConfig?.tickerLayoutMode || 'single-line');
+  const [isAdmissionDropdownOpen, setIsAdmissionDropdownOpen] = useState(false);
 
   // If disabled by Super Admin, don't render on public site
   if (siteConfig?.tickerEnabled === false) {
@@ -196,7 +208,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
       {/* FUTURISTIC HUD NOTIFICATION TICKER */}
       <section 
         aria-label="Campus Live Notifications HUD Stream"
-        className={`w-full relative z-40 bg-slate-950/95 border-b border-cyan-500/30 backdrop-blur-md overflow-hidden select-none transition-all duration-300 ${
+        className={`w-full relative z-40 bg-slate-950/95 border-b border-cyan-500/30 backdrop-blur-md overflow-visible select-text selection:bg-cyan-500/30 selection:text-cyan-200 transition-all duration-300 ${
           layoutMode === 'two-line' ? 'min-h-[58px] sm:min-h-[62px]' : 'min-h-[46px] sm:min-h-[48px]'
         }`}
       >
@@ -208,8 +220,8 @@ export const FuturisticNotificationTicker: React.FC = () => {
           layoutMode === 'two-line' ? 'h-15 sm:h-16 py-1.5' : 'h-11 sm:h-12 py-1'
         }`}>
           
-          {/* LEFT: Futuristic Holographic HUD Badge */}
-          <div className="shrink-0 flex items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1">
+          {/* LEFT: Futuristic Holographic HUD Badge - Hidden on mobile view */}
+          <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-cyan-500 shadow-[0_0_10px_#06b6d4]"></span>
@@ -331,12 +343,12 @@ export const FuturisticNotificationTicker: React.FC = () => {
               <span>{layoutMode === 'single-line' ? '1-LINE' : '2-LINE'}</span>
             </button>
 
-            {/* Pause / Play Toggle */}
+            {/* Pause / Play Toggle - Hidden on mobile view */}
             <button
               type="button"
               onClick={() => setIsPaused(!isPaused)}
               title={isPaused ? "Resume Marquee Stream" : "Pause Marquee Stream"}
-              className={`p-1.5 rounded-lg border text-xs transition-all cursor-pointer ${
+              className={`hidden sm:flex p-1.5 rounded-lg border text-xs items-center justify-center transition-all cursor-pointer ${
                 isPaused
                   ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
                   : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/40'
@@ -345,32 +357,219 @@ export const FuturisticNotificationTicker: React.FC = () => {
               {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
             </button>
 
-            {/* Speed Toggle (SLOW / 1X / FAST) */}
+            {/* Speed Toggle (SLOW / 1X / FAST) - Hidden on mobile view */}
             <button
               type="button"
               onClick={cycleSpeed}
               title={`Marquee Speed: ${speed.toUpperCase()} (Click to toggle)`}
-              className="hidden xs:flex px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-slate-300 hover:text-white text-[10px] font-mono font-bold items-center gap-1 cursor-pointer"
+              className="hidden sm:flex px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-slate-300 hover:text-white text-[10px] font-mono font-bold items-center gap-1 cursor-pointer"
             >
               <Gauge className="w-2.5 h-2.5 text-cyan-400" />
               <span>{speed === 'fast' ? 'FAST' : speed === 'slow' ? 'SLOW' : '1X'}</span>
             </button>
 
-            {/* View All Circulars Link - Hidden in Mobile View (Only available on desktop) */}
+            {/* Admission Dropdown (Online Admission & Offline Admission Form shifted from hero image) */}
             {role === 'public' && (
-              <button
-                type="button"
-                onClick={() => setPublicPage('circulars')}
-                className="hidden lg:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-500/15 to-blue-500/15 border border-cyan-400/30 text-cyan-300 hover:text-white hover:border-cyan-400 text-[10px] font-mono font-bold transition-all cursor-pointer"
-              >
-                <span>ALL NOTICES</span>
-                <ChevronRight className="w-3 h-3" />
-              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsAdmissionDropdownOpen(prev => !prev);
+                  }}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono font-bold transition-all cursor-pointer shadow-md active:scale-95 ${
+                    isAdmissionDropdownOpen
+                      ? 'bg-cyan-500/30 border-cyan-300 text-white shadow-cyan-500/30 ring-1 ring-cyan-400'
+                      : 'bg-gradient-to-r from-cyan-500/25 via-blue-500/25 to-indigo-500/25 hover:from-cyan-500/40 hover:to-indigo-500/40 border-cyan-400/60 hover:border-cyan-300 text-cyan-200 hover:text-white shadow-cyan-500/20'
+                  }`}
+                  aria-expanded={isAdmissionDropdownOpen}
+                  title="Admission 2026–27 (Click to toggle menu)"
+                >
+                  <Sparkles className="w-3 h-3 text-cyan-300 animate-pulse" />
+                  <span>ADMISSION</span>
+                  <ChevronDown className={`w-3 h-3 text-cyan-400 transition-transform duration-200 ${isAdmissionDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isAdmissionDropdownOpen && (
+                  <>
+                    {/* Fixed invisible backdrop to dismiss dropdown on outside click */}
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsAdmissionDropdownOpen(false)} 
+                    />
+
+                    <div 
+                      className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-slate-950/98 border border-cyan-500/50 rounded-2xl shadow-2xl shadow-cyan-950/90 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 backdrop-blur-2xl"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="px-3 py-2 border-b border-slate-800 flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                          <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                            Admission Desk 2026–27
+                          </span>
+                        </div>
+                        <span className="text-[9px] font-mono text-emerald-400 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                          OPEN
+                        </span>
+                      </div>
+
+                      <div className="mt-1.5 space-y-1">
+                        {/* 1. Online Admission */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            openAdmissionModal();
+                            setIsAdmissionDropdownOpen(false);
+                          }}
+                          className="w-full flex items-start gap-2.5 p-2.5 rounded-xl bg-gradient-to-r from-cyan-500/15 via-blue-500/15 to-indigo-500/15 hover:from-cyan-500/25 hover:to-indigo-500/25 border border-cyan-400/40 text-left transition-all cursor-pointer group active:scale-95"
+                        >
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 group-hover:scale-110 transition-transform">
+                            <Sparkles className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs font-bold text-white flex items-center justify-between">
+                              <span>Online Admission</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                            <div className="text-[10px] text-slate-300 mt-0.5">
+                              Direct Digital Form & Fast-Track Entry
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* 2. Offline Admission Form */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            openOfflineAdmissionModal();
+                            setIsAdmissionDropdownOpen(false);
+                          }}
+                          className="w-full flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 text-left transition-all cursor-pointer group active:scale-95"
+                        >
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-slate-800 text-cyan-400 group-hover:scale-110 transition-transform">
+                            <FileText className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs font-bold text-slate-200 group-hover:text-white flex items-center justify-between">
+                              <span>Offline Admission Form</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                            <div className="text-[10px] text-slate-400 mt-0.5">
+                              Download Printable Registration Kit
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* 3. Principal Appointment */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            openPrincipalAppointmentModal();
+                            setIsAdmissionDropdownOpen(false);
+                          }}
+                          className="w-full flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 text-left transition-all cursor-pointer group active:scale-95"
+                        >
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-purple-500/20 text-purple-300 group-hover:scale-110 transition-transform">
+                            <UserCheck className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs font-bold text-slate-200 group-hover:text-white flex items-center justify-between">
+                              <span>Principal Interaction</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                            <div className="text-[10px] text-slate-400 mt-0.5">
+                              Schedule Campus Tour & Consultation
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* 4. All Circulars & Notices Archive */}
+                        <div className="pt-1.5 border-t border-slate-800/80">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPublicPage('circulars');
+                              setIsAdmissionDropdownOpen(false);
+                            }}
+                            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-400 hover:text-white hover:bg-slate-900 transition-colors cursor-pointer"
+                          >
+                            <span className="flex items-center gap-1.5">
+                              <Bell className="w-3.5 h-3.5" />
+                              <span>View All Circulars & Notices</span>
+                            </span>
+                            <ChevronRight className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             )}
           </div>
 
         </div>
       </section>
+
+      {/* GRAND INSTITUTION IDENTITY BANNER: "UNITED GLOBAL SCHOOL" (Selectable & Grand Size) */}
+      <div 
+        aria-label="Institution Grand Title Banner"
+        className="w-full relative z-30 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b-2 border-cyan-500/30 py-3 sm:py-5 px-3 sm:px-6 select-text selection:bg-cyan-500/30 selection:text-cyan-200 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+      >
+        {/* Holographic cyber ambient spotlight behind title */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-500/15 via-blue-900/10 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-90 shadow-[0_0_12px_#22d3ee]" />
+
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 relative">
+          
+          {/* Top subtle micro-indicator */}
+          <div className="flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold tracking-[0.2em] sm:tracking-[0.25em] text-cyan-400 uppercase select-none opacity-85">
+            <span className="w-1.5 h-1.5 rotate-45 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            <Sparkles className="w-3.5 h-3.5 text-cyan-300 animate-pulse" />
+            <span>CENTRAL CAMPUS PORTAL · RUPAHI TOWN</span>
+            <span className="w-1.5 h-1.5 rotate-45 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+          </div>
+
+          {/* Grand Header: UNITED GLOBAL SCHOOL (Bahut Bada & Majestic) */}
+          <div className="w-full flex items-center justify-center gap-3 sm:gap-6">
+            {/* Left Tech Laser Line (Desktop) */}
+            <div className="hidden lg:flex items-center gap-2 flex-1 max-w-[200px] justify-end opacity-70 select-none">
+              <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-500/50 to-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+              <div className="w-2.5 h-2.5 rotate-45 border-2 border-cyan-400 bg-slate-950 shadow-[0_0_10px_#22d3ee] shrink-0" />
+            </div>
+
+            <h1 className="select-text cursor-text text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight sm:tracking-[0.06em] uppercase text-center bg-gradient-to-r from-cyan-200 via-white to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(6,182,212,0.45)] leading-tight">
+              {siteConfig?.schoolName || 'United Global School'}
+            </h1>
+
+            {/* Right Tech Laser Line (Desktop) */}
+            <div className="hidden lg:flex items-center gap-2 flex-1 max-w-[200px] opacity-70 select-none">
+              <div className="w-2.5 h-2.5 rotate-45 border-2 border-cyan-400 bg-slate-950 shadow-[0_0_10px_#22d3ee] shrink-0" />
+              <div className="h-[2px] w-full bg-gradient-to-l from-transparent via-cyan-500/50 to-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            </div>
+          </div>
+
+          {/* Appointment with Principal Interactive Button */}
+          <button
+            type="button"
+            onClick={openPrincipalAppointmentModal}
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 rounded-full bg-gradient-to-r from-purple-500/20 via-slate-900 to-cyan-500/20 hover:from-purple-500/35 hover:to-cyan-500/35 border border-purple-500/40 hover:border-purple-300 text-purple-200 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all cursor-pointer group active:scale-95"
+            title="Book Official Appointment with Principal"
+          >
+            <UserCheck className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
+            <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-purple-200 group-hover:text-white">
+              Appointment with Principal
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+            <span className="text-[10px] sm:text-xs font-mono text-cyan-400/90 tracking-wider hidden xs:inline">
+              Campus Visit & Consultation
+            </span>
+            <ChevronRight className="w-3 h-3 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+        </div>
+      </div>
 
       {/* INSPECTION MODAL: When a user clicks a notice from the ticker */}
       {selectedNotice && (

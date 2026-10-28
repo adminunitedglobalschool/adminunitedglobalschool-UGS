@@ -49,7 +49,7 @@ export const CircularsPage: React.FC = () => {
             Official School Bulletin & Dispatches
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display text-white tracking-tight leading-tight">
-            Academic Circulars & Official Notices
+            Official Notices & Academic Circulars
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             Direct communications from the Office of the Principal and Central Administrative Directorate, United Global School, Bhakatgaon, Rupahi Town.
@@ -68,10 +68,10 @@ export const CircularsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Grid: Circulars + Academic Calendar Sidebar */}
+      {/* Main Grid: Notices + Academic Calendar Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Column: Filterable Circulars List */}
+        {/* Left Column: Filterable Notices List */}
         <div className="lg:col-span-8 space-y-6">
           
           {/* Controls */}
@@ -96,7 +96,7 @@ export const CircularsPage: React.FC = () => {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search circulars..."
+                placeholder="Search notices & circulars..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:border-cyan-400 focus:outline-none"
@@ -104,7 +104,7 @@ export const CircularsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Circulars List */}
+          {/* Notices List */}
           <div className="space-y-4">
             {filtered.map(notice => (
               <div
@@ -142,11 +142,11 @@ export const CircularsPage: React.FC = () => {
                 <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
                   <span>Target: <strong>{notice.targetRole}</strong></span>
                   <button
-                    onClick={() => showToast(`Circular "${notice.title.slice(0, 24)}..." downloaded as PDF`)}
+                    onClick={() => showToast(`Notice "${notice.title.slice(0, 24)}..." downloaded as PDF`)}
                     className="text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    Download Official Circular
+                    Download Official Notice
                   </button>
                 </div>
               </div>

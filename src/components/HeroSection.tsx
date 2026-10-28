@@ -155,7 +155,7 @@ export const HeroSection: React.FC = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
                 <span>
-                  Admissions Open 2026–27 · Online application, downloadable offline form & Principal appointments available on the floating deck.
+                  Admissions Open 2026–27 · Online application & offline forms available via the Admission Desk.
                 </span>
               </div>
             </div>
@@ -163,73 +163,8 @@ export const HeroSection: React.FC = () => {
 
           {/* Right Column - Hero Campus Imagery (order-1 on mobile so it appears first, order-2 on desktop) */}
           <div className="order-1 lg:order-2 lg:col-span-6 flex flex-col space-y-3">
-            
-            {/* Futuristic Portal HUD Bar at Top of Hero Image */}
-            <div className="p-2 sm:p-2.5 rounded-2xl bg-slate-900/90 backdrop-blur-md border border-cyan-500/30 shadow-xl shadow-cyan-950/40">
-              <div className="flex items-center justify-between px-2 pb-1.5 border-b border-slate-800/80 mb-2">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-cyan-400 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  UGS FUTURISTIC PORTAL DECK
-                </span>
-                <span className="text-[10px] text-slate-400 font-mono">
-                  ACTIVE HUD SYSTEM
-                </span>
-              </div>
 
-              {/* 4 Futuristic Portal Buttons */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                <button
-                  onClick={() => setRole('super_admin')}
-                  className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                    role === 'super_admin'
-                      ? 'bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 text-white font-bold shadow-md shadow-rose-600/30 ring-1 ring-rose-400'
-                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-rose-500/50 hover:bg-rose-950/30'
-                  }`}
-                  title="Super Admin Portal (Master Credentials, Permissions & Website CMS)"
-                >
-                  <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                  <span className="truncate">Super Admin</span>
-                </button>
-
-                <button
-                  onClick={() => setRole('admin')}
-                  className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                    role === 'admin'
-                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-md shadow-purple-600/30 ring-1 ring-purple-400'
-                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-purple-500/50 hover:bg-purple-950/30'
-                  }`}
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                  <span className="truncate">Admin Panel</span>
-                </button>
-
-                <button
-                  onClick={() => setRole('teacher')}
-                  className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                    role === 'teacher'
-                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold shadow-md shadow-emerald-600/30 ring-1 ring-emerald-400'
-                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-950/30'
-                  }`}
-                >
-                  <Users className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span className="truncate">Teachers Portal</span>
-                </button>
-
-                <button
-                  onClick={() => setRole('student')}
-                  className={`px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                    role === 'student'
-                      ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold shadow-md shadow-blue-600/30 ring-1 ring-blue-400'
-                      : 'bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white hover:border-blue-500/50 hover:bg-blue-950/30'
-                  }`}
-                >
-                  <GraduationCap className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                  <span className="truncate">Student Portal</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Hero Image Container with Floating Admission & Visitation Deck at Top */}
+            {/* Hero Image Container */}
             <div className="relative rounded-3xl overflow-hidden border border-slate-700/70 shadow-2xl bg-slate-900 flex-1 min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] group">
               <img
                 src={siteConfig.heroImageUrl || heroCampusImg}
@@ -237,90 +172,7 @@ export const HeroSection: React.FC = () => {
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-slate-950/70" />
-              
-              {/* TOP FLOATING ADMISSION & VISITATION DOCK */}
-              <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-20">
-                <div className="p-2 sm:p-2.5 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-2xl shadow-cyan-950/80 animate-cyber-glow">
-                  {/* Status header strip */}
-                  <div className="flex items-center justify-between px-2 pb-1.5 border-b border-cyan-500/20 mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-cyan-300">
-                        ADMISSION & VISITATION DESK · 2026–27
-                      </span>
-                    </div>
-                    <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold">
-                      BHAKATGAON CAMPUS
-                    </span>
-                  </div>
-
-                  {/* 3 Floating Buttons Side-by-Side */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    {/* 1. Online Admission Button */}
-                    <button
-                      onClick={openAdmissionModal}
-                      className="px-3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-1.5 transition-all group active:scale-95 cursor-pointer ring-1 ring-cyan-300/40 whitespace-nowrap"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-cyan-200 group-hover:rotate-12 transition-transform shrink-0" />
-                      <span className="truncate">Online Admission</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
-                    </button>
-
-                    {/* 2. Offline Admission Form Button */}
-                    <button
-                      onClick={openOfflineAdmissionModal}
-                      className="px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-cyan-300 hover:text-white border border-cyan-500/40 hover:border-cyan-300 font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-cyan-950/40 transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-                    >
-                      <FileText className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                      <span className="truncate">Offline Admission Form</span>
-                    </button>
-
-                    {/* 3. Principal Button */}
-                    <button
-                      onClick={openPrincipalAppointmentModal}
-                      className="px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-purple-300 hover:text-white border border-purple-500/40 hover:border-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-950/40 transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-                    >
-                      <UserCheck className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                      <span className="truncate">Principal</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Futuristic Cyber Gallery Quick Gateways Bar at Bottom */}
-              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-2.5 sm:p-3 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-2xl flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-cyan-300">
-                    EXCELLENCE SPOTLIGHT
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <button
-                    onClick={() => openPublicGallery('teachers')}
-                    className="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-cyan-500/20 hover:from-emerald-500/40 hover:to-cyan-500/40 border border-emerald-400/60 hover:border-emerald-300 text-emerald-300 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-500/20 group active:scale-95 cursor-pointer"
-                  >
-                    <Users className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                    <span>Teachers Gallery</span>
-                  </button>
-
-                  <button
-                    onClick={() => openPublicGallery('toppers')}
-                    className="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500/25 via-yellow-500/20 to-orange-500/20 hover:from-amber-500/40 hover:to-orange-500/40 border border-amber-400/60 hover:border-amber-300 text-amber-300 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm shadow-amber-500/20 group active:scale-95 cursor-pointer"
-                  >
-                    <Trophy className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
-                    <span>Class Toppers Gallery</span>
-                  </button>
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-slate-950/40" />
             </div>
           </div>
 

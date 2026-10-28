@@ -180,6 +180,12 @@ interface SchoolContextType {
 
   // Firebase Real-time Connection State
   firebaseConnected: boolean;
+
+  // Viewport & Fullscreen Display Modes
+  isFullscreen: boolean;
+  toggleFullscreen: () => void;
+  isLeaveScreenView: boolean;
+  toggleLeaveScreenView: () => void;
 }
 
 const SchoolContext = createContext<SchoolContextType | undefined>(undefined);
@@ -193,6 +199,53 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [publicPage, setPublicPage] = useState<PublicPage>('home');
   const [publicGalleryTab, setPublicGalleryTab] = useState<'teachers' | 'toppers'>('teachers');
+
+  // Fullscreen & Leave-Screen (Framed Boxed) View State
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(() => {
+    return typeof document !== 'undefined' ? !!document.fullscreenElement : false;
+  });
+
+  const [isLeaveScreenView, setIsLeaveScreenView] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('ugs_leave_screen_view');
+      return saved !== null ? saved === 'true' : false;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (typeof document === 'undefined') return;
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.warn('Error entering fullscreen:', err);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(err => {
+          console.warn('Error exiting fullscreen:', err);
+        });
+      }
+    }
+  };
+
+  const toggleLeaveScreenView = () => {
+    setIsLeaveScreenView(prev => {
+      const nextVal = !prev;
+      localStorage.setItem('ugs_leave_screen_view', String(nextVal));
+      showToast(nextVal ? 'Leave-Screen (Tablet View) Activated' : 'Desktop Full-Width View Activated');
+      return nextVal;
+    });
+  };
 
   const openPublicGallery = (tab: 'teachers' | 'toppers') => {
     if (role !== 'public') setRole('public');
@@ -1083,6 +1136,10 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         updateUserCredential,
         deleteUserCredential,
         firebaseConnected,
+        isFullscreen,
+        toggleFullscreen,
+        isLeaveScreenView,
+        toggleLeaveScreenView,
       }}
     >
       {children}

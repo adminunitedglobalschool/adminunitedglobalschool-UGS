@@ -573,7 +573,7 @@ export const AdminPortal: React.FC = () => {
           onClick={() => setActiveTab('circulars')}
           className="px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900"
         >
-          Broadcast Circular
+          Broadcast Notice
         </button>
 
         <button
@@ -788,7 +788,7 @@ export const AdminPortal: React.FC = () => {
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <FileText className="w-4 h-4 text-purple-400" />
-                Latest Published Circular
+                Latest Published Notice
               </h3>
 
               {announcements.length > 0 && (
@@ -806,7 +806,7 @@ export const AdminPortal: React.FC = () => {
                 onClick={() => setActiveTab('circulars')}
                 className="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-colors"
               >
-                Compose New Circular
+                Compose New Notice
               </button>
             </div>
 
@@ -906,7 +906,7 @@ export const AdminPortal: React.FC = () => {
         <div className="max-w-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl space-y-4">
           <div>
             <h3 className="text-base font-bold text-white font-display">
-              Publish Official Circular / Circular Dispatch
+              Publish Official Notice / Bulletin
             </h3>
             <p className="text-xs text-slate-400">
               Notices published here appear immediately across the Public Website, Student Portal, and Teacher Portal.

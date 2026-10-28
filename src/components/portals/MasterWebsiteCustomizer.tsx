@@ -860,7 +860,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   }`}
                 >
                   <Bell className="w-4 h-4 text-purple-400 shrink-0" />
-                  <span className="truncate">Circulars & Notices CMS ({announcements.length})</span>
+                  <span className="truncate">Notices & Circulars CMS ({announcements.length})</span>
                 </button>
 
                 <button
@@ -2714,7 +2714,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                 className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-purple-600/30 transition-all"
               >
                 <Plus className="w-4 h-4" />
-                <span>Publish New Circular</span>
+                <span>Publish New Notice</span>
               </button>
             </div>
 
@@ -2723,7 +2723,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
               <form onSubmit={handleSaveNotice} className="p-5 rounded-2xl bg-slate-950 border border-purple-500/40 space-y-4 animate-in fade-in duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                   <h4 className="text-sm font-bold text-white">
-                    {editingNotice ? `Edit Notice: ${editingNotice.title}` : 'Draft & Publish New Circular'}
+                    {editingNotice ? `Edit Notice: ${editingNotice.title}` : 'Draft & Publish New Notice'}
                   </h4>
                   <button 
                     type="button" 
@@ -2739,7 +2739,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Circular Title *</label>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Notice Title *</label>
                     <input
                       type="text"
                       required
@@ -2803,7 +2803,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                       type="submit"
                       className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs"
                     >
-                      {editingNotice ? 'Update Circular' : 'Publish Circular'}
+                      {editingNotice ? 'Update Notice' : 'Publish Notice'}
                     </button>
                   </div>
                 </div>

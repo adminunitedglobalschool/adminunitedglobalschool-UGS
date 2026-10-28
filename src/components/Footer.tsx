@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
                   }}
                   className="hover:text-cyan-400 transition-colors cursor-pointer"
                 >
-                  Circulars & Notices
+                  Notices & Circulars
                 </button>
               </li>
               <li>

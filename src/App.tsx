@@ -24,10 +24,14 @@ import { FuturisticNotificationTicker } from './components/FuturisticNotificatio
 import { CheckCircle2 } from 'lucide-react';
 
 const AppContent: React.FC = () => {
-  const { role, setRole, publicPage, toastMessage } = useSchool();
+  const { role, setRole, publicPage, toastMessage, isLeaveScreenView } = useSchool();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-cyan-300">
+    <div className={`min-h-screen text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-cyan-300 transition-colors duration-300 ${
+      isLeaveScreenView 
+        ? 'bg-slate-950 sm:bg-slate-900/60 sm:py-4 sm:px-2 flex flex-col items-center justify-start' 
+        : 'bg-slate-950'
+    }`}>
       
       {/* Toast Notification Banner */}
       {toastMessage && (
@@ -39,37 +43,47 @@ const AppContent: React.FC = () => {
         </div>
       )}
 
-      {/* Top Navbar */}
-      <Navbar />
+      {/* Main Container: Leave-Screen Tablet View (768px tablet proportion) or Full-Width */}
+      <div className={`w-full flex flex-col min-h-screen transition-all duration-300 ${
+        isLeaveScreenView
+          ? 'max-w-[768px] mx-auto border-x border-slate-800 shadow-[0_0_80px_rgba(0,0,0,0.95)] bg-slate-950 sm:rounded-2xl sm:border sm:border-slate-800/80 overflow-hidden ring-1 ring-slate-800/50'
+          : 'w-full bg-slate-950'
+      }`}>
+        {/* Top Navbar */}
+        <Navbar />
 
-      {/* Futuristic Notification Scroll Bar (Live HUD Stream) */}
-      <FuturisticNotificationTicker />
+        {/* Futuristic Notification Scroll Bar (Live HUD Stream) */}
+        <FuturisticNotificationTicker />
 
-      {/* Main View Port */}
-      <main className="flex-1">
-        {role === 'public' && (
-          <>
-            {publicPage === 'home' && (
-              <>
-                <HeroSection />
-                <PublicGalleriesSection />
-                <HolisticInfographic />
-                <PageGateways />
-              </>
-            )}
-            {publicPage === 'campus' && <CampusPage />}
-            {publicPage === 'success' && <SuccessStoriesPage />}
-            {publicPage === 'fees' && <FeeStructurePage />}
-            {publicPage === 'circulars' && <CircularsPage />}
-          </>
-        )}
+        {/* Main View Port */}
+        <main className="flex-1">
+          {role === 'public' && (
+            <>
+              {publicPage === 'home' && (
+                <>
+                  <HeroSection />
+                  <PublicGalleriesSection />
+                  <HolisticInfographic />
+                  <PageGateways />
+                </>
+              )}
+              {publicPage === 'campus' && <CampusPage />}
+              {publicPage === 'success' && <SuccessStoriesPage />}
+              {publicPage === 'fees' && <FeeStructurePage />}
+              {publicPage === 'circulars' && <CircularsPage />}
+            </>
+          )}
 
-        {role === 'admin' && <AdminPortal />}
-        {(role === 'super_admin' || role === 'settings') && <MasterWebsiteCustomizer />}
-        {role === 'teacher' && <TeacherPortal />}
-        {role === 'student' && <StudentPortal />}
-        {role === 'staff' && <StaffPortal />}
-      </main>
+          {role === 'admin' && <AdminPortal />}
+          {(role === 'super_admin' || role === 'settings') && <MasterWebsiteCustomizer />}
+          {role === 'teacher' && <TeacherPortal />}
+          {role === 'student' && <StudentPortal />}
+          {role === 'staff' && <StaffPortal />}
+        </main>
+
+        {/* Footer - Only shown on public website pages; hidden in Admin & management portals */}
+        {role === 'public' && <Footer />}
+      </div>
 
       {/* Global Modals */}
       <AdmissionModal />
@@ -77,9 +91,6 @@ const AppContent: React.FC = () => {
       <PrincipalAppointmentModal />
       <DonateTrustModal />
       <ReceiptModal />
-
-      {/* Footer - Only shown on public website pages; hidden in Admin & management portals */}
-      {role === 'public' && <Footer />}
 
     </div>
   );
