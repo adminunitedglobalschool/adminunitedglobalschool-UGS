@@ -398,7 +398,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                 <div>
                   <div className="h-10 border-b border-slate-800 flex items-end justify-center pb-1">
                     <span className="font-serif font-bold text-blue-900 text-sm tracking-wide">
-                      Dr. Mukut Sharma
+                      Admin XYZ 02
                     </span>
                   </div>
                   <span className="text-[10px] text-slate-600 uppercase font-bold block mt-1">
@@ -500,7 +500,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                 <div className="pt-2 text-[10px] flex justify-between items-center text-slate-600">
                   <span>English (184): 02 Nov · Math (041): 05 Nov · Science (086): 09 Nov · Social (087): 13 Nov · Hindi/Assam: 17 Nov · IT (402): 20 Nov</span>
                   <div className="text-right">
-                    <span className="font-serif italic text-blue-900 font-bold">Mukut Sharma</span> (Exam Controller)
+                    <span className="font-serif italic text-blue-900 font-bold">Admin XYZ 02</span> (Exam Controller)
                   </div>
                 </div>
               </div>

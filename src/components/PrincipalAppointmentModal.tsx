@@ -219,7 +219,7 @@ export const PrincipalAppointmentModal: React.FC = () => {
                       required
                       value={formData.parentName}
                       onChange={e => setFormData({ ...formData, parentName: e.target.value })}
-                      placeholder="e.g. Nurul Islam / Pranjal Bora"
+                      placeholder="e.g. Guardian ABC / Guardian XYZ"
                       className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-400"
                     />
                   </div>

@@ -31,7 +31,7 @@ export const CampusPage: React.FC = () => {
     stem: {
       name: 'STEM & AI Robotics Innovation Complex',
       kicker: 'Zone Alpha · 4,800 Sq.Ft Research Wing',
-      lead: 'Dr. Mukut Sharma (Ph.D Physics & Senior STEM Mentor)',
+      lead: 'Teacher XYZ 01 (Ph.D Physics & Senior STEM Mentor)',
       image: stemLabImg,
       summary: 'Equipped with industrial-grade stereolithography 3D printers, modular robotics test beds, dual-band IoT development nodes, and autonomous drone workstations.',
       specs: [
@@ -50,7 +50,7 @@ export const CampusPage: React.FC = () => {
     sports: {
       name: 'Olympic-Standard Sports Arena & Turf',
       kicker: 'Zone Beta · 5.2 Acres Athletic Complex',
-      lead: 'Mr. Deben Nath (M.P.Ed, NIS Certified Athletics Director)',
+      lead: 'Teacher XYZ 03 (M.P.Ed, NIS Certified Athletics Director)',
       image: sportsImg,
       summary: 'Features a synthetic all-weather 400-meter sprint track, FIFA-dimension natural grass football pitch with floodlights, multi-sport courts, and traditional martial arts dojo.',
       specs: [
@@ -69,7 +69,7 @@ export const CampusPage: React.FC = () => {
     arts: {
       name: 'Cultural Heritage & Performing Arts Studio',
       kicker: 'Zone Gamma · Acoustic & Fine Arts Pavilion',
-      lead: 'Ms. Monalisa Das & Visiting Sangeet Acharyas',
+      lead: 'Teacher XYZ 04 & Visiting Mentors',
       image: artsImg,
       summary: 'An acoustically engineered sanctuary honoring indigenous Assamese performing arts alongside western orchestral music, oil painting, and theatrical design.',
       specs: [
@@ -88,7 +88,7 @@ export const CampusPage: React.FC = () => {
     solar: {
       name: 'Eco-Smart Clean Energy & Sustainable Grid',
       kicker: 'Zone Delta · Green Infrastructure',
-      lead: 'Mr. Birendra Nath (Logistics & Eco-Campus Officer)',
+      lead: 'Staff ABC 03 (Logistics & Eco-Campus Officer)',
       image: heroCampusImg,
       summary: 'United Global School operates as a net-positive green campus, generating 65 kW of clean solar power, harvesting 100% of rainwater, and maintaining zero single-use plastics.',
       specs: [

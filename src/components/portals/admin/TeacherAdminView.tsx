@@ -244,7 +244,7 @@ export const TeacherAdminView: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Dr. Mukut Sharma"
+                  placeholder="e.g. Teacher XYZ 01"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"

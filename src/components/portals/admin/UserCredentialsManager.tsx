@@ -640,7 +640,7 @@ Issued By: Directorate Executive Console
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Dr. Mukut Sharma or Sujata Roy"
+                    placeholder="e.g. Teacher XYZ 01 or Staff ABC 01"
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-purple-500 focus:outline-none"
@@ -684,7 +684,7 @@ Issued By: Directorate Executive Console
                   <input
                     type="text"
                     required
-                    placeholder="e.g. ugs.faculty.mukut"
+                    placeholder="e.g. ugs.faculty.xyz01"
                     value={formData.username}
                     onChange={e => setFormData({ ...formData, username: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-cyan-300 focus:border-purple-500 focus:outline-none"

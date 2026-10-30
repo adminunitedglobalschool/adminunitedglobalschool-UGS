@@ -651,7 +651,7 @@ const SinglePvcCardRenderer: React.FC<SingleCardProps> = ({ data, side, themeMod
 
           <div className="mt-1.5 pt-1 border-t border-slate-300 flex items-center justify-between text-[7px]">
             <div>
-              <div className="font-serif italic font-bold text-[8px]">Dr. A. Saikia</div>
+              <div className="font-serif italic font-bold text-[8px]">Principal ABC</div>
               <div className="text-[6px] text-slate-400">Principal Signature</div>
             </div>
             <div className="font-bold text-[7px] text-emerald-700 flex items-center gap-0.5">

@@ -288,7 +288,7 @@ export const IdCardRenderer: React.FC<IdCardRendererProps> = ({ data, onPrint, o
 
               <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400">
                 <div className="text-center">
-                  <div className="font-serif italic text-white text-xs">Dr. A. Saikia</div>
+                  <div className="font-serif italic text-white text-xs">Principal ABC</div>
                   <div className="text-[9px] text-slate-500">Principal Signature</div>
                 </div>
 

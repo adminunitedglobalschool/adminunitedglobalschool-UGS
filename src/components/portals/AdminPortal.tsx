@@ -149,7 +149,7 @@ export const AdminPortal: React.FC = () => {
                 <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
               </div>
               <div className="text-left hidden md:block">
-                <div className="text-xs font-semibold text-white leading-tight">Dr. Mukut Sharma</div>
+                <div className="text-xs font-semibold text-white leading-tight">Principal ABC</div>
                 <div className="text-[10px] text-purple-300 font-medium leading-tight">Principal Desk</div>
               </div>
             </button>
@@ -163,10 +163,10 @@ export const AdminPortal: React.FC = () => {
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2.5">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                      MS
+                      ABC
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
+                      <div className="text-sm font-bold text-white">Principal ABC</div>
                       <div className="text-xs text-purple-300">Principal & Operational Head</div>
                     </div>
                   </div>

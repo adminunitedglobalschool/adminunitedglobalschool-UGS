@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSchool } from '../context/SchoolContext';
 import { 
   ArrowRight, 
@@ -30,8 +30,51 @@ export const HeroSection: React.FC = () => {
     openPrincipalAppointmentModal,
     openDonateModal,
     openPublicGallery,
-    siteConfig
+    siteConfig,
+    administrators = [],
+    teachers = []
   } = useSchool();
+
+  const [adminIndex, setAdminIndex] = useState(0);
+  const [teacherIndex, setTeacherIndex] = useState(0);
+  const [adminFading, setAdminFading] = useState(false);
+  const [teacherFading, setTeacherFading] = useState(false);
+
+  // Auto-cycle administrators
+  useEffect(() => {
+    if (!administrators || administrators.length <= 1) return;
+    const interval = setInterval(() => {
+      setAdminFading(true);
+      setTimeout(() => {
+        setAdminIndex((prev) => (prev + 1) % administrators.length);
+        setAdminFading(false);
+      }, 250);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [administrators]);
+
+  // Auto-cycle teachers (offset by 2s for lively futuristic alternating feel)
+  useEffect(() => {
+    if (!teachers || teachers.length <= 1) return;
+    const initialDelay = setTimeout(() => {
+      const interval = setInterval(() => {
+        setTeacherFading(true);
+        setTimeout(() => {
+          setTeacherIndex((prev) => (prev + 1) % teachers.length);
+          setTeacherFading(false);
+        }, 250);
+      }, 4000);
+      return () => clearInterval(interval);
+    }, 2000);
+    return () => clearTimeout(initialDelay);
+  }, [teachers]);
+
+  const currentAdmin = administrators && administrators.length > 0 
+    ? administrators[adminIndex % administrators.length] 
+    : null;
+  const currentTeacher = teachers && teachers.length > 0 
+    ? teachers[teacherIndex % teachers.length] 
+    : null;
 
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24">
@@ -48,13 +91,13 @@ export const HeroSection: React.FC = () => {
           {/* Left Column - Headline & Core Value (order-2 on mobile, order-1 on desktop) */}
           <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-between">
             <div>
-              {/* Animated Futuristic Box for United Global School */}
+              {/* Dual-Column Futuristic Showcase Box: Leadership & Faculty */}
               <div className="relative group mb-5">
                 {/* Outer Ambient Glow Effect */}
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 opacity-30 group-hover:opacity-50 blur-xl transition-all duration-700 animate-pulse" />
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-purple-600/30 via-cyan-500/30 to-emerald-600/30 opacity-40 group-hover:opacity-60 blur-xl transition-all duration-700 animate-pulse pointer-events-none" />
                 
                 {/* Main Cyber Enclosure */}
-                <div className="relative overflow-hidden p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-950/90 backdrop-blur-xl border border-cyan-500/50 animate-cyber-glow">
+                <div className="relative overflow-hidden p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-slate-950/92 backdrop-blur-xl border border-cyan-500/40 shadow-2xl animate-cyber-glow">
                   
                   {/* Cyber Corner HUD Tech Accents */}
                   <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-cyan-400 pointer-events-none" />
@@ -63,34 +106,209 @@ export const HeroSection: React.FC = () => {
                   <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-cyan-400 pointer-events-none" />
 
                   {/* Animated Light Sweep Line */}
-                  <div className="absolute inset-y-0 w-28 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none animate-cyber-shine" />
+                  <div className="absolute inset-y-0 w-28 bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent pointer-events-none animate-cyber-shine" />
 
-                  {/* United Global School Main Title - Center Aligned */}
-                  <div className="flex flex-col items-center justify-center text-center gap-4 sm:gap-5">
-                    {/* Glowing Logo Emblem - Enlarged */}
-                    <div className="relative shrink-0 flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-cyan-500/25 via-blue-600/30 to-indigo-600/30 border-2 border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.45)] group-hover:scale-105 transition-transform duration-300 overflow-hidden">
-                      <div className="absolute inset-1 rounded-2xl bg-cyan-400/10 animate-pulse pointer-events-none" />
-                      {siteConfig.logoUrl ? (
-                        <img 
-                          src={siteConfig.logoUrl} 
-                          alt={siteConfig.schoolName} 
-                          className="w-full h-full object-contain p-2 rounded-2xl relative z-10" 
-                        />
-                      ) : (
-                        <School className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-300 relative z-10" />
+                  {/* Dual Column Layout: Column 1 (Admins) | Column 2 (Teachers) */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4 relative z-10">
+                    
+                    {/* Column 1: Administrators / Leadership Showcase */}
+                    <div 
+                      onClick={() => openPrincipalAppointmentModal()}
+                      className="group/admin p-2 sm:p-2.5 rounded-2xl bg-slate-900/85 hover:bg-slate-900 border border-purple-500/40 hover:border-purple-400 shadow-xl shadow-purple-950/40 transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden"
+                      title="Click to view Leadership / Schedule Appointment"
+                    >
+                      {/* Top Cyber Ambient Glow */}
+                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-60" />
+
+                      {/* Large Photo Frame (Stylish Cyber Portrait) */}
+                      <div className="relative w-full h-36 sm:h-48 md:h-52 rounded-xl overflow-hidden bg-slate-950 border border-purple-500/30 group-hover/admin:border-purple-400/80 shadow-[0_0_20px_rgba(168,85,247,0.25)] transition-all">
+                        {/* Corner HUD Brackets on Photo */}
+                        <div className="absolute top-1 left-1 w-2.5 h-2.5 border-t border-l border-purple-400 z-20 pointer-events-none" />
+                        <div className="absolute top-1 right-1 w-2.5 h-2.5 border-t border-r border-purple-400 z-20 pointer-events-none" />
+                        <div className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b border-l border-purple-400 z-20 pointer-events-none" />
+                        <div className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b border-r border-purple-400 z-20 pointer-events-none" />
+
+                        {/* Top-Left Live HUD Badge */}
+                        <div className="absolute top-2 left-2 z-20 flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-mono font-bold tracking-wider bg-slate-950/85 backdrop-blur-md text-purple-300 border border-purple-500/40 shadow-sm">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-400"></span>
+                          </span>
+                          <span className="hidden xs:inline sm:inline">LEADERSHIP</span>
+                          <span className="xs:hidden sm:hidden">ADMIN</span>
+                        </div>
+
+                        {/* Top-Right Index Pill */}
+                        <div className="absolute top-2 right-2 z-20 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-mono font-semibold bg-slate-950/85 backdrop-blur-md text-purple-300/90 border border-purple-500/30 shadow-sm">
+                          {administrators.length > 0 ? `${(adminIndex % administrators.length) + 1}/${administrators.length}` : '1/1'}
+                        </div>
+
+                        {/* The Large Avatar Image with cross-fade */}
+                        {currentAdmin && (
+                          <div className={`w-full h-full transition-all duration-300 ${adminFading ? 'opacity-20 scale-95' : 'opacity-100 scale-100'}`}>
+                            <img
+                              src={currentAdmin.avatar}
+                              alt={currentAdmin.name}
+                              className="w-full h-full object-cover object-top sm:object-center group-hover/admin:scale-105 transition-transform duration-500"
+                            />
+                            {/* Subtle dark vignette on photo */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/20 pointer-events-none" />
+                          </div>
+                        )}
+
+                        {/* Bottom Navigation Indicator Dots inside Photo */}
+                        {administrators.length > 1 && (
+                          <div className="absolute bottom-1.5 inset-x-0 z-20 flex justify-center items-center gap-1 pointer-events-none">
+                            {administrators.map((_, idx) => (
+                              <span 
+                                key={idx} 
+                                className={`h-1 rounded-full transition-all duration-300 ${
+                                  idx === (adminIndex % administrators.length) 
+                                    ? 'w-3.5 bg-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.8)]' 
+                                    : 'w-1 bg-slate-600/70'
+                                }`} 
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Economical, stylish & well-designed details below photo */}
+                      {currentAdmin && (
+                        <div className={`mt-2 pt-1 transition-all duration-300 ${adminFading ? 'opacity-20' : 'opacity-100'}`}>
+                          <h3 className="text-xs sm:text-sm font-bold text-white group-hover/admin:text-purple-200 transition-colors truncate">
+                            {currentAdmin.name}
+                          </h3>
+                          
+                          <p className="text-[10px] sm:text-[11px] font-medium text-purple-300 truncate mt-0.5">
+                            {currentAdmin.role}
+                          </p>
+
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-950/90 text-purple-300 border border-purple-500/30 truncate">
+                              {currentAdmin.accessLevel || 'Super Admin'}
+                            </span>
+                            {currentAdmin.qualification && (
+                              <span className="text-[9px] text-slate-400 font-mono truncate hidden sm:inline">
+                                {currentAdmin.qualification}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       )}
-                    </div>
 
-                    <div className="space-y-1 text-center">
-                      <h1 className="text-xl sm:text-2xl md:text-3xl font-black font-display tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 whitespace-nowrap text-center">
-                        {siteConfig.schoolName || 'United Global School'}
-                      </h1>
-                      <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs font-mono text-cyan-400/90 font-medium text-center">
-                        <span>{siteConfig.tagline || 'BHAKATGAON, RUPAHI TOWN'}</span>
-                        <span className="text-slate-600">·</span>
-                        <span className="text-slate-400">NAGAON, ASSAM</span>
+                      {/* Footer micro-action */}
+                      <div className="mt-2 pt-1.5 border-t border-purple-500/20 flex items-center justify-between text-[9px] font-mono text-purple-400/80">
+                        <span className="flex items-center gap-1 truncate">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                          <span className="truncate">DIRECTIVE</span>
+                        </span>
+                        <span className="text-slate-400 group-hover/admin:text-purple-300 flex items-center gap-0.5 shrink-0">
+                          <span>Meet</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
+                        </span>
                       </div>
                     </div>
+
+                    {/* Column 2: Teachers / STEM Mentors Showcase */}
+                    <div 
+                      onClick={() => openPublicGallery('teachers')}
+                      className="group/teacher p-2 sm:p-2.5 rounded-2xl bg-slate-900/85 hover:bg-slate-900 border border-emerald-500/40 hover:border-emerald-400 shadow-xl shadow-emerald-950/40 transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden"
+                      title="Click to view Faculty & Teachers Gallery"
+                    >
+                      {/* Top Cyber Ambient Glow */}
+                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-60" />
+
+                      {/* Large Photo Frame (Stylish Cyber Portrait) */}
+                      <div className="relative w-full h-36 sm:h-48 md:h-52 rounded-xl overflow-hidden bg-slate-950 border border-emerald-500/30 group-hover/teacher:border-emerald-400/80 shadow-[0_0_20px_rgba(52,211,153,0.25)] transition-all">
+                        {/* Corner HUD Brackets on Photo */}
+                        <div className="absolute top-1 left-1 w-2.5 h-2.5 border-t border-l border-emerald-400 z-20 pointer-events-none" />
+                        <div className="absolute top-1 right-1 w-2.5 h-2.5 border-t border-r border-emerald-400 z-20 pointer-events-none" />
+                        <div className="absolute bottom-1 left-1 w-2.5 h-2.5 border-b border-l border-emerald-400 z-20 pointer-events-none" />
+                        <div className="absolute bottom-1 right-1 w-2.5 h-2.5 border-b border-r border-emerald-400 z-20 pointer-events-none" />
+
+                        {/* Top-Left Live HUD Badge */}
+                        <div className="absolute top-2 left-2 z-20 flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-mono font-bold tracking-wider bg-slate-950/85 backdrop-blur-md text-emerald-300 border border-emerald-500/40 shadow-sm">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400"></span>
+                          </span>
+                          <span className="hidden xs:inline sm:inline">FACULTY</span>
+                          <span className="xs:hidden sm:hidden">MENTOR</span>
+                        </div>
+
+                        {/* Top-Right Index Pill */}
+                        <div className="absolute top-2 right-2 z-20 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-mono font-semibold bg-slate-950/85 backdrop-blur-md text-emerald-300/90 border border-emerald-500/30 shadow-sm">
+                          {teachers.length > 0 ? `${(teacherIndex % teachers.length) + 1}/${teachers.length}` : '1/1'}
+                        </div>
+
+                        {/* The Large Avatar Image with cross-fade */}
+                        {currentTeacher && (
+                          <div className={`w-full h-full transition-all duration-300 ${teacherFading ? 'opacity-20 scale-95' : 'opacity-100 scale-100'}`}>
+                            <img
+                              src={currentTeacher.avatar}
+                              alt={currentTeacher.name}
+                              className="w-full h-full object-cover object-top sm:object-center group-hover/teacher:scale-105 transition-transform duration-500"
+                            />
+                            {/* Subtle dark vignette on photo */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/20 pointer-events-none" />
+                          </div>
+                        )}
+
+                        {/* Bottom Navigation Indicator Dots inside Photo */}
+                        {teachers.length > 1 && (
+                          <div className="absolute bottom-1.5 inset-x-0 z-20 flex justify-center items-center gap-1 pointer-events-none">
+                            {teachers.map((_, idx) => (
+                              <span 
+                                key={idx} 
+                                className={`h-1 rounded-full transition-all duration-300 ${
+                                  idx === (teacherIndex % teachers.length) 
+                                    ? 'w-3.5 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
+                                    : 'w-1 bg-slate-600/70'
+                                }`} 
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Economical, stylish & well-designed details below photo */}
+                      {currentTeacher && (
+                        <div className={`mt-2 pt-1 transition-all duration-300 ${teacherFading ? 'opacity-20' : 'opacity-100'}`}>
+                          <h3 className="text-xs sm:text-sm font-bold text-white group-hover/teacher:text-emerald-200 transition-colors truncate">
+                            {currentTeacher.name}
+                          </h3>
+                          
+                          <p className="text-[10px] sm:text-[11px] font-medium text-emerald-300 truncate mt-0.5">
+                            {currentTeacher.designation}
+                          </p>
+
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950/90 text-emerald-300 border border-emerald-500/30 truncate">
+                              {currentTeacher.subject}
+                            </span>
+                            {currentTeacher.qualification && (
+                              <span className="text-[9px] text-slate-400 font-mono truncate hidden sm:inline">
+                                {currentTeacher.qualification}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Footer micro-action */}
+                      <div className="mt-2 pt-1.5 border-t border-emerald-500/20 flex items-center justify-between text-[9px] font-mono text-emerald-400/80">
+                        <span className="flex items-center gap-1 truncate">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="truncate">STEM LEAD</span>
+                        </span>
+                        <span className="text-slate-400 group-hover/teacher:text-emerald-300 flex items-center gap-0.5 shrink-0">
+                          <span>Gallery</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
+                        </span>
+                      </div>
+                    </div>
+
                   </div>
 
                 </div>

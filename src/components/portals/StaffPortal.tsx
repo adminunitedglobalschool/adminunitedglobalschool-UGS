@@ -101,7 +101,7 @@ export const StaffPortal: React.FC = () => {
         transportFee: Math.round(paymentAmount * 0.05),
       },
       status: 'completed',
-      collectedBy: 'Mr. Pranjal Baruah (Fee Counter Desk)',
+      collectedBy: 'Staff ABC 01 (Fee Counter Desk)',
     });
 
     setPaymentRef('');
@@ -123,7 +123,7 @@ export const StaffPortal: React.FC = () => {
                 Accounts & Digital Fee Management Desk
               </h1>
               <span className="text-[11px] text-amber-400 font-semibold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
-                Mr. Pranjal Baruah (Accounts Officer)
+                Staff ABC 01 (Accounts Officer)
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -148,7 +148,7 @@ export const StaffPortal: React.FC = () => {
                 <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
               </div>
               <div className="text-left hidden sm:block">
-                <div className="text-xs font-semibold text-white leading-tight">Mr. Pranjal Baruah</div>
+                <div className="text-xs font-semibold text-white leading-tight">Staff ABC 01</div>
                 <div className="text-[10px] text-amber-400 font-medium leading-tight">Accounts Officer</div>
               </div>
             </button>
@@ -162,10 +162,10 @@ export const StaffPortal: React.FC = () => {
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2.5">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                      PB
+                      AB
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-white">Mr. Pranjal Baruah</div>
+                      <div className="text-sm font-bold text-white">Staff ABC 01</div>
                       <div className="text-xs text-amber-400">Chief Accounts & Bursar</div>
                     </div>
                   </div>

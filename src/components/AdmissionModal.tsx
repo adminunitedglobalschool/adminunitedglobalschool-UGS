@@ -125,7 +125,7 @@ export const AdmissionModal: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Kaushik Sarma"
+                    placeholder="e.g. Student ABC 01"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 focus:outline-none"
                   />
                 </div>
@@ -139,7 +139,7 @@ export const AdmissionModal: React.FC = () => {
                     required
                     value={formData.guardianName}
                     onChange={e => setFormData({ ...formData, guardianName: e.target.value })}
-                    placeholder="e.g. Ramesh Sarma"
+                    placeholder="e.g. Guardian ABC 01"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white focus:border-cyan-500 focus:outline-none"
                   />
                 </div>

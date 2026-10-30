@@ -156,7 +156,7 @@ export const TeacherPortal: React.FC = () => {
                 Faculty Academic & Attendance Desk
               </h1>
               <span className="text-[11px] text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-                Dr. Mukut Sharma (Mentor)
+                Teacher XYZ 01 (Mentor)
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -181,7 +181,7 @@ export const TeacherPortal: React.FC = () => {
                 <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
               </div>
               <div className="text-left hidden sm:block">
-                <div className="text-xs font-semibold text-white leading-tight">Dr. Mukut Sharma</div>
+                <div className="text-xs font-semibold text-white leading-tight">Teacher XYZ 01</div>
                 <div className="text-[10px] text-emerald-400 font-medium leading-tight">Physics & STEM Faculty</div>
               </div>
             </button>
@@ -195,10 +195,10 @@ export const TeacherPortal: React.FC = () => {
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                   <div className="flex items-center gap-2.5">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                      MS
+                      XYZ
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
+                      <div className="text-sm font-bold text-white">Teacher XYZ 01</div>
                       <div className="text-xs text-emerald-400">Senior Faculty & Mentor</div>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export const TeacherPortal: React.FC = () => {
                   </div>
                   <div className="flex justify-between py-1 border-b border-slate-800/60">
                     <span className="text-slate-400">Institutional Email:</span>
-                    <span className="text-slate-200 font-mono">mukut.sharma@unitedglobalschool.in</span>
+                    <span className="text-slate-200 font-mono">teacher.xyz01@unitedglobalschool.edu.in</span>
                   </div>
                   <div className="flex justify-between py-1 border-b border-slate-800/60">
                     <span className="text-slate-400">Portal Clearance:</span>
@@ -567,7 +567,7 @@ export const TeacherPortal: React.FC = () => {
         <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
           <div>
             <h3 className="text-base font-bold text-white font-display">
-              Today's Faculty Schedule (Dr. Mukut Sharma)
+              Today's Faculty Schedule (Teacher XYZ 01)
             </h3>
             <p className="text-xs text-slate-400">
               Bhakatgaon Campus Academic Schedule · Morning Shift

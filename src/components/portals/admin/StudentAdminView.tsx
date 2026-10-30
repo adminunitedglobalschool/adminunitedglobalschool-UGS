@@ -84,7 +84,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
     address: 'Bhakatgaon, Rupahi Town, Nagaon, Assam',
     bloodGroup: 'B+',
     house: 'Emerald' as 'Emerald' | 'Ruby' | 'Sapphire' | 'Topaz',
-    mentorTeacher: 'Dr. Mukut Sharma',
+    mentorTeacher: 'Teacher XYZ 01',
     totalFee: 42000,
   });
 
@@ -235,7 +235,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
       address: 'Bhakatgaon, Rupahi Town, Nagaon, Assam',
       bloodGroup: 'B+',
       house: 'Emerald',
-      mentorTeacher: 'Dr. Mukut Sharma',
+      mentorTeacher: 'Teacher XYZ 01',
       totalFee: 42000,
     });
     setActiveSubTab('idcard');
@@ -438,7 +438,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Priyam Jyoti Kalita"
+                  placeholder="e.g. Student ABC 01"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-400 focus:outline-none"
@@ -452,7 +452,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Dilip Kalita"
+                  placeholder="e.g. Guardian ABC 01"
                   value={formData.guardianName}
                   onChange={e => setFormData({ ...formData, guardianName: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-400 focus:outline-none"

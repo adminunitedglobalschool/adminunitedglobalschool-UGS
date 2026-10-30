@@ -231,7 +231,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
     stream: 'Science & Robotics Track',
     house: 'Sapphire' as 'Sapphire' | 'Emerald' | 'Ruby' | 'Topaz',
     avatar: '',
-    mentor: 'Dr. Mukut Sharma',
+    mentor: 'Teacher XYZ 01',
     highlights: '100/100 Mathematics Standard, State STEM Olympiad Gold, All-India Academic Medalist',
     boardYear: '2026 Board Exams',
     category: 'Class 10 Distinction' as 'Class 12 Titans' | 'Class 10 Distinction' | 'STEM & Robotics' | 'Junior Prodigy',
@@ -421,7 +421,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
       stream: 'Science & Robotics Track',
       house: 'Sapphire',
       avatar: '',
-      mentor: 'Dr. Mukut Sharma',
+      mentor: 'Teacher XYZ 01',
       highlights: '100/100 Mathematics Standard, State STEM Olympiad Gold, All-India Academic Medalist',
       boardYear: '2026 Board Exams',
       category: 'Class 10 Distinction',
@@ -603,7 +603,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                 <div className="w-6 h-6 rounded-lg bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-purple-300">
                   <User className="w-3.5 h-3.5" />
                 </div>
-                <span className="text-xs font-semibold text-white hidden sm:inline">Dr. Mukut Sharma</span>
+                <span className="text-xs font-semibold text-white hidden sm:inline">Principal ABC</span>
               </button>
 
               {isProfileOpen && (
@@ -614,10 +614,10 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                     <div className="flex items-center gap-2.5">
                       <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                        MS
+                        ABC
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-white">Dr. Mukut Sharma</div>
+                        <div className="text-sm font-bold text-white">Principal ABC</div>
                         <div className="text-xs text-purple-300">Super Admin & Principal</div>
                       </div>
                     </div>
@@ -2016,7 +2016,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Dr. Mukut Sharma"
+                      placeholder="e.g. Teacher XYZ 01"
                       value={teacherFormData.name}
                       onChange={e => setTeacherFormData({ ...teacherFormData, name: e.target.value })}
                       className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-emerald-400 focus:outline-none"
@@ -2366,7 +2366,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     stream: 'Science & Robotics Track',
                     house: 'Sapphire',
                     avatar: '',
-                    mentor: 'Dr. Mukut Sharma',
+                    mentor: 'Teacher XYZ 01',
                     highlights: '100/100 Mathematics Standard, State STEM Olympiad Gold',
                     boardYear: '2026 Board Exams',
                     category: 'Class 10 Distinction',
@@ -2406,7 +2406,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Tanvi Hazarika"
+                      placeholder="e.g. Student ABC 01"
                       value={topperFormData.name}
                       onChange={e => setTopperFormData({ ...topperFormData, name: e.target.value })}
                       className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-amber-400 focus:outline-none"
@@ -2519,7 +2519,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     <label className="block text-xs font-semibold text-slate-300 mb-1">Mentor Teacher</label>
                     <input
                       type="text"
-                      placeholder="e.g. Dr. Mukut Sharma"
+                      placeholder="e.g. Teacher XYZ 01"
                       value={topperFormData.mentor}
                       onChange={e => setTopperFormData({ ...topperFormData, mentor: e.target.value })}
                       className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-amber-400 focus:outline-none"

@@ -34,7 +34,7 @@ export const CampusFacilities: React.FC = () => {
         'Arduino, Raspberry Pi & ESP32 IoT sensor testing rigs',
         'High-speed optical fiber network & cloud development sandboxes'
       ],
-      leadFaculty: 'Dr. Mukut Sharma (Ph.D Physics & Robotics Head)'
+      leadFaculty: 'Teacher XYZ 01 (Ph.D Physics & Robotics Head)'
     },
     sports: {
       title: 'Olympic-Standard Sports Arena & Turf',
@@ -46,7 +46,7 @@ export const CampusFacilities: React.FC = () => {
         'Indoor badminton & table tennis courts',
         'Daily yoga & physical stamina conditioning'
       ],
-      leadFaculty: 'Mr. Deben Nath (M.P.Ed, NIS Certified Coach)'
+      leadFaculty: 'Teacher XYZ 03 (M.P.Ed, NIS Certified Coach)'
     },
     arts: {
       title: 'Cultural Heritage & Performing Arts Pavilion',
@@ -58,7 +58,7 @@ export const CampusFacilities: React.FC = () => {
         'Open-air amphitheater for theatrical dramas and debates',
         'State-level youth festival training mentorship'
       ],
-      leadFaculty: 'Ms. Monalisa Das & Guest Sangeet Acharyas'
+      leadFaculty: 'Teacher XYZ 04 & Guest Mentors'
     },
     campus: {
       title: 'Eco-Smart & Safe Green Campus in Bhakatgaon',
@@ -70,7 +70,7 @@ export const CampusFacilities: React.FC = () => {
         'Pure RO mineral water plants & sanitized hygiene zones',
         'Interactive smart digital interactive boards in 100% of classrooms'
       ],
-      leadFaculty: 'Mr. Birendra Nath (Campus Operations Officer)'
+      leadFaculty: 'Staff ABC 03 (Campus Operations Officer)'
     }
   };
 

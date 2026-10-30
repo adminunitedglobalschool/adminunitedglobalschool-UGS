@@ -82,10 +82,10 @@ export const AdministratorAdminView: React.FC = () => {
   };
 
   const auditEvents = [
-    { time: '10 Oct 2026 09:14 AM', actor: 'Dr. Anamika Saikia', action: 'Approved Term 3 Fee Concession Batch', level: 'Level-5' },
-    { time: '10 Oct 2026 08:32 AM', actor: 'Dr. Mukut Sharma', action: 'Biometric Attendance Scanner Synchronized', level: 'Level-4' },
-    { time: '09 Oct 2026 04:15 PM', actor: 'Er. Tridip Kalita', action: 'Campus Fiber Network Security Backup Created', level: 'Level-5' },
-    { time: '09 Oct 2026 11:20 AM', actor: 'Dr. Farida Ahmed', action: 'CBSE Pre-Board Assessment Schedule Locked', level: 'Level-4' },
+    { time: '10 Oct 2026 09:14 AM', actor: 'Principal ABC', action: 'Approved Term 3 Fee Concession Batch', level: 'Level-5' },
+    { time: '10 Oct 2026 08:32 AM', actor: 'Teacher XYZ 01', action: 'Biometric Attendance Scanner Synchronized', level: 'Level-4' },
+    { time: '09 Oct 2026 04:15 PM', actor: 'Admin XYZ 03', action: 'Campus Fiber Network Security Backup Created', level: 'Level-5' },
+    { time: '09 Oct 2026 11:20 AM', actor: 'Admin XYZ 02', action: 'CBSE Pre-Board Assessment Schedule Locked', level: 'Level-4' },
   ];
 
   return (
@@ -186,7 +186,7 @@ export const AdministratorAdminView: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Dr. Anamika Saikia"
+                  placeholder="e.g. Principal ABC"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-purple-400 focus:outline-none"

@@ -195,7 +195,7 @@ export const ReceiptModal: React.FC = () => {
 
             <div className="text-right flex flex-col justify-end">
               <div className="font-serif italic text-base text-slate-800 font-bold">
-                Pranjal Baruah
+                Staff ABC 01
               </div>
               <div className="border-t border-slate-400 pt-1 text-[11px] font-semibold text-slate-700">
                 Authorized Accounts Officer

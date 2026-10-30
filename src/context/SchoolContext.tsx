@@ -260,37 +260,37 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const [students, setStudents] = useState<Student[]>(() => {
-    const saved = localStorage.getItem('ugs_students');
+    const saved = localStorage.getItem('ugs_v3_students');
     return saved ? JSON.parse(saved) : INITIAL_STUDENTS;
   });
 
   const [teachers, setTeachers] = useState<Teacher[]>(() => {
-    const saved = localStorage.getItem('ugs_teachers');
+    const saved = localStorage.getItem('ugs_v3_teachers');
     return saved ? JSON.parse(saved) : INITIAL_TEACHERS;
   });
 
   const [staff, setStaff] = useState<Staff[]>(() => {
-    const saved = localStorage.getItem('ugs_staff');
+    const saved = localStorage.getItem('ugs_v3_staff');
     return saved ? JSON.parse(saved) : INITIAL_STAFF;
   });
 
   const [administrators, setAdministrators] = useState<Administrator[]>(() => {
-    const saved = localStorage.getItem('ugs_admins');
+    const saved = localStorage.getItem('ugs_v3_admins');
     return saved ? JSON.parse(saved) : INITIAL_ADMINISTRATORS;
   });
 
   const [transactions, setTransactions] = useState<FeeTransaction[]>(() => {
-    const saved = localStorage.getItem('ugs_transactions');
+    const saved = localStorage.getItem('ugs_v3_transactions');
     return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
   });
 
   const [announcements, setAnnouncements] = useState<Announcement[]>(() => {
-    const saved = localStorage.getItem('ugs_announcements');
+    const saved = localStorage.getItem('ugs_v3_announcements');
     return saved ? JSON.parse(saved) : INITIAL_ANNOUNCEMENTS;
   });
 
   const [toppers, setToppers] = useState<ClassTopper[]>(() => {
-    const saved = localStorage.getItem('ugs_toppers');
+    const saved = localStorage.getItem('ugs_v3_toppers');
     return saved ? JSON.parse(saved) : INITIAL_TOPPERS;
   });
 
@@ -298,7 +298,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Initialize today's attendance records
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(() => {
-    const saved = localStorage.getItem('ugs_attendance');
+    const saved = localStorage.getItem('ugs_v3_attendance');
     if (saved) return JSON.parse(saved);
 
     // Generate initial records for today
@@ -319,7 +319,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return saved ? { ...DEFAULT_SITE_CONFIG, ...JSON.parse(saved) } : DEFAULT_SITE_CONFIG;
   });
 
-  const [activeStudentId, setActiveStudentId] = useState<string>('std-101'); // Aryan Bora by default
+  const [activeStudentId, setActiveStudentId] = useState<string>('std-101'); // Student ABC 01 by default
   const [selectedReceipt, setSelectedReceipt] = useState<FeeTransaction | null>(null);
   const [isAdmissionModalOpen, setIsAdmissionModalOpen] = useState(false);
   const [isOfflineAdmissionModalOpen, setIsOfflineAdmissionModalOpen] = useState(false);
@@ -334,13 +334,13 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   });
 
   const [userCredentials, setUserCredentials] = useState<UserCredential[]>(() => {
-    const saved = localStorage.getItem('ugs_user_credentials');
+    const saved = localStorage.getItem('ugs_v3_user_credentials');
     return saved ? JSON.parse(saved) : INITIAL_USER_CREDENTIALS;
   });
 
   // Sync state to localStorage
   useEffect(() => {
-    localStorage.setItem('ugs_user_credentials', JSON.stringify(userCredentials));
+    localStorage.setItem('ugs_v3_user_credentials', JSON.stringify(userCredentials));
   }, [userCredentials]);
 
   useEffect(() => {
@@ -356,35 +356,35 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [role]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_students', JSON.stringify(students));
+    localStorage.setItem('ugs_v3_students', JSON.stringify(students));
   }, [students]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_transactions', JSON.stringify(transactions));
+    localStorage.setItem('ugs_v3_transactions', JSON.stringify(transactions));
   }, [transactions]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_attendance', JSON.stringify(attendanceRecords));
+    localStorage.setItem('ugs_v3_attendance', JSON.stringify(attendanceRecords));
   }, [attendanceRecords]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_announcements', JSON.stringify(announcements));
+    localStorage.setItem('ugs_v3_announcements', JSON.stringify(announcements));
   }, [announcements]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_teachers', JSON.stringify(teachers));
+    localStorage.setItem('ugs_v3_teachers', JSON.stringify(teachers));
   }, [teachers]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_staff', JSON.stringify(staff));
+    localStorage.setItem('ugs_v3_staff', JSON.stringify(staff));
   }, [staff]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_admins', JSON.stringify(administrators));
+    localStorage.setItem('ugs_v3_admins', JSON.stringify(administrators));
   }, [administrators]);
 
   useEffect(() => {
-    localStorage.setItem('ugs_toppers', JSON.stringify(toppers));
+    localStorage.setItem('ugs_v3_toppers', JSON.stringify(toppers));
   }, [toppers]);
 
   const [firebaseConnected, setFirebaseConnected] = useState<boolean>(true);
@@ -691,7 +691,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       paidFee: 0,
       pendingFee: 38000,
       house: 'Emerald',
-      mentorTeacher: 'Dr. Mukut Sharma',
+      mentorTeacher: 'Teacher XYZ 01',
       ...studentData,
     };
 
@@ -952,7 +952,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       stream: data.stream || 'Science & Tech',
       house: data.house || 'Sapphire',
       avatar: data.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${data.name || 'Topper'}`,
-      mentor: data.mentor || 'Dr. Mukut Sharma',
+      mentor: data.mentor || 'Teacher XYZ 01',
       highlights: data.highlights && data.highlights.length > 0 ? data.highlights : ['Outstanding Academic Distinction'],
       boardYear: data.boardYear || '2026 Board Exams',
       category: data.category || 'Class 10 Distinction',
