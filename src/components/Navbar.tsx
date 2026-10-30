@@ -86,13 +86,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               }}
               title={siteConfig.schoolName || 'United Global School'}
               aria-label={siteConfig.schoolName || 'United Global School'}
-              className="relative z-[100] group focus:outline-none cursor-pointer top-[11mm] lg:top-[8mm] translate-y-3.5 sm:translate-y-5 lg:translate-y-6 pointer-events-auto"
+              className="relative z-[100] group focus:outline-none cursor-pointer -top-[2mm] sm:top-[5mm] lg:top-[8mm] translate-y-3.5 sm:translate-y-5 lg:translate-y-6 pointer-events-auto"
             >
               {/* Outer Cyan/Blue Cyber Pulse Glow */}
               <div className="absolute -inset-1 sm:-inset-1.5 rounded-2xl bg-gradient-to-tr from-cyan-500/50 via-blue-500/40 to-indigo-500/50 opacity-75 group-hover:opacity-100 blur-md transition-all duration-300 pointer-events-none" />
               
-              {/* Scaled-up Floating Emblem Box */}
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-2xl bg-slate-950/95 border-2 border-cyan-400 group-hover:border-cyan-300 shadow-[0_10px_30px_rgba(6,182,212,0.5)] flex items-center justify-center p-1.5 backdrop-blur-xl group-hover:scale-105 transition-all duration-300">
+              {/* Scaled-up Floating Emblem Box (Bigger on mobile) */}
+              <div className="relative w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-2xl bg-slate-950/95 border-2 border-cyan-400 group-hover:border-cyan-300 shadow-[0_10px_30px_rgba(6,182,212,0.5)] flex items-center justify-center p-1.5 backdrop-blur-xl group-hover:scale-105 transition-all duration-300">
                 {/* Tech Corner Accents */}
                 <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-cyan-300 pointer-events-none" />
                 <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-cyan-300 pointer-events-none" />
@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                     className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_2px_8px_rgba(6,182,212,0.5)]" 
                   />
                 ) : (
-                  <School className="w-8 h-8 sm:w-9 sm:h-9 lg:w-11 lg:h-11 text-cyan-300" />
+                  <School className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 text-cyan-300" />
                 )}
               </div>
             </button>
