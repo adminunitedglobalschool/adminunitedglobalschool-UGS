@@ -76,8 +76,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-8 h-18">
           
-          {/* Zone 1: Campus Emblem / Logo */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 1: Campus Emblem / Logo - Scaled Up & Floating down towards UGS Live Dispatch */}
+          <div className="flex items-center shrink-0 relative z-50">
             <button 
               onClick={() => {
                 setRole('public');
@@ -86,13 +86,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               }}
               title={siteConfig.schoolName || 'United Global School'}
               aria-label={siteConfig.schoolName || 'United Global School'}
-              className="flex items-center text-left group focus:outline-none cursor-pointer"
+              className="relative group focus:outline-none cursor-pointer translate-y-3.5 sm:translate-y-5 lg:translate-y-6"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform overflow-hidden">
+              {/* Outer Cyan/Blue Cyber Pulse Glow */}
+              <div className="absolute -inset-1 sm:-inset-1.5 rounded-2xl bg-gradient-to-tr from-cyan-500/50 via-blue-500/40 to-indigo-500/50 opacity-75 group-hover:opacity-100 blur-md transition-all duration-300 pointer-events-none" />
+              
+              {/* Scaled-up Floating Emblem Box */}
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-2xl bg-slate-950/95 border-2 border-cyan-400 group-hover:border-cyan-300 shadow-[0_10px_30px_rgba(6,182,212,0.5)] flex items-center justify-center p-1.5 backdrop-blur-xl group-hover:scale-105 transition-all duration-300">
+                {/* Tech Corner Accents */}
+                <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-cyan-300 pointer-events-none" />
+
                 {siteConfig.logoUrl ? (
-                  <img src={siteConfig.logoUrl} alt={siteConfig.schoolName || 'United Global School'} className="w-full h-full object-contain p-1" />
+                  <img 
+                    src={siteConfig.logoUrl} 
+                    alt={siteConfig.schoolName || 'United Global School'} 
+                    className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_2px_8px_rgba(6,182,212,0.5)]" 
+                  />
                 ) : (
-                  <School className="w-5 h-5 text-white" />
+                  <School className="w-8 h-8 sm:w-9 sm:h-9 lg:w-11 lg:h-11 text-cyan-300" />
                 )}
               </div>
             </button>
@@ -185,40 +199,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                 {publicPage === 'circulars' && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
                 )}
-              </button>
-
-              {/* Teachers Gallery Button */}
-              <button 
-                onClick={() => {
-                  openPublicGallery('teachers');
-                  setMobileMenuOpen(false);
-                }}
-                className={`transition-all whitespace-nowrap shrink-0 relative py-1 px-2.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 cursor-pointer ${
-                  publicPage === 'home' && publicGalleryTab === 'teachers' 
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/50 shadow-sm shadow-emerald-500/20 ring-1 ring-emerald-500/30' 
-                    : 'text-slate-300 hover:text-emerald-300 bg-slate-900/60 border-slate-800 hover:border-emerald-500/40 hover:bg-emerald-950/20'
-                }`}
-                title="View Faculty & Teachers Gallery"
-              >
-                <Users className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Teachers Gallery</span>
-              </button>
-
-              {/* Class Toppers Gallery Button */}
-              <button 
-                onClick={() => {
-                  openPublicGallery('toppers');
-                  setMobileMenuOpen(false);
-                }}
-                className={`transition-all whitespace-nowrap shrink-0 relative py-1 px-2.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 cursor-pointer ${
-                  publicPage === 'home' && publicGalleryTab === 'toppers' 
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/50 shadow-sm shadow-amber-500/20 ring-1 ring-amber-500/30' 
-                    : 'text-slate-300 hover:text-amber-300 bg-slate-900/60 border-slate-800 hover:border-amber-500/40 hover:bg-amber-950/20'
-                }`}
-                title="View Class Toppers & Academic Titans Hall of Fame"
-              >
-                <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span>Class Toppers Gallery</span>
               </button>
             </nav>
           ) : role === 'super_admin' ? (

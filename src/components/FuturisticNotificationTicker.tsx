@@ -16,7 +16,9 @@ import {
   Gauge,
   Layers,
   FileText,
-  UserCheck
+  UserCheck,
+  Users,
+  Trophy
 } from 'lucide-react';
 
 export const FuturisticNotificationTicker: React.FC = () => {
@@ -27,7 +29,9 @@ export const FuturisticNotificationTicker: React.FC = () => {
     role,
     openAdmissionModal,
     openOfflineAdmissionModal,
-    openPrincipalAppointmentModal
+    openPrincipalAppointmentModal,
+    openPublicGallery,
+    publicGalleryTab
   } = useSchool();
   const [isPaused, setIsPaused] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState<Announcement | null>(null);
@@ -220,8 +224,11 @@ export const FuturisticNotificationTicker: React.FC = () => {
           layoutMode === 'two-line' ? 'h-15 sm:h-16 py-1.5' : 'h-11 sm:h-12 py-1'
         }`}>
           
-          {/* LEFT: Futuristic Holographic HUD Badge - Hidden on mobile view */}
-          <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1">
+          {/* Mobile offset for scaled-up floating logo */}
+          <div className="sm:hidden w-12 shrink-0 pointer-events-none" />
+
+          {/* LEFT: Futuristic Holographic HUD Badge - Offset for floating navbar logo */}
+          <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1 ml-14 sm:ml-16 lg:ml-20">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-cyan-500 shadow-[0_0_10px_#06b6d4]"></span>
@@ -550,23 +557,58 @@ export const FuturisticNotificationTicker: React.FC = () => {
             </div>
           </div>
 
-          {/* Appointment with Principal Interactive Button */}
-          <button
-            type="button"
-            onClick={openPrincipalAppointmentModal}
-            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 rounded-full bg-gradient-to-r from-purple-500/20 via-slate-900 to-cyan-500/20 hover:from-purple-500/35 hover:to-cyan-500/35 border border-purple-500/40 hover:border-purple-300 text-purple-200 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all cursor-pointer group active:scale-95"
-            title="Book Official Appointment with Principal"
-          >
-            <UserCheck className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
-            <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-purple-200 group-hover:text-white">
-              Appointment with Principal
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-            <span className="text-[10px] sm:text-xs font-mono text-cyan-400/90 tracking-wider hidden xs:inline">
-              Campus Visit & Consultation
-            </span>
-            <ChevronRight className="w-3 h-3 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          {/* Action Row: [Teachers Gallery] [Appointment with Principal] [Class Toppers Gallery] */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {/* Left: Teachers Gallery Interactive Button */}
+            <button
+              type="button"
+              onClick={() => openPublicGallery('teachers')}
+              className={`inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1 rounded-full border text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
+                publicGalleryTab === 'teachers'
+                  ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.4)] ring-1 ring-emerald-400/50'
+                  : 'bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-white border-emerald-500/40 hover:border-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.15)]'
+              }`}
+              title="View Faculty & Teachers Gallery"
+            >
+              <Users className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span>Teachers Gallery</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            </button>
+
+            {/* Center: Appointment with Principal Interactive Button */}
+            <button
+              type="button"
+              onClick={openPrincipalAppointmentModal}
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 rounded-full bg-gradient-to-r from-purple-500/20 via-slate-900 to-cyan-500/20 hover:from-purple-500/35 hover:to-cyan-500/35 border border-purple-500/40 hover:border-purple-300 text-purple-200 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all cursor-pointer group active:scale-95"
+              title="Book Official Appointment with Principal"
+            >
+              <UserCheck className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-purple-200 group-hover:text-white">
+                Appointment with Principal
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-mono text-cyan-400/90 tracking-wider hidden xs:inline">
+                Campus Visit & Consultation
+              </span>
+              <ChevronRight className="w-3 h-3 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Right: Class Toppers Gallery Interactive Button */}
+            <button
+              type="button"
+              onClick={() => openPublicGallery('toppers')}
+              className={`inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1 rounded-full border text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
+                publicGalleryTab === 'toppers'
+                  ? 'bg-amber-500/25 text-amber-300 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.4)] ring-1 ring-amber-400/50'
+                  : 'bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 hover:text-white border-amber-500/40 hover:border-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
+              }`}
+              title="View Class Toppers & Academic Titans Hall of Fame"
+            >
+              <Trophy className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span>Class Toppers Gallery</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            </button>
+          </div>
 
         </div>
       </div>
