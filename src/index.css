@@ -60,20 +60,55 @@
   }
 }
 
-/* Custom smooth scrollbar */
+/* Custom Golden Scrollbar (Right side vertical drag & global scrollbars) */
+html {
+  scrollbar-color: #f59e0b #090e1a;
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #090e1a;
+  border-left: 1px solid rgba(245, 158, 11, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d97706 0%, #f59e0b 25%, #fef08a 50%, #f59e0b 75%, #b45309 100%);
+  border-radius: 9999px;
+  border: 1.5px solid rgba(254, 240, 138, 0.4);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.6), inset 0 0 4px rgba(255, 255, 255, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, #fbbf24 30%, #ffffff 50%, #fbbf24 70%, #d97706 100%);
+  border-color: rgba(254, 240, 138, 0.9);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.9), inset 0 0 6px rgba(255, 255, 255, 0.6);
+}
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #b45309 0%, #d97706 30%, #fef08a 50%, #d97706 70%, #78350f 100%);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 1), inset 0 0 6px rgba(255, 255, 255, 0.8);
+}
+::-webkit-scrollbar-corner {
+  background: #090e1a;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #090e1a;
+  border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.4);
-  border-radius: 4px;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d97706 0%, #f59e0b 50%, #b45309 100%);
+  border-radius: 9999px;
+  border: 1px solid rgba(254, 240, 138, 0.3);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.6);
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
 }
 
 /* Dedicated styled horizontal scrollbar for navigation tabs */
@@ -132,5 +167,41 @@
   animation-duration: 40s !important;
 }
 
+/* Futuristic Left-to-Right Marquee for Toppers Gallery */
+@keyframes futuristicMarqueeLTR {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
 
+@keyframes futuristicMarqueeRTL {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
+.animate-toppers-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: futuristicMarqueeLTR 45s linear infinite;
+  will-change: transform;
+}
+
+.animate-toppers-marquee-rtl {
+  display: flex;
+  width: max-content;
+  animation: futuristicMarqueeRTL 45s linear infinite;
+  will-change: transform;
+}
+
+.animate-toppers-marquee-ltr:hover,
+.animate-toppers-marquee-rtl:hover,
+.marquee-paused {
+  animation-play-state: paused !important;
+}

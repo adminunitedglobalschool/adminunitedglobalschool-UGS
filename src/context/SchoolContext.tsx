@@ -198,7 +198,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   });
 
   const [publicPage, setPublicPage] = useState<PublicPage>('home');
-  const [publicGalleryTab, setPublicGalleryTab] = useState<'teachers' | 'toppers'>('teachers');
+  const [publicGalleryTab, setPublicGalleryTab] = useState<'teachers' | 'toppers'>('toppers');
 
   // Fullscreen & Leave-Screen (Framed Boxed) View State
   const [isFullscreen, setIsFullscreen] = useState<boolean>(() => {

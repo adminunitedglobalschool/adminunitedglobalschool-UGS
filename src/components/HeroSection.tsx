@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSchool } from '../context/SchoolContext';
 import { 
   ArrowRight, 
-  MapPin, 
   Sparkles, 
   ShieldCheck, 
   Users, 
   GraduationCap, 
-  CreditCard,
-  CheckCircle2,
   Play,
   School,
   Trophy,
@@ -22,11 +19,6 @@ import heroCampusImg from '../assets/images/hero_united_global_school_1791694864
 
 export const HeroSection: React.FC = () => {
   const { 
-    role, 
-    setRole, 
-    setPublicPage, 
-    openAdmissionModal, 
-    openOfflineAdmissionModal,
     openPrincipalAppointmentModal,
     openDonateModal,
     openPublicGallery,
@@ -86,13 +78,12 @@ export const HeroSection: React.FC = () => {
 
 
         {/* Main 2-Column Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
-          {/* Left Column - Headline & Core Value (order-2 on mobile, order-1 on desktop) */}
-          <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-between">
-            <div>
-              {/* Dual-Column Futuristic Showcase Box: Leadership & Faculty */}
-              <div className="relative group mb-5">
+          {/* Left Column - Leadership & Faculty Showcase (order-2 on mobile, order-1 on desktop) */}
+          <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col">
+            {/* Dual-Column Futuristic Showcase Box: Leadership & Faculty */}
+            <div className="relative group">
                 {/* Outer Ambient Glow Effect */}
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-purple-600/30 via-cyan-500/30 to-emerald-600/30 opacity-40 group-hover:opacity-60 blur-xl transition-all duration-700 animate-pulse pointer-events-none" />
                 
@@ -313,77 +304,13 @@ export const HeroSection: React.FC = () => {
 
                 </div>
               </div>
-
-              <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-                United Global School converges academic rigor with applied robotics, athletic discipline, and ethical leadership to shape visionary global thinkers.
-              </p>
-
-              {/* Core differentiators */}
-              <div className="mt-5 space-y-2 text-sm text-slate-300">
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Integrated 5-Pillar Holistic Pedagogy</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span>Biometric Attendance & Automated Guardian Telemetry</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span>Digital Treasury Suite & Frictionless E-Invoicing</span>
-                </div>
-              </div>
-
-              {/* Campus Location & Curriculum Line */}
-              <div className="mt-5 pt-3.5 border-t border-slate-800/80 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5 text-cyan-400 font-medium">
-                  <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                  Bhakatgaon, Rupahi Town · Nagaon, Assam
-                </span>
-                <span aria-hidden="true" className="text-slate-600">·</span>
-                <span className="text-slate-300 font-medium">CBSE Curriculum & Futuristic STEM Program</span>
-                <span aria-hidden="true" className="text-slate-600">·</span>
-                <span className="text-emerald-400 font-semibold">Admissions Open 2026–27</span>
-              </div>
             </div>
-
-            {/* CTAs */}
-            <div className="mt-8 pt-6 border-t border-slate-800/80">
-              <div className="flex flex-wrap items-center gap-3">
-                <button
-                  onClick={openDonateModal}
-                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-sm shadow-lg shadow-emerald-950/40 transition-all flex items-center gap-2 cursor-pointer group active:scale-95 ring-1 ring-emerald-400/40"
-                >
-                  <Heart className="w-4 h-4 text-emerald-200 fill-emerald-300 group-hover:scale-110 transition-transform" />
-                  <span>Donate Our Trust</span>
-                </button>
-                <button
-                  onClick={() => setPublicPage('fees')}
-                  className="px-5 py-3 rounded-xl bg-slate-950 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-700 font-medium text-sm transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  <CreditCard className="w-4 h-4 text-blue-400" />
-                  Fee Structure 2026–27
-                </button>
-              </div>
-
-              {/* Helpful admission status indicator */}
-              <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                </span>
-                <span>
-                  Admissions Open 2026–27 · Online application & offline forms available via the Admission Desk.
-                </span>
-              </div>
-            </div>
-          </div>
 
           {/* Right Column - Hero Campus Imagery (order-1 on mobile so it appears first, order-2 on desktop) */}
-          <div className="order-1 lg:order-2 lg:col-span-6 flex flex-col space-y-3">
+          <div className="order-1 lg:order-2 lg:col-span-6 flex flex-col w-full">
 
-            {/* Hero Image Container */}
-            <div className="relative rounded-3xl overflow-hidden border border-slate-700/70 shadow-2xl bg-slate-900 flex-1 min-h-[400px] sm:min-h-[480px] lg:min-h-[520px] group">
+            {/* Hero Image Container - sleek & compact height in both desktop and mobile */}
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-700/70 shadow-2xl bg-slate-900 h-44 xs:h-52 sm:h-64 lg:h-[340px] xl:h-[360px] min-h-[180px] xs:min-h-[200px] sm:min-h-[250px] lg:min-h-[340px] group">
               <img
                 src={siteConfig.heroImageUrl || heroCampusImg}
                 alt={`${siteConfig.schoolName || 'United Global School'} Campus, Bhakatgaon, Rupahi Town`}
@@ -391,6 +318,17 @@ export const HeroSection: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-slate-950/40" />
+
+              {/* Floating Transparent 'Donate Our Trust' Button at Top */}
+              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
+                <button
+                  onClick={openDonateModal}
+                  className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-slate-950/50 hover:bg-slate-900/80 backdrop-blur-md border border-emerald-400/50 hover:border-emerald-300 text-emerald-300 hover:text-white font-bold text-xs sm:text-sm shadow-xl shadow-black/60 hover:shadow-emerald-950/50 transition-all flex items-center gap-2 cursor-pointer group/btn active:scale-95"
+                >
+                  <Heart className="w-4 h-4 text-emerald-400 fill-emerald-400/40 group-hover/btn:fill-emerald-400 group-hover/btn:scale-110 transition-transform" />
+                  <span className="tracking-wide">Donate Our Trust</span>
+                </button>
+              </div>
             </div>
           </div>
 

@@ -1,39 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSchool } from '../context/SchoolContext';
-import { Teacher, Student, ClassTopper } from '../types/school';
+import { Teacher, ClassTopper } from '../types/school';
 import { 
   Users, 
   Trophy, 
   Award, 
   Sparkles, 
   Search, 
-  Star, 
   GraduationCap, 
   BookOpen, 
   CheckCircle2, 
-  Phone, 
   Mail, 
   ShieldCheck, 
   ChevronRight, 
+  ChevronLeft,
   X,
-  ExternalLink,
-  Flame,
   Medal,
-  Cpu
+  Play,
+  Pause,
+  ArrowRight,
+  Flame,
+  Zap,
+  Sliders
 } from 'lucide-react';
 
 export const PublicGalleriesSection: React.FC = () => {
   const { teachers, toppers, publicGalleryTab, setPublicGalleryTab, showToast } = useSchool();
   const [teacherSearch, setTeacherSearch] = useState('');
-  const [topperSearch, setTopperSearch] = useState('');
   const [teacherSubjectFilter, setTeacherSubjectFilter] = useState('All');
-  const [topperCategoryFilter, setTopperCategoryFilter] = useState('All');
+  
+  // Animation & scrolling controls for Toppers Marquee
+  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
+  const [marqueeSpeed, setMarqueeSpeed] = useState<'slow' | 'normal' | 'fast'>('normal');
+  const [scrollDirection, setScrollDirection] = useState<'ltr' | 'rtl'>('ltr');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Inspection modal
+  // Inspection modals
   const [inspectedTeacher, setInspectedTeacher] = useState<Teacher | null>(null);
   const [inspectedTopper, setInspectedTopper] = useState<ClassTopper | null>(null);
 
-  // Filter teachers
+  // Filter teachers when in teachers view
   const filteredTeachers = teachers.filter(t => {
     const matchesSearch = t.name.toLowerCase().includes(teacherSearch.toLowerCase()) ||
                           t.subject.toLowerCase().includes(teacherSearch.toLowerCase()) ||
@@ -41,16 +47,6 @@ export const PublicGalleriesSection: React.FC = () => {
     const matchesSubject = teacherSubjectFilter === 'All' || 
                            t.subject.toLowerCase().includes(teacherSubjectFilter.toLowerCase());
     return matchesSearch && matchesSubject;
-  });
-
-  // Filter toppers
-  const filteredToppers = toppers.filter(top => {
-    const matchesSearch = top.name.toLowerCase().includes(topperSearch.toLowerCase()) ||
-                          top.grade.toLowerCase().includes(topperSearch.toLowerCase()) ||
-                          top.rankBadge.toLowerCase().includes(topperSearch.toLowerCase()) ||
-                          top.mentor.toLowerCase().includes(topperSearch.toLowerCase());
-    const matchesCategory = topperCategoryFilter === 'All' || top.category === topperCategoryFilter;
-    return matchesSearch && matchesCategory;
   });
 
   const getHouseBadgeColor = (house: string) => {
@@ -63,84 +59,295 @@ export const PublicGalleriesSection: React.FC = () => {
     }
   };
 
+  // Get marquee animation duration based on speed state
+  const getAnimationDuration = () => {
+    switch (marqueeSpeed) {
+      case 'slow': return '75s';
+      case 'fast': return '28s';
+      default: return '45s';
+    }
+  };
+
+  // Manual scroll buttons for desktop fine control
+  const manualScroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 380;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Duplicate toppers list 3x for seamless infinite marquee wrapping
+  const marqueeToppersList = [...toppers, ...toppers, ...toppers];
+
   return (
-    <section id="public-galleries" className="py-14 sm:py-20 border-t border-slate-800 bg-slate-950/80 relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-96 bg-gradient-to-b from-cyan-600/10 via-emerald-600/5 to-transparent blur-3xl pointer-events-none" />
+    <section id="public-galleries" className="py-6 sm:py-8 lg:py-10 border-t border-slate-800/80 bg-slate-950/90 relative overflow-hidden">
+      {/* Background ambient lighting effects */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-full max-w-6xl h-64 bg-gradient-to-r from-amber-500/10 via-cyan-500/10 to-purple-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/5 via-transparent to-transparent pointer-events-none" />
 
-      <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
-        
-        {/* Animated Futuristic Gallery Command Hub - Wide Desktop Layout */}
-        <div className="relative group w-full max-w-6xl xl:max-w-7xl mx-auto">
-          {/* Ambient Glow Aura */}
-          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/25 via-cyan-500/25 to-amber-500/25 blur-xl opacity-40 group-hover:opacity-60 transition-all duration-700 animate-pulse pointer-events-none" />
+      <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-4">
 
-          {/* Main Cyber Enclosure */}
-          <div className="relative overflow-hidden p-6 sm:p-8 lg:p-10 xl:p-12 rounded-3xl bg-slate-950/95 backdrop-blur-xl border border-cyan-500/40 animate-cyber-glow text-center shadow-2xl">
-            {/* Cyber Corner HUD Tech Accents */}
-            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-400 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 pointer-events-none" />
+        {/* VIEW: CLASS TOPPERS CONTINUOUS HORIZONTAL STREAM (DEFAULT & PRIMARY) */}
+        {publicGalleryTab === 'toppers' ? (
+          <div className="space-y-4">
+            
+            {/* Futuristic Compact Header Control Panel */}
+            <div className="relative overflow-hidden rounded-2xl p-3.5 sm:p-4 bg-slate-950/90 backdrop-blur-xl border border-amber-500/30 shadow-xl group">
+              {/* Corner HUD Tech Accents */}
+              <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-amber-400 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t-2 border-r-2 border-amber-400 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b-2 border-l-2 border-amber-400 pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-amber-400 pointer-events-none" />
 
-            {/* Light Sweep Line */}
-            <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent pointer-events-none animate-cyber-shine" />
+              {/* Light Sweep Line */}
+              <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-amber-400/10 to-transparent pointer-events-none animate-cyber-shine" />
 
-            {/* Main Headline */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-display tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400">
-              Institutional Galleries of Excellence
-            </h2>
-            <p className="mt-4 text-sm sm:text-base lg:text-lg text-slate-300 max-w-4xl lg:max-w-5xl mx-auto font-normal leading-relaxed">
-              Explore our distinguished faculty members mentoring young minds, and the stellar academic titans who led CBSE distinction honors.
-            </p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10">
+                {/* Title and HUD Badges */}
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[11px] font-bold tracking-wider uppercase shadow-sm">
+                      <Trophy className="w-3 h-3 text-amber-400 shrink-0" />
+                      <span>Class Toppers Gallery</span>
+                    </div>
 
-            {/* Futuristic Segmented Switcher (Wide & Ergonomic) */}
-            <div className="mt-8 inline-flex p-1.5 sm:p-2 rounded-2xl bg-slate-900/90 border border-slate-700/80 shadow-2xl max-w-full">
-              <button
-                onClick={() => setPublicGalleryTab('teachers')}
-                className={`px-6 sm:px-10 lg:px-12 py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm lg:text-base font-bold flex items-center gap-3 transition-all whitespace-nowrap ${
-                  publicGalleryTab === 'teachers'
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-black shadow-lg shadow-emerald-500/30 ring-1 ring-emerald-300'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                }`}
+                    {/* Left-to-Right Stream Indicator */}
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-mono text-[10px] font-semibold">
+                      <ArrowRight className="w-3 h-3 text-cyan-400 animate-pulse" />
+                      <span>Live Stream</span>
+                    </div>
+
+                    {/* Live Stream Pulse Badge (Hidden on mobile per instruction: mobile view me live button nahi dikhna chahiye) */}
+                    <div className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 font-mono text-[10px] font-semibold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                      <span>LIVE</span>
+                    </div>
+                  </div>
+
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-black font-display tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-amber-400">
+                    Academic Titans Hall of Fame
+                  </h2>
+                </div>
+
+                {/* Interactive Controls & Switcher (Play/Pause button hidden on mobile per instruction) */}
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  {/* Play / Pause Toggle Button (Hidden on Mobile per user instruction: "Mobile View me live button Aur Play pause button nahi dikhna chahiye") */}
+                  <div className="hidden sm:flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-xl p-1 shadow-inner">
+                    <button
+                      onClick={() => setIsMarqueePaused(!isMarqueePaused)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        isMarqueePaused
+                          ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                          : 'bg-slate-800 text-slate-200 hover:text-white'
+                      }`}
+                      title={isMarqueePaused ? 'Resume Continuous Auto-Scroll' : 'Pause Auto-Scroll'}
+                    >
+                      {isMarqueePaused ? (
+                        <>
+                          <Play className="w-3 h-3 fill-current" />
+                          <span>Resume</span>
+                        </>
+                      ) : (
+                        <>
+                          <Pause className="w-3 h-3 fill-current" />
+                          <span>Pause</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Speed Selector (Desktop) */}
+                    <div className="hidden md:flex items-center gap-0.5 pl-1 border-l border-slate-800">
+                      {(['slow', 'normal', 'fast'] as const).map(speed => (
+                        <button
+                          key={speed}
+                          onClick={() => setMarqueeSpeed(speed)}
+                          className={`px-2 py-0.5 rounded text-[10px] font-mono capitalize transition-all cursor-pointer ${
+                            marqueeSpeed === speed
+                              ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          {speed}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Manual Arrow Buttons for Desktop */}
+                  <div className="hidden sm:flex items-center gap-1">
+                    <button
+                      onClick={() => manualScroll('left')}
+                      className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-amber-400/50 transition-colors cursor-pointer"
+                      title="Scroll Left"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => manualScroll('right')}
+                      className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-amber-400/50 transition-colors cursor-pointer"
+                      title="Scroll Right"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Quick Link to Faculty Directory */}
+                  <button
+                    onClick={() => setPublicGalleryTab('teachers')}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                    title="View Faculty Directory"
+                  >
+                    <Users className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="hidden xs:inline">Faculty Directory ({teachers.length})</span>
+                    <span className="xs:hidden">Faculty</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Continuous Horizontal Left-to-Right Scrolling Marquee Container */}
+            <div 
+              ref={scrollContainerRef}
+              className="relative w-full overflow-x-auto scrollbar-none py-1 group/marquee"
+              style={{ maskImage: 'linear-gradient(to right, transparent, black 3%, black 97%, transparent)' }}
+            >
+              <div 
+                className={`flex gap-4 sm:gap-5 items-stretch ${
+                  scrollDirection === 'ltr' ? 'animate-toppers-marquee-ltr' : 'animate-toppers-marquee-rtl'
+                } ${isMarqueePaused ? 'marquee-paused' : ''}`}
+                style={{
+                  animationDuration: getAnimationDuration(),
+                  width: 'max-content'
+                }}
               >
-                <Users className={`w-4 h-4 sm:w-5 sm:h-5 ${publicGalleryTab === 'teachers' ? 'text-slate-950' : 'text-emerald-400'}`} />
-                <span>Teachers Gallery</span>
-                <span className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-mono font-bold ${
-                  publicGalleryTab === 'teachers' 
-                    ? 'bg-slate-950/20 text-slate-950' 
-                    : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                }`}>
-                  {teachers.length} Faculty
-                </span>
-              </button>
+                {marqueeToppersList.map((topper, idx) => {
+                  const displayRank = (idx % toppers.length) + 1;
+                  return (
+                    <div
+                      key={`${topper.id}-${idx}`}
+                      className="w-64 sm:w-72 shrink-0 select-none group/card relative rounded-2xl p-2.5 sm:p-3 bg-slate-900/95 backdrop-blur-md border border-amber-500/30 hover:border-amber-400 transition-all duration-300 flex flex-col justify-between hover:shadow-[0_0_24px_rgba(245,158,11,0.25)] hover:-translate-y-1 cursor-pointer"
+                      onClick={() => setInspectedTopper(topper)}
+                    >
+                      {/* Top Cyber Accent Corner */}
+                      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-amber-400 pointer-events-none" />
+                      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-amber-400 pointer-events-none" />
 
-              <button
-                onClick={() => setPublicGalleryTab('toppers')}
-                className={`px-6 sm:px-10 lg:px-12 py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm lg:text-base font-bold flex items-center gap-3 transition-all whitespace-nowrap ${
-                  publicGalleryTab === 'toppers'
-                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-black shadow-lg shadow-amber-500/30 ring-1 ring-amber-200'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                <Trophy className={`w-4 h-4 sm:w-5 sm:h-5 ${publicGalleryTab === 'toppers' ? 'text-slate-950' : 'text-amber-400'}`} />
-                <span>Class Toppers Gallery</span>
-                <span className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-mono font-bold ${
-                  publicGalleryTab === 'toppers' 
-                    ? 'bg-slate-950/20 text-slate-950' 
-                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                }`}>
-                  {toppers.length} Titans
-                </span>
-              </button>
+                      {/* Large Photo Area with Floating Elements */}
+                      <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden bg-slate-950 border border-slate-800/80 group-hover/card:border-amber-400/50 transition-colors">
+                        <img 
+                          src={topper.avatar} 
+                          alt={topper.name} 
+                          className="w-full h-full object-cover object-top group-hover/card:scale-105 transition-transform duration-500"
+                        />
+                        
+                        {/* Soft ambient gradient overlay to make floating name pill stand out clearly */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent pointer-events-none" />
+
+                        {/* Top-Left Floating Rank Badge */}
+                        <div className="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-amber-500/95 backdrop-blur-sm text-slate-950 font-black text-[11px] font-mono shadow-md flex items-center gap-1">
+                          <Trophy className="w-3 h-3 text-slate-950" />
+                          <span>#{displayRank}</span>
+                        </div>
+
+                        {/* Top-Right Floating Distinction Score */}
+                        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-lg bg-slate-950/80 backdrop-blur-md border border-amber-400/50 text-amber-300 font-black text-xs sm:text-sm font-display tabular-nums shadow-md">
+                          {topper.scorePercentage}%
+                        </div>
+
+                        {/* Floating Transparent Button for Student Name directly on Photo */}
+                        <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-900/90 backdrop-blur-md border border-white/20 group-hover/card:border-amber-400/60 shadow-lg flex items-center justify-between gap-1.5 transition-all">
+                          <span className="text-sm sm:text-base font-bold font-display text-white group-hover/card:text-amber-300 tracking-wide truncate">
+                            {topper.name}
+                          </span>
+                          <span className="shrink-0 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                            {topper.grade}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Economical Meta Information & Action Footer below Photo */}
+                      <div className="mt-2.5 space-y-2">
+                        {/* Compact Single-Line House & Stream Details */}
+                        <div className="px-1 flex items-center justify-between text-[11px] text-slate-300">
+                          <div className="flex items-center gap-1.5 truncate">
+                            <span className={`w-2 h-2 rounded-full shrink-0 ${
+                              topper.house === 'Emerald' ? 'bg-emerald-400' :
+                              topper.house === 'Ruby' ? 'bg-rose-400' :
+                              topper.house === 'Sapphire' ? 'bg-blue-400' : 'bg-amber-400'
+                            }`} />
+                            <span className="truncate">{topper.house} House · Sec {topper.section}</span>
+                          </div>
+                          <span className="text-[10px] font-mono text-amber-400/90 font-semibold truncate ml-1 shrink-0">
+                            {topper.rankBadge}
+                          </span>
+                        </div>
+
+                        {/* Sleek Inspect Certificate Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setInspectedTopper(topper);
+                          }}
+                          className="w-full py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500 border border-amber-500/30 hover:border-amber-400 text-amber-300 hover:text-slate-950 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm group-hover/card:bg-amber-500 group-hover/card:text-slate-950"
+                        >
+                          <Award className="w-3.5 h-3.5" />
+                          <span>Inspect Certificate</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Bottom Stream Note */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 px-2 pt-1">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-[11px]">Showing {toppers.length} CBSE distinction achievers in infinite gliding carousel.</span>
+              </div>
+              <div className="text-[10px] font-mono text-slate-400">
+                Continuous Left-to-Right Ticker · Click to inspect honors
+              </div>
             </div>
 
           </div>
-        </div>
-
-        {/* VIEW A: TEACHERS GALLERY */}
-        {publicGalleryTab === 'teachers' && (
+        ) : (
+          /* VIEW: TEACHERS GALLERY (ACCESSIBLE VIA NAVBAR OR SWITCHER) */
           <div className="space-y-6 animate-in fade-in duration-300">
+            {/* Header with Switcher to Return to Toppers Marquee */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-slate-950/90 border border-emerald-500/30 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-mono text-xs font-bold uppercase">
+                    <Users className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Faculty Directorate</span>
+                  </div>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {teachers.length} Members
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-2">
+                  Distinguished Faculty & Mentors
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Experienced educators and certified STEM robotics mentors leading student distinction.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setPublicGalleryTab('toppers')}
+                className="px-4 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-300 text-xs font-bold flex items-center gap-2 transition-all cursor-pointer self-start sm:self-auto"
+              >
+                <Trophy className="w-4 h-4 text-amber-400" />
+                <span>Return to Toppers Live Stream</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
             {/* Filter and Search Bar */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800">
               <div className="relative flex-1 max-w-md">
@@ -159,7 +366,7 @@ export const PublicGalleriesSection: React.FC = () => {
                   <button
                     key={sub}
                     onClick={() => setTeacherSubjectFilter(sub)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                       teacherSubjectFilter === sub
                         ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
                         : 'bg-slate-950 border border-slate-800 text-slate-300 hover:text-white'
@@ -234,7 +441,7 @@ export const PublicGalleriesSection: React.FC = () => {
                   <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between gap-2">
                     <button
                       onClick={() => setInspectedTeacher(teacher)}
-                      className="flex-1 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-colors flex items-center justify-center gap-1"
+                      className="flex-1 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-colors flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <span>View Dossier</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -244,125 +451,10 @@ export const PublicGalleriesSection: React.FC = () => {
                         navigator.clipboard?.writeText(teacher.email);
                         showToast(`Copied ${teacher.name}'s email (${teacher.email})`);
                       }}
-                      className="p-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+                      className="p-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
                       title="Copy Faculty Email"
                     >
                       <Mail className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* VIEW B: CLASS TOPPERS GALLERY */}
-        {publicGalleryTab === 'toppers' && (
-          <div className="space-y-6 animate-in fade-in duration-300">
-            {/* Filter and Search Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900 border border-slate-800">
-              <div className="relative flex-1 max-w-md">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Search topper by name, grade, rank, or mentor..."
-                  value={topperSearch}
-                  onChange={e => setTopperSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-                />
-              </div>
-
-              <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-1 sm:pb-0">
-                {['All', 'Class 12 Titans', 'Class 10 Distinction', 'STEM & Robotics', 'Junior Prodigy'].map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setTopperCategoryFilter(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                      topperCategoryFilter === cat
-                        ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                        : 'bg-slate-950 border border-slate-800 text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Toppers Cyber Gold Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredToppers.map((topper, idx) => (
-                <div 
-                  key={topper.id}
-                  className="group relative rounded-3xl p-5 bg-slate-900/90 border border-amber-500/30 hover:border-amber-400 transition-all duration-300 flex flex-col justify-between hover:shadow-2xl hover:shadow-amber-950/40 hover:-translate-y-1"
-                >
-                  <div className="space-y-4">
-                    {/* Top Identity & Rank Pill */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="relative">
-                        <img 
-                          src={topper.avatar} 
-                          alt={topper.name} 
-                          className="w-16 h-16 rounded-2xl bg-slate-950 p-1 border border-amber-400/50 object-cover shadow-md"
-                        />
-                        <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 border border-slate-950 flex items-center justify-center text-slate-950 font-black text-xs shadow-md">
-                          #{idx + 1}
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <div className="text-2xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 tabular-nums">
-                          {topper.scorePercentage}%
-                        </div>
-                        <div className="text-[10px] text-amber-300 font-mono font-semibold">
-                          DISTINCTION
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Student Name & Academic Class */}
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-base font-bold font-display text-white group-hover:text-amber-300 transition-colors">
-                          {topper.name}
-                        </h3>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${getHouseBadgeColor(topper.house)}`}>
-                          {topper.house}
-                        </span>
-                      </div>
-                      <div className="text-xs text-slate-300 font-medium mt-0.5 flex items-center gap-1.5">
-                        <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
-                        <span>{topper.grade} · Section {topper.section}</span>
-                      </div>
-                      <div className="text-[11px] text-amber-400/90 font-medium mt-1 flex items-center gap-1">
-                        <Medal className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                        <span className="line-clamp-1">{topper.rankBadge}</span>
-                      </div>
-                    </div>
-
-                    {/* Key Highlights */}
-                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1 text-[11px]">
-                      {topper.highlights.slice(0, 2).map((h, hIdx) => (
-                        <div key={hIdx} className="flex items-start gap-1.5 text-slate-300">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0 mt-0.5" />
-                          <span className="line-clamp-1">{h}</span>
-                        </div>
-                      ))}
-                      <div className="pt-1 text-[10px] text-slate-400 flex items-center justify-between">
-                        <span>Mentor:</span>
-                        <span className="text-cyan-300 font-medium">{topper.mentor}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Action */}
-                  <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between gap-2">
-                    <button
-                      onClick={() => setInspectedTopper(topper)}
-                      className="w-full py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-semibold transition-colors flex items-center justify-center gap-1"
-                    >
-                      <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                      <span>View Honors & Certificate</span>
                     </button>
                   </div>
                 </div>
@@ -396,7 +488,7 @@ export const PublicGalleriesSection: React.FC = () => {
 
               <button
                 onClick={() => setInspectedTeacher(null)}
-                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -437,14 +529,14 @@ export const PublicGalleriesSection: React.FC = () => {
                   navigator.clipboard?.writeText(inspectedTeacher.email);
                   showToast(`Copied ${inspectedTeacher.name}'s email!`);
                 }}
-                className="flex-1 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Mail className="w-4 h-4" />
                 Copy Official Email
               </button>
               <button
                 onClick={() => setInspectedTeacher(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -476,7 +568,7 @@ export const PublicGalleriesSection: React.FC = () => {
 
               <button
                 onClick={() => setInspectedTopper(null)}
-                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -521,14 +613,14 @@ export const PublicGalleriesSection: React.FC = () => {
                 onClick={() => {
                   window.print();
                 }}
-                className="flex-1 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Award className="w-4 h-4" />
                 Print Distinction Certificate
               </button>
               <button
                 onClick={() => setInspectedTopper(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
