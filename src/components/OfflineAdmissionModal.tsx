@@ -60,7 +60,7 @@ export const OfflineAdmissionModal: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                United Global School · Bhakatgaon, Rupahi Town, Nagaon, Assam
+                United Global School · Rupahi Town, Nagaon, Assam
               </p>
             </div>
           </div>
@@ -140,7 +140,7 @@ export const OfflineAdmissionModal: React.FC = () => {
                       United Global School
                     </h1>
                     <p className="text-xs text-slate-700 font-medium">
-                      Campus: Bhakatgaon, Rupahi Town · Nagaon, Assam – 782125
+                      Campus: Rupahi Town · Nagaon, Assam – 782125
                     </p>
                     <p className="text-[11px] text-slate-600">
                       Tel: 03672-295001 / +91 94350 12345 · Email: admissions@unitedglobalschool.edu.in
@@ -301,7 +301,7 @@ export const OfflineAdmissionModal: React.FC = () => {
               {/* Section 4: Declaration & Signature */}
               <div className="border-t-2 border-slate-300 pt-3 text-[11px] text-slate-700 space-y-3">
                 <p className="leading-snug">
-                  <strong>Declaration by Parent / Guardian:</strong> I hereby declare that all particulars stated above are true and accurate to the best of my knowledge. I promise to abide by the disciplinary rules, code of conduct, and academic fee schedule of United Global School, Bhakatgaon.
+                  <strong>Declaration by Parent / Guardian:</strong> I hereby declare that all particulars stated above are true and accurate to the best of my knowledge. I promise to abide by the disciplinary rules, code of conduct, and academic fee schedule of United Global School, Rupahi Town.
                 </p>
 
                 <div className="pt-6 flex justify-between items-end">
@@ -390,7 +390,7 @@ export const OfflineAdmissionModal: React.FC = () => {
                       <span>Physical Address:</span>
                     </div>
                     <p className="text-white font-medium pl-5">
-                      Administrative Office, Ground Floor, United Global School Campus, Bhakatgaon, Rupahi Town, Nagaon, Assam
+                      Administrative Office, Ground Floor, United Global School Campus, Rupahi Town, Nagaon, Assam
                     </p>
                   </div>
 

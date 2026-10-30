@@ -188,7 +188,7 @@ export const FeeStructurePage: React.FC = () => {
                     : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
                 }`}
               >
-                Bhakatgaon Local (₹800/mo)
+                Rupahi Local (₹800/mo)
               </button>
               <button
                 onClick={() => setTransportRoute('rupahi')}

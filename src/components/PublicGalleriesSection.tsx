@@ -519,7 +519,7 @@ export const PublicGalleriesSection: React.FC = () => {
                 Institutional Mentor Verification
               </div>
               <p className="text-[11px] text-slate-300">
-                Authorized CBSE mentor conducting STEM robotics labs, smart board interactive classrooms, and student board exam preparation at United Global School, Bhakatgaon.
+                Authorized CBSE mentor conducting STEM robotics labs, smart board interactive classrooms, and student board exam preparation at United Global School, Rupahi Town.
               </p>
             </div>
 

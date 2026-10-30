@@ -127,7 +127,7 @@ export const StaffPortal: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              United Global School · Bhakatgaon Administrative Wing, Rupahi Town
+              United Global School · Central Administrative Wing, Rupahi Town
             </p>
           </div>
         </div>

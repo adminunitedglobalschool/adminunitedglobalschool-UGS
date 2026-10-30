@@ -15,7 +15,7 @@ export const AdmissionModal: React.FC = () => {
     email: '',
     grade: 'Class 9',
     dob: '2011-05-15',
-    address: 'Bhakatgaon, Rupahi Town, Nagaon',
+    address: 'Rupahi Town, Nagaon',
     bloodGroup: 'B+',
     previousSchool: 'Shankardev Shishu Niketan, Rupahi',
     transportNeeded: 'Yes',
@@ -72,7 +72,7 @@ export const AdmissionModal: React.FC = () => {
               Application Enrolled Successfully!
             </h3>
             <p className="text-sm text-slate-300 max-w-md mx-auto">
-              Welcome <strong className="text-white">{createdStudentName}</strong> to United Global School, Bhakatgaon, Rupahi Town.
+              Welcome <strong className="text-white">{createdStudentName}</strong> to United Global School, Rupahi Town.
             </p>
             <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 max-w-sm mx-auto text-xs space-y-1 text-left">
               <div className="flex justify-between text-slate-400">
@@ -108,7 +108,7 @@ export const AdmissionModal: React.FC = () => {
                   Admission Registration 2026–27
                 </h3>
                 <p className="text-xs text-slate-400">
-                  United Global School · Bhakatgaon, Rupahi Town
+                  United Global School · Rupahi Town
                 </p>
               </div>
             </div>
@@ -228,7 +228,7 @@ export const AdmissionModal: React.FC = () => {
 
               <div>
                 <label className="block text-slate-300 font-medium mb-1">
-                  Residential Address (Bhakatgaon / Rupahi Town / Nearby)
+                  Residential Address (Rupahi Town / Nearby)
                 </label>
                 <input
                   type="text"

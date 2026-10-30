@@ -61,7 +61,7 @@ export const ReceiptModal: React.FC = () => {
               </h2>
             </div>
             <div className="text-xs text-slate-600 font-medium">
-              Bhakatgaon, Rupahi Town, Nagaon District, Assam – 782125
+              Rupahi Town, Nagaon District, Assam – 782125
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">
               CBSE Affiliation: UGS-AS-2026-89 · U-DISE: 18100508901 · Phone: +91 94350 88210
@@ -201,7 +201,7 @@ export const ReceiptModal: React.FC = () => {
                 Authorized Accounts Officer
               </div>
               <div className="text-[10px] text-slate-500">
-                United Global School, Bhakatgaon
+                United Global School, Rupahi Town
               </div>
             </div>
           </div>

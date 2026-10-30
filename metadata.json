@@ -1,6 +1,6 @@
 {
   "name": "United Global School - School Portal & Management System",
-  "description": "Smart futuristic school website and unified administrative management system for United Global School, Bhakatgaon, Rupahi Town. Features student, teacher, and administrative staff portals, live attendance tracking, and digital fee management.",
+  "description": "Smart futuristic school website and unified administrative management system for United Global School, Rupahi Town. Features student, teacher, and administrative staff portals, live attendance tracking, and digital fee management.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

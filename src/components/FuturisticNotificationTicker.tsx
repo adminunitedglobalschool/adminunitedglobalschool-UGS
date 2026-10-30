@@ -78,7 +78,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
     if (title.toLowerCase().includes('annual state athletic meet')) {
       return {
         line1: 'Annual State Athletic Meet Selection Trials',
-        line2: 'Bhakatgaon Campus Turf · Sprints, Jump & Football Squad Trials',
+        line2: 'Campus Turf · Sprints, Jump & Football Squad Trials',
       };
     }
 

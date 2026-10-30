@@ -526,7 +526,7 @@ export const AdministratorAdminView: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Campus Location:</span>
-                  <span className="text-white">Bhakatgaon, Rupahi Town, Assam</span>
+                  <span className="text-white">Rupahi Town, Assam</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Current Academic Session:</span>

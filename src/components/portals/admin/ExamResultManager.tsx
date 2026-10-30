@@ -329,7 +329,7 @@ export const ExamResultManager: React.FC<ExamResultManagerProps> = ({ initialStu
                       United Global School
                     </h1>
                     <p className="text-xs text-slate-600 font-semibold mt-1">
-                      Bhakatgaon, Rupahi Town, Nagaon District, Assam – 782125
+                      Rupahi Town, Nagaon District, Assam – 782125
                     </p>
                   </div>
                 </div>

@@ -69,7 +69,7 @@ export const FeeStructureSection: React.FC = () => {
               Academic Fee Structure (Session 2026–27)
             </h2>
             <p className="mt-2 text-slate-300 text-sm max-w-2xl">
-              Zero hidden charges. Complete digital breakdown covering holistic STEM labs, sports coaching, and smart academics in Bhakatgaon, Rupahi Town.
+              Zero hidden charges. Complete digital breakdown covering holistic STEM labs, sports coaching, and smart academics in Rupahi Town.
             </p>
           </div>
 

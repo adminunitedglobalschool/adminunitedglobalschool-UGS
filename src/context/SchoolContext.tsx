@@ -39,11 +39,11 @@ import {
 
 export const DEFAULT_SITE_CONFIG: SchoolWebsiteConfig = {
   schoolName: 'United Global School',
-  tagline: 'Bhakatgaon, Rupahi Town',
+  tagline: 'Rupahi Town',
   affiliationCode: 'UGS-AS-2026-89',
   udiseCode: '18100508901',
-  campusLocation: 'Bhakatgaon, Rupahi Town, Nagaon District, Assam, PIN - 782125',
-  address: 'Bhakatgaon, Rupahi Town, Nagaon, Assam',
+  campusLocation: 'Rupahi Town, Nagaon District, Assam, PIN - 782125',
+  address: 'Rupahi Town, Nagaon, Assam',
   pinCode: '782125',
   phone1: '+91 94350 88210',
   phone2: '+91 98640 12345',
@@ -682,7 +682,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       section: studentData.section || 'A',
       rollNo: studentData.rollNo || count,
       dob: studentData.dob || '2011-01-01',
-      address: studentData.address || 'Bhakatgaon, Rupahi, Nagaon, Assam',
+      address: studentData.address || 'Rupahi Town, Nagaon, Assam',
       bloodGroup: studentData.bloodGroup || 'B+',
       avatar: studentData.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${studentData.name || 'New'}`,
       attendanceRate: 100,

@@ -52,7 +52,7 @@ export const CircularsPage: React.FC = () => {
             Official Notices & Academic Circulars
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Direct communications from the Office of the Principal and Central Administrative Directorate, United Global School, Bhakatgaon, Rupahi Town.
+            Direct communications from the Office of the Principal and Central Administrative Directorate, United Global School, Rupahi Town.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs">

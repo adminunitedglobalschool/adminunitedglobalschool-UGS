@@ -151,7 +151,7 @@ export const IdCardRenderer: React.FC<IdCardRendererProps> = ({ data, onPrint, o
                       UNITED GLOBAL SCHOOL
                     </span>
                     <span className="text-[10px] text-cyan-400 font-medium block">
-                      Bhakatgaon, Rupahi Town · Assam
+                      Rupahi Town · Assam
                     </span>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export const IdCardRenderer: React.FC<IdCardRendererProps> = ({ data, onPrint, o
 
               <div className="mt-4 space-y-2 text-[10px] text-slate-400 leading-relaxed">
                 <p>
-                  1. This smart card is the official property of United Global School, Bhakatgaon, Rupahi Town.
+                  1. This smart card is the official property of United Global School, Rupahi Town.
                 </p>
                 <p>
                   2. Mandatory for campus entry, biometric gate access, STEM laboratory safety protocols, and digital fee processing.

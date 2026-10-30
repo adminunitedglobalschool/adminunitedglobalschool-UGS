@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
                   {siteConfig.schoolName || 'United Global School'}
                 </span>
                 <span className="text-[11px] text-cyan-400">
-                  {siteConfig.tagline || 'Bhakatgaon, Rupahi Town'}
+                  {siteConfig.tagline || 'Rupahi Town'}
                 </span>
               </div>
             </div>
@@ -205,7 +205,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-            {/* Contact Details in Bhakatgaon, Rupahi Town */}
+            {/* Contact Details in Rupahi Town */}
             <div className="lg:col-span-3 space-y-3">
               <div className="text-xs font-bold text-white uppercase tracking-wider">
                 Campus Location
@@ -213,7 +213,7 @@ export const Footer: React.FC = () => {
               <div className="space-y-2.5 text-xs text-slate-400">
                 <div className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>{siteConfig.campusLocation || 'Bhakatgaon, Rupahi Town, Nagaon District, Assam, PIN - 782125'}</span>
+                  <span>{siteConfig.campusLocation || 'Rupahi Town, Nagaon District, Assam, PIN - 782125'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -235,7 +235,7 @@ export const Footer: React.FC = () => {
         {/* Bottom copyright row */}
         <div className="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
           <div>
-            © 2026 United Global School, Bhakatgaon, Rupahi Town. All rights reserved.
+            © 2026 United Global School, Rupahi Town. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
             <span>Holistic Education Framework</span>

@@ -296,7 +296,7 @@ export const StudentPortal: React.FC = () => {
             {activeStudent.admissionNo}
           </div>
           <div className="text-[11px] text-slate-400">
-            Bhakatgaon Scholar ID
+            Scholar ID
           </div>
         </div>
 
@@ -494,7 +494,7 @@ export const StudentPortal: React.FC = () => {
                 Monthly Attendance Tracker (October 2026)
               </h3>
               <p className="text-xs text-slate-400">
-                Live biometric attendance logged daily at Bhakatgaon campus entrance
+                Live biometric attendance logged daily at Rupahi Town campus entrance
               </p>
             </div>
 
@@ -570,7 +570,7 @@ export const StudentPortal: React.FC = () => {
               Daily Class Schedule: {activeStudent.grade} - Section {activeStudent.section}
             </h3>
             <p className="text-xs text-slate-400">
-              Bhakatgaon High School Campus · Timing: 08:30 AM to 02:45 PM
+              Central High School Campus · Timing: 08:30 AM to 02:45 PM
             </p>
           </div>
 
@@ -677,7 +677,7 @@ export const StudentPortal: React.FC = () => {
                   Pay School Fee Online
                 </h3>
                 <p className="text-xs text-slate-400">
-                  United Global School Digital Gateway · Bhakatgaon
+                  United Global School Digital Gateway · Rupahi Town
                 </p>
               </div>
               <button

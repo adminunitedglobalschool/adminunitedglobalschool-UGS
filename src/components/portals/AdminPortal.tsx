@@ -193,7 +193,7 @@ export const AdminPortal: React.FC = () => {
                   </div>
                   <div className="flex justify-between py-1">
                     <span className="text-slate-400">Campus:</span>
-                    <span className="text-slate-200">Bhakatgaon, Rupahi Town</span>
+                    <span className="text-slate-200">Rupahi Town</span>
                   </div>
                 </div>
 

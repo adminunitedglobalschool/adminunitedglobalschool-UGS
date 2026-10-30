@@ -32,7 +32,7 @@ export const NoticesSection: React.FC = () => {
               Live Circulars & Notice Board
             </h2>
             <p className="mt-2 text-slate-300 text-sm max-w-xl">
-              Stay updated with academic circulars, trial fixtures, and exam notifications issued by the Principal's Office in Bhakatgaon, Rupahi Town.
+              Stay updated with academic circulars, trial fixtures, and exam notifications issued by the Principal's Office in Rupahi Town.
             </p>
           </div>
 

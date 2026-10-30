@@ -1401,7 +1401,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                         {brandingForm.schoolName || 'United Global School'}
                       </div>
                       <div className="text-xs text-slate-300">
-                        {brandingForm.tagline || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}
+                        {brandingForm.tagline || 'Rupahi Town · Nagaon, Assam'}
                       </div>
                     </div>
                   </div>
@@ -1598,10 +1598,10 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                     <div className="space-y-1">
                       <div className="text-base font-bold text-white font-display flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span>{brandingForm.campusLocation || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}</span>
+                        <span>{brandingForm.campusLocation || 'Rupahi Town · Nagaon, Assam'}</span>
                       </div>
                       <p className="text-xs text-slate-400">
-                        Official Campus: {brandingForm.tagline || 'Bhakatgaon, Rupahi Town · Nagaon, Assam'}
+                        Official Campus: {brandingForm.tagline || 'Rupahi Town · Nagaon, Assam'}
                       </p>
                     </div>
 
@@ -1638,7 +1638,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                         required
                         value={brandingForm.campusLocation}
                         onChange={e => setBrandingForm({ ...brandingForm, campusLocation: e.target.value })}
-                        placeholder="Bhakatgaon, Rupahi Town, Nagaon, Assam 782125, India"
+                        placeholder="Rupahi Town, Nagaon, Assam 782125, India"
                         className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
                       />
                       <span className="text-[10px] text-slate-400 mt-1 block">
@@ -1655,7 +1655,7 @@ export const MasterWebsiteCustomizer: React.FC = () => {
                         required
                         value={brandingForm.tagline}
                         onChange={e => setBrandingForm({ ...brandingForm, tagline: e.target.value })}
-                        placeholder="Bhakatgaon, Rupahi Town · Nagaon, Assam"
+                        placeholder="Rupahi Town · Nagaon, Assam"
                         className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-400 focus:outline-none"
                       />
                       <span className="text-[10px] text-slate-400 mt-1 block">

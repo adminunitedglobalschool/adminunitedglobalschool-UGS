@@ -239,7 +239,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                       United Global School
                     </h1>
                     <p className="text-[11px] text-slate-600 font-semibold mt-0.5">
-                      Bhakatgaon, Rupahi Town, Nagaon District, Assam – 782125
+                      Rupahi Town, Nagaon District, Assam – 782125
                     </p>
                   </div>
                 </div>
@@ -317,7 +317,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                   <div className="col-span-2">
                     <span className="text-[10px] text-slate-500 uppercase font-semibold block">Examination Center</span>
                     <span className="text-xs font-bold text-slate-900">
-                      UGS Central High-Tech Examination Block, Bhakatgaon, Rupahi Town
+                      UGS Central High-Tech Examination Block, Rupahi Town
                     </span>
                   </div>
                 </div>
@@ -458,7 +458,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                   <div className="flex items-center gap-2">
                     <span className="w-7 h-7 rounded bg-blue-900 text-white font-bold text-xs flex items-center justify-center">UGS</span>
                     <div>
-                      <div className="text-sm font-black uppercase text-slate-950 leading-tight">United Global School, Bhakatgaon</div>
+                      <div className="text-sm font-black uppercase text-slate-950 leading-tight">United Global School, Rupahi Town</div>
                       <div className="text-[9px] text-slate-600">CBSE Affiliation: UGS-AS-2026-89 · Hall Ticket: {selectedExamTitle}</div>
                     </div>
                   </div>
@@ -491,7 +491,7 @@ export const AdmitCardManager: React.FC<AdmitCardManagerProps> = ({ initialStude
                     </div>
                     <div className="col-span-2">
                       <span className="text-[10px] text-slate-500 block">Exam Center</span>
-                      <span>UGS Examination Hall, Bhakatgaon, Rupahi Town</span>
+                      <span>UGS Examination Hall, Rupahi Town</span>
                     </div>
                   </div>
                 </div>

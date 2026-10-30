@@ -89,7 +89,7 @@ export const PrincipalAppointmentModal: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Office of the Principal · United Global School, Bhakatgaon Campus
+                Office of the Principal · United Global School, Rupahi Campus
               </p>
             </div>
           </div>
@@ -128,7 +128,7 @@ export const PrincipalAppointmentModal: React.FC = () => {
                       United Global School
                     </h5>
                     <p className="text-[10px] text-slate-600">
-                      Bhakatgaon, Rupahi Town · Nagaon, Assam
+                      Rupahi Town · Nagaon, Assam
                     </p>
                   </div>
                   <div className="text-right">
@@ -367,7 +367,7 @@ export const PrincipalAppointmentModal: React.FC = () => {
               {/* Direct Helpline Strip */}
               <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-2">
                 <span>Principal Secretariat Desk: <strong>03672-295001 / +91 94350 12345</strong></span>
-                <span className="text-purple-400 font-medium">Campus: Bhakatgaon, Rupahi Town</span>
+                <span className="text-purple-400 font-medium">Campus: Rupahi Town</span>
               </div>
 
               {/* Submit CTA */}

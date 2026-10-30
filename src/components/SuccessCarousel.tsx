@@ -58,7 +58,7 @@ export const SuccessCarousel: React.FC = () => {
               Scrolling Success & Student Accolades
             </h2>
             <p className="mt-2 text-slate-300 text-sm max-w-xl">
-              From National Robotics competitions to State Athletic golds and cultural honors, our students continuously raise the banner of Bhakatgaon, Rupahi Town high.
+              From National Robotics competitions to State Athletic golds and cultural honors, our students continuously raise the banner of Rupahi Town high.
             </p>
           </div>
 

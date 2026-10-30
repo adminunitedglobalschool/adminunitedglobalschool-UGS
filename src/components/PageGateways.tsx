@@ -79,7 +79,7 @@ export const PageGateways: React.FC = () => {
                 Campus & Labs
               </h3>
               <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-                Explore the 3D robotics lab, Olympic-standard athletics turf, cultural arts studio, and 65 kW solar grid in Bhakatgaon.
+                Explore the 3D robotics lab, Olympic-standard athletics turf, cultural arts studio, and 65 kW solar grid in Rupahi Town.
               </p>
             </div>
 

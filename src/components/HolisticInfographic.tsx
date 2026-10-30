@@ -46,7 +46,7 @@ export const HolisticInfographic: React.FC = () => {
       academic: 'Algebraic Inquiry, Science Experiments in Physical Labs, Critical Reading',
       sports: 'Inter-House Football, Track Athletics, Badminton Coaching',
       culture: 'Instrumental Music (Violin/Tabla), Traditional Sattriya & Contemporary Art',
-      leadership: 'House Prefects, Eco-Club Tree Planting in Bhakatgaon'
+      leadership: 'House Prefects, Eco-Club Tree Planting in Rupahi Town'
     },
     senior: {
       label: 'Secondary & Senior (Grades 9–12)',
@@ -163,7 +163,7 @@ export const HolisticInfographic: React.FC = () => {
                     {selectedPillar.title}
                   </h3>
                   <div className="text-xs text-slate-400 mt-0.5">
-                    Core Curriculum Component · Bhakatgaon Campus
+                    Core Curriculum Component · Rupahi Campus
                   </div>
                 </div>
               </div>

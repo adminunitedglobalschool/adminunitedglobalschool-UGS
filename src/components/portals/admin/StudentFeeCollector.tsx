@@ -50,7 +50,7 @@ export const StudentFeeCollector: React.FC<StudentFeeCollectorProps> = ({ initia
   const [payTerm, setPayTerm] = useState<'Quarter 1' | 'Quarter 2' | 'Quarter 3' | 'Quarter 4' | 'Annual Package'>('Quarter 3');
   const [payMethod, setPayMethod] = useState<'UPI' | 'Credit/Debit Card' | 'Net Banking' | 'Cash' | 'Cheque'>('UPI');
   const [customRef, setCustomRef] = useState('');
-  const [collectorName, setCollectorName] = useState('Central Accounts Desk · Bhakatgaon');
+  const [collectorName, setCollectorName] = useState('Central Accounts Desk · Rupahi Town');
   const [lateFeeWaiver, setLateFeeWaiver] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
 

@@ -96,7 +96,7 @@ export const DonateTrustModal: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                United Global Educational & Social Welfare Trust · Bhakatgaon, Rupahi
+                United Global Educational & Social Welfare Trust · Rupahi Town
               </p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export const DonateTrustModal: React.FC = () => {
                   Noble Contribution Recorded!
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
-                  Thank you for empowering the students of United Global School, Bhakatgaon.
+                  Thank you for empowering the students of United Global School, Rupahi Town.
                 </p>
               </div>
 
@@ -166,7 +166,7 @@ export const DonateTrustModal: React.FC = () => {
                       United Global Educational & Social Welfare Trust
                     </h5>
                     <p className="text-[10px] text-slate-600">
-                      Regd. Office: Bhakatgaon, Rupahi Town · Nagaon, Assam – 782125
+                      Regd. Office: Rupahi Town · Nagaon, Assam – 782125
                     </p>
                   </div>
                   <div className="text-right">
@@ -237,7 +237,7 @@ export const DonateTrustModal: React.FC = () => {
                   <span>United Global Trust Mission & 80G Tax Exemption</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Every contribution directly empowers students with 100% scholarships, robotics lab kits, athletic coaching, and nutritious school meals in the Rupahi & Bhakatgaon region.
+                  Every contribution directly empowers students with 100% scholarships, robotics lab kits, athletic coaching, and nutritious school meals in the Rupahi region.
                 </p>
               </div>
 

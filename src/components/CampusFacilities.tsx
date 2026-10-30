@@ -38,7 +38,7 @@ export const CampusFacilities: React.FC = () => {
     },
     sports: {
       title: 'Olympic-Standard Sports Arena & Turf',
-      desc: 'Spanning over 5 acres in Bhakatgaon, our sports complex features a synthetic 400-meter sprint track, FIFA-standard football turf, badminton courts, and dedicated martial arts dojo.',
+      desc: 'Spanning over 5 acres in Rupahi Town, our sports complex features a synthetic 400-meter sprint track, FIFA-standard football turf, badminton courts, and dedicated martial arts dojo.',
       image: getFacilityImage('sports', sportsImg),
       highlights: [
         '400-meter all-weather synthetic athletic track',
@@ -61,7 +61,7 @@ export const CampusFacilities: React.FC = () => {
       leadFaculty: 'Teacher XYZ 04 & Guest Mentors'
     },
     campus: {
-      title: 'Eco-Smart & Safe Green Campus in Bhakatgaon',
+      title: 'Eco-Smart & Safe Green Campus in Rupahi Town',
       desc: 'Our green campus produces 65 kW of solar clean energy, harvests rainwater, and maintains 100% CCTV surveillance across all corridors, classrooms, and transport buses.',
       image: getFacilityImage('campus', stemLabImg),
       highlights: [
@@ -89,7 +89,7 @@ export const CampusFacilities: React.FC = () => {
             Campus Built for Futuristic Exploration
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-            Located in scenic Bhakatgaon, Rupahi Town, United Global School merges lush nature with cutting-edge academic and sports architecture.
+            Located in scenic Rupahi Town, United Global School merges lush nature with cutting-edge academic and sports architecture.
           </p>
         </div>
 

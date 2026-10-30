@@ -109,7 +109,7 @@ export const CampusPage: React.FC = () => {
       kicker: 'Zone Epsilon · Logistics & Regional Fleet',
       lead: 'Central Transport Control Room',
       image: heroCampusImg,
-      summary: 'A secure fleet of modern school buses providing door-to-door transit across Bhakatgaon, Rupahi Town, Nagaon Bypass, Borghat, and surrounding tea estates.',
+      summary: 'A secure fleet of modern school buses providing door-to-door transit across Rupahi Town, Nagaon Bypass, Borghat, and surrounding tea estates.',
       specs: [
         { label: 'Active Fleet', val: '12 GPS-Tracked Eco-Compliant Buses' },
         { label: 'Coverage Radius', val: '32 km Radial Coverage in Nagaon' },
@@ -134,19 +134,19 @@ export const CampusPage: React.FC = () => {
       <div className="relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-cyan-500/30 overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="relative z-10 max-w-3xl space-y-4">
+        <div className="relative z-10 w-full space-y-4">
           <div className="flex items-center gap-2 text-xs text-cyan-400 font-mono tracking-widest uppercase">
             <Layers className="w-4 h-4" />
-            Bhakatgaon Infrastructure Telemetry
+            Campus Infrastructure Telemetry
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display text-white tracking-tight leading-tight">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black font-display text-white tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
             Future-Ready Campus & Advanced Laboratories
           </h1>
 
           <div className="pt-2 flex flex-wrap items-center gap-4 text-xs">
             <span className="flex items-center gap-1.5 text-slate-300">
               <MapPin className="w-4 h-4 text-cyan-400" />
-              Bhakatgaon, Rupahi Town, Nagaon, Assam
+              Rupahi Town, Nagaon, Assam
             </span>
             <span aria-hidden="true" className="text-slate-600">·</span>
             <span className="text-emerald-400 font-semibold flex items-center gap-1">
@@ -299,7 +299,7 @@ export const CampusPage: React.FC = () => {
           </div>
 
           <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-            <span>Physical Location: Bhakatgaon, Rupahi</span>
+            <span>Physical Location: Rupahi Town</span>
             <button
               onClick={() => setPublicPage('home')}
               className="text-cyan-400 hover:text-cyan-300 font-semibold"

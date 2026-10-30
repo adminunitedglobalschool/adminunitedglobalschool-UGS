@@ -313,7 +313,7 @@ export const HeroSection: React.FC = () => {
             <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-700/70 shadow-2xl bg-slate-900 h-44 xs:h-52 sm:h-64 lg:h-[340px] xl:h-[360px] min-h-[180px] xs:min-h-[200px] sm:min-h-[250px] lg:min-h-[340px] group">
               <img
                 src={siteConfig.heroImageUrl || heroCampusImg}
-                alt={`${siteConfig.schoolName || 'United Global School'} Campus, Bhakatgaon, Rupahi Town`}
+                alt={`${siteConfig.schoolName || 'United Global School'} Campus, Rupahi Town`}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
               />

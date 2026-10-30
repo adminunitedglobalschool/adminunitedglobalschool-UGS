@@ -81,7 +81,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
     section: 'A',
     rollNo: '',
     dob: '2010-05-15',
-    address: 'Bhakatgaon, Rupahi Town, Nagaon, Assam',
+    address: 'Rupahi Town, Nagaon, Assam',
     bloodGroup: 'B+',
     house: 'Emerald' as 'Emerald' | 'Ruby' | 'Sapphire' | 'Topaz',
     mentorTeacher: 'Teacher XYZ 01',
@@ -232,7 +232,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
       section: 'A',
       rollNo: '',
       dob: '2010-05-15',
-      address: 'Bhakatgaon, Rupahi Town, Nagaon, Assam',
+      address: 'Rupahi Town, Nagaon, Assam',
       bloodGroup: 'B+',
       house: 'Emerald',
       mentorTeacher: 'Teacher XYZ 01',
@@ -578,7 +578,7 @@ export const StudentAdminView: React.FC<StudentAdminViewProps> = ({ initialSubTa
 
               <div className="sm:col-span-2">
                 <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                  Residential Address (Bhakatgaon / Rupahi Vicinity)
+                  Residential Address (Rupahi Vicinity)
                 </label>
                 <input
                   type="text"

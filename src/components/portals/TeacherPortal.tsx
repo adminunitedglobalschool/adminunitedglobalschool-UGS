@@ -570,7 +570,7 @@ export const TeacherPortal: React.FC = () => {
               Today's Faculty Schedule (Teacher XYZ 01)
             </h3>
             <p className="text-xs text-slate-400">
-              Bhakatgaon Campus Academic Schedule · Morning Shift
+              Campus Academic Schedule · Morning Shift
             </p>
           </div>
 

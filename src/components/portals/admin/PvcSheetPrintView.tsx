@@ -630,7 +630,7 @@ const SinglePvcCardRenderer: React.FC<SingleCardProps> = ({ data, side, themeMod
           </div>
 
           <div className="mt-1.5 space-y-1 text-[7px] leading-tight text-slate-500">
-            <p>1. Institutional property of United Global School, Bhakatgaon, Rupahi Town.</p>
+            <p>1. Institutional property of United Global School, Rupahi Town.</p>
             <p>2. Mandatory for campus biometric entry, laboratories & transportation.</p>
             <p>3. If found, contact Directorate: +91 94350 88210.</p>
           </div>
@@ -686,7 +686,7 @@ const SinglePvcCardRenderer: React.FC<SingleCardProps> = ({ data, side, themeMod
                 UNITED GLOBAL SCHOOL
               </div>
               <div className="text-[6px] text-slate-500 font-medium">
-                Bhakatgaon · Assam
+                Rupahi Town · Assam
               </div>
             </div>
           </div>
