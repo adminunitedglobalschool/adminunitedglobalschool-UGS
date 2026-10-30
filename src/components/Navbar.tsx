@@ -20,7 +20,9 @@ import {
   Minimize2,
   Tablet,
   LogIn,
-  Trophy
+  Trophy,
+  Home,
+  Bell
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -89,15 +91,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               className="relative z-[100] group focus:outline-none cursor-pointer -top-[2mm] sm:top-[5mm] lg:top-[8mm] translate-y-3.5 sm:translate-y-5 lg:translate-y-6 pointer-events-auto"
             >
               {/* Outer Cyan/Blue Cyber Pulse Glow */}
-              <div className="absolute -inset-1 sm:-inset-1.5 rounded-2xl bg-gradient-to-tr from-cyan-500/50 via-blue-500/40 to-indigo-500/50 opacity-75 group-hover:opacity-100 blur-md transition-all duration-300 pointer-events-none" />
+              <div className="absolute -inset-1 sm:-inset-1.5 lg:-inset-2.5 rounded-2xl lg:rounded-3xl bg-gradient-to-tr from-cyan-500/50 via-blue-500/40 to-indigo-500/50 opacity-75 group-hover:opacity-100 blur-md lg:blur-lg transition-all duration-300 pointer-events-none" />
               
-              {/* Scaled-up Floating Emblem Box (Bigger on mobile) */}
-              <div className="relative w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-2xl bg-slate-950/95 border-2 border-cyan-400 group-hover:border-cyan-300 shadow-[0_10px_30px_rgba(6,182,212,0.5)] flex items-center justify-center p-1.5 backdrop-blur-xl group-hover:scale-105 transition-all duration-300">
+              {/* Scaled-up Floating Emblem Box (Doubled on desktop: 160px x 160px) */}
+              <div className="relative w-16 h-16 sm:w-18 sm:h-18 lg:w-40 lg:h-40 rounded-2xl lg:rounded-3xl bg-slate-950/95 border-2 border-cyan-400 group-hover:border-cyan-300 shadow-[0_10px_30px_rgba(6,182,212,0.5)] lg:shadow-[0_15px_40px_rgba(6,182,212,0.6)] flex items-center justify-center p-1.5 lg:p-3 backdrop-blur-xl group-hover:scale-105 transition-all duration-300">
                 {/* Tech Corner Accents */}
-                <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-cyan-300 pointer-events-none" />
-                <div className="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-cyan-300 pointer-events-none" />
-                <div className="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-cyan-300 pointer-events-none" />
-                <div className="absolute bottom-1 right-1 w-2 h-2 border-b-2 border-r-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute top-1 left-1 lg:top-2 lg:left-2 w-2 h-2 lg:w-3.5 lg:h-3.5 border-t-2 border-l-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute top-1 right-1 lg:top-2 lg:right-2 w-2 h-2 lg:w-3.5 lg:h-3.5 border-t-2 border-r-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 w-2 h-2 lg:w-3.5 lg:h-3.5 border-b-2 border-l-2 border-cyan-300 pointer-events-none" />
+                <div className="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 w-2 h-2 lg:w-3.5 lg:h-3.5 border-b-2 border-r-2 border-cyan-300 pointer-events-none" />
 
                 {siteConfig.logoUrl ? (
                   <img 
@@ -106,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                     className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_2px_8px_rgba(6,182,212,0.5)]" 
                   />
                 ) : (
-                  <School className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 text-cyan-300" />
+                  <School className="w-9 h-9 sm:w-10 sm:h-10 lg:w-24 lg:h-24 text-cyan-300" />
                 )}
               </div>
             </button>
@@ -114,90 +116,104 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
 
           {/* Zone 2: Navigation Links (Only shown on Public Website; hidden in Admin & Tablet view) */}
           {role === 'public' ? (
-            <nav className={`${isLeaveScreenView ? 'hidden' : 'hidden md:flex'} items-center gap-3.5 lg:gap-5 xl:gap-6 text-sm font-medium text-slate-300`}>
+            <nav className={`${isLeaveScreenView ? 'hidden' : 'hidden md:flex'} items-center gap-1.5 lg:gap-2.5 p-1.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-inner shadow-black/50`}>
+              {/* 1. Home */}
               <button 
                 onClick={() => {
                   setPublicPage('home');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
+                className={`relative px-3.5 py-1.5 rounded-xl border text-[13px] lg:text-[14px] font-semibold flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer group active:scale-95 ${
                   publicPage === 'home' && !publicGalleryTab
-                    ? 'text-cyan-400 font-semibold' 
-                    : 'hover:text-cyan-400 text-slate-300'
+                    ? 'bg-cyan-500/15 text-cyan-300 border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/30 font-bold' 
+                    : 'text-slate-300 hover:text-white bg-transparent border-transparent hover:bg-slate-800/70 hover:border-slate-700/60'
                 }`}
               >
-                Home
-                {publicPage === 'home' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
+                <Home className={`w-3.5 h-3.5 transition-colors ${publicPage === 'home' && !publicGalleryTab ? 'text-cyan-400' : 'text-slate-400 group-hover:text-cyan-300'}`} />
+                <span>Home</span>
+                {publicPage === 'home' && !publicGalleryTab && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
                 )}
               </button>
+
+              {/* 2. Campus & Labs */}
               <button 
                 onClick={() => {
                   setPublicPage('campus');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
+                className={`relative px-3.5 py-1.5 rounded-xl border text-[13px] lg:text-[14px] font-semibold flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer group active:scale-95 ${
                   publicPage === 'campus' 
-                    ? 'text-cyan-400 font-semibold' 
-                    : 'hover:text-cyan-400 text-slate-300'
+                    ? 'bg-cyan-500/15 text-cyan-300 border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/30 font-bold' 
+                    : 'text-slate-300 hover:text-white bg-transparent border-transparent hover:bg-slate-800/70 hover:border-slate-700/60'
                 }`}
               >
-                Campus & Labs
+                <School className={`w-3.5 h-3.5 transition-colors ${publicPage === 'campus' ? 'text-cyan-400' : 'text-slate-400 group-hover:text-cyan-300'}`} />
+                <span>Campus & Labs</span>
                 {publicPage === 'campus' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
                 )}
               </button>
+
+              {/* 3. Success Stories */}
               <button 
                 onClick={() => {
                   setPublicPage('success');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
+                className={`relative px-3.5 py-1.5 rounded-xl border text-[13px] lg:text-[14px] font-semibold flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer group active:scale-95 ${
                   publicPage === 'success' 
-                    ? 'text-cyan-400 font-semibold' 
-                    : 'hover:text-cyan-400 text-slate-300'
+                    ? 'bg-cyan-500/15 text-cyan-300 border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/30 font-bold' 
+                    : 'text-slate-300 hover:text-white bg-transparent border-transparent hover:bg-slate-800/70 hover:border-slate-700/60'
                 }`}
               >
-                Success Stories
+                <Trophy className={`w-3.5 h-3.5 transition-colors ${publicPage === 'success' ? 'text-amber-400' : 'text-slate-400 group-hover:text-amber-300'}`} />
+                <span>Success Stories</span>
                 {publicPage === 'success' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#f59e0b]" />
                 )}
               </button>
+
+              {/* 4. Fee Structure */}
               <button 
                 onClick={() => {
                   setPublicPage('fees');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
+                className={`relative px-3.5 py-1.5 rounded-xl border text-[13px] lg:text-[14px] font-semibold flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer group active:scale-95 ${
                   publicPage === 'fees' 
-                    ? 'text-cyan-400 font-semibold' 
-                    : 'hover:text-cyan-400 text-slate-300'
+                    ? 'bg-cyan-500/15 text-cyan-300 border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/30 font-bold' 
+                    : 'text-slate-300 hover:text-white bg-transparent border-transparent hover:bg-slate-800/70 hover:border-slate-700/60'
                 }`}
               >
-                Fee Structure
+                <CreditCard className={`w-3.5 h-3.5 transition-colors ${publicPage === 'fees' ? 'text-blue-400' : 'text-slate-400 group-hover:text-blue-300'}`} />
+                <span>Fee Structure</span>
                 {publicPage === 'fees' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
                 )}
               </button>
+
+              {/* 5. Notices */}
               <button 
                 onClick={() => {
                   setPublicPage('circulars');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`transition-colors whitespace-nowrap shrink-0 relative py-1 ${
+                className={`relative px-3.5 py-1.5 rounded-xl border text-[13px] lg:text-[14px] font-semibold flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer group active:scale-95 ${
                   publicPage === 'circulars' 
-                    ? 'text-cyan-400 font-semibold' 
-                    : 'hover:text-cyan-400 text-slate-300'
+                    ? 'bg-cyan-500/15 text-cyan-300 border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/30 font-bold' 
+                    : 'text-slate-300 hover:text-white bg-transparent border-transparent hover:bg-slate-800/70 hover:border-slate-700/60'
                 }`}
               >
-                Notices
+                <Bell className={`w-3.5 h-3.5 transition-colors ${publicPage === 'circulars' ? 'text-purple-400' : 'text-slate-400 group-hover:text-purple-300'}`} />
+                <span>Notices</span>
                 {publicPage === 'circulars' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_#c084fc]" />
                 )}
               </button>
             </nav>
@@ -451,13 +467,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2 rounded-lg transition-colors ${
-                  publicPage === 'home'
-                    ? 'bg-cyan-500/10 text-cyan-400 font-bold'
-                    : 'hover:bg-slate-800 text-slate-200'
+                className={`text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2.5 font-semibold text-sm ${
+                  publicPage === 'home' && !publicGalleryTab
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-md'
+                    : 'hover:bg-slate-800/80 text-slate-200'
                 }`}
               >
-                Home
+                <Home className="w-4 h-4 text-cyan-400" />
+                <span>Home</span>
               </button>
               <button 
                 onClick={() => {
@@ -465,13 +482,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2 rounded-lg transition-colors ${
+                className={`text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2.5 font-semibold text-sm ${
                   publicPage === 'campus'
-                    ? 'bg-cyan-500/10 text-cyan-400 font-bold'
-                    : 'hover:bg-slate-800 text-slate-200'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-md'
+                    : 'hover:bg-slate-800/80 text-slate-200'
                 }`}
               >
-                Campus & Labs
+                <School className="w-4 h-4 text-cyan-400" />
+                <span>Campus & Labs</span>
               </button>
               <button 
                 onClick={() => {
@@ -479,13 +497,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2 rounded-lg transition-colors ${
+                className={`text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2.5 font-semibold text-sm ${
                   publicPage === 'success'
-                    ? 'bg-cyan-500/10 text-cyan-400 font-bold'
-                    : 'hover:bg-slate-800 text-slate-200'
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50 shadow-md'
+                    : 'hover:bg-slate-800/80 text-slate-200'
                 }`}
               >
-                Success Stories
+                <Trophy className="w-4 h-4 text-amber-400" />
+                <span>Success Stories</span>
               </button>
               <button 
                 onClick={() => {
@@ -493,13 +512,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2 rounded-lg transition-colors ${
+                className={`text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2.5 font-semibold text-sm ${
                   publicPage === 'fees'
-                    ? 'bg-cyan-500/10 text-cyan-400 font-bold'
-                    : 'hover:bg-slate-800 text-slate-200'
+                    ? 'bg-blue-500/20 text-blue-300 border border-blue-400/50 shadow-md'
+                    : 'hover:bg-slate-800/80 text-slate-200'
                 }`}
               >
-                Fee Structure
+                <CreditCard className="w-4 h-4 text-blue-400" />
+                <span>Fee Structure</span>
               </button>
               <button 
                 onClick={() => {
@@ -507,13 +527,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className={`text-left px-3 py-2 rounded-lg transition-colors ${
+                className={`text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2.5 font-semibold text-sm ${
                   publicPage === 'circulars'
-                    ? 'bg-cyan-500/10 text-cyan-400 font-bold'
-                    : 'hover:bg-slate-800 text-slate-200'
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-400/50 shadow-md'
+                    : 'hover:bg-slate-800/80 text-slate-200'
                 }`}
               >
-                Notices
+                <Bell className="w-4 h-4 text-purple-400" />
+                <span>Notices</span>
               </button>
               <button 
                 onClick={() => {

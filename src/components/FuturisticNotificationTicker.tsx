@@ -225,7 +225,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
         }`}>
           
           {/* LEFT: Futuristic Holographic HUD Badge - Offset for floating navbar logo on desktop/tablet */}
-          <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1 ml-14 sm:ml-16 lg:ml-20">
+          <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1 ml-14 sm:ml-16 lg:ml-44">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-cyan-500 shadow-[0_0_10px_#06b6d4]"></span>
