@@ -220,14 +220,11 @@ export const FuturisticNotificationTicker: React.FC = () => {
         <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-80" />
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
 
-        <div className={`max-w-7xl mx-auto px-2 sm:px-4 flex items-center ${
+        <div className={`max-w-7xl mx-auto pl-1 pr-2 sm:px-4 flex items-center ${
           layoutMode === 'two-line' ? 'h-15 sm:h-16 py-1.5' : 'h-11 sm:h-12 py-1'
         }`}>
           
-          {/* Mobile offset for scaled-up floating logo */}
-          <div className="sm:hidden w-16 shrink-0 pointer-events-none" />
-
-          {/* LEFT: Futuristic Holographic HUD Badge - Offset for floating navbar logo */}
+          {/* LEFT: Futuristic Holographic HUD Badge - Offset for floating navbar logo on desktop/tablet */}
           <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1 ml-14 sm:ml-16 lg:ml-20">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
@@ -251,9 +248,9 @@ export const FuturisticNotificationTicker: React.FC = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {/* Left & Right subtle edge fade mask */}
-            <div className="absolute left-0 inset-y-0 w-6 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 inset-y-0 w-8 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
+            {/* Left fade mask only on sm+ so mobile displays all the way to left */}
+            <div className="hidden sm:block absolute left-0 inset-y-0 w-6 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 inset-y-0 w-6 sm:w-8 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
 
             <div 
               className={`animate-futuristic-marquee ${speedClass} flex items-center gap-6 sm:gap-8`}
