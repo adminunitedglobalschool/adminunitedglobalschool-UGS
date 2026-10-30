@@ -212,7 +212,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
       {/* FUTURISTIC HUD NOTIFICATION TICKER */}
       <section 
         aria-label="Campus Live Notifications HUD Stream"
-        className={`w-full relative z-40 bg-slate-950/95 border-b border-cyan-500/30 backdrop-blur-md overflow-visible select-text selection:bg-cyan-500/30 selection:text-cyan-200 transition-all duration-300 ${
+        className={`w-full relative z-20 bg-slate-950/95 border-b border-cyan-500/30 backdrop-blur-md overflow-visible select-text selection:bg-cyan-500/30 selection:text-cyan-200 transition-all duration-300 ${
           layoutMode === 'two-line' ? 'min-h-[58px] sm:min-h-[62px]' : 'min-h-[46px] sm:min-h-[48px]'
         }`}
       >
@@ -225,7 +225,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
         }`}>
           
           {/* Mobile offset for scaled-up floating logo */}
-          <div className="sm:hidden w-12 shrink-0 pointer-events-none" />
+          <div className="sm:hidden w-16 shrink-0 pointer-events-none" />
 
           {/* LEFT: Futuristic Holographic HUD Badge - Offset for floating navbar logo */}
           <div className="hidden sm:flex shrink-0 items-center gap-1.5 sm:gap-2 pr-2.5 sm:pr-4 border-r border-slate-800 bg-slate-950/90 z-10 py-1 ml-14 sm:ml-16 lg:ml-20">
@@ -522,7 +522,7 @@ export const FuturisticNotificationTicker: React.FC = () => {
       {/* GRAND INSTITUTION IDENTITY BANNER: "UNITED GLOBAL SCHOOL" (Selectable & Grand Size) */}
       <div 
         aria-label="Institution Grand Title Banner"
-        className="w-full relative z-30 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b-2 border-cyan-500/30 py-3 sm:py-5 px-3 sm:px-6 select-text selection:bg-cyan-500/30 selection:text-cyan-200 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+        className="w-full relative z-10 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b-2 border-cyan-500/30 py-3 sm:py-5 px-3 sm:px-6 select-text selection:bg-cyan-500/30 selection:text-cyan-200 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
       >
         {/* Holographic cyber ambient spotlight behind title */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-500/15 via-blue-900/10 to-transparent pointer-events-none" />
@@ -530,10 +530,10 @@ export const FuturisticNotificationTicker: React.FC = () => {
 
         <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 relative">
           
-          {/* Top subtle micro-indicator */}
-          <div className="flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold tracking-[0.2em] sm:tracking-[0.25em] text-cyan-400 uppercase select-none opacity-85">
+          {/* Top subtle micro-indicator (Minimum 14px) */}
+          <div className="flex items-center gap-2 text-[14px] font-mono font-bold tracking-[0.16em] text-cyan-400 uppercase select-none opacity-90 text-center">
             <span className="w-1.5 h-1.5 rotate-45 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-            <Sparkles className="w-3.5 h-3.5 text-cyan-300 animate-pulse" />
+            <Sparkles className="w-4 h-4 text-cyan-300 animate-pulse shrink-0" />
             <span>CENTRAL CAMPUS PORTAL · RUPAHI TOWN</span>
             <span className="w-1.5 h-1.5 rotate-45 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
           </div>
@@ -557,21 +557,21 @@ export const FuturisticNotificationTicker: React.FC = () => {
             </div>
           </div>
 
-          {/* Action Row: [Teachers Gallery] [Appointment with Principal] [Class Toppers Gallery] */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {/* Action Row: [Teachers Gallery] [Appointment with Principal] [Class Toppers Gallery] - All texts min 14px */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5">
             {/* Left: Teachers Gallery Interactive Button */}
             <button
               type="button"
               onClick={() => openPublicGallery('teachers')}
-              className={`inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1 rounded-full border text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
+              className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border text-[14px] font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
                 publicGalleryTab === 'teachers'
                   ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.4)] ring-1 ring-emerald-400/50'
                   : 'bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 hover:text-white border-emerald-500/40 hover:border-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.15)]'
               }`}
               title="View Faculty & Teachers Gallery"
             >
-              <Users className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
-              <span>Teachers Gallery</span>
+              <Users className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="text-[14px]">Teachers Gallery</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </button>
 
@@ -579,33 +579,33 @@ export const FuturisticNotificationTicker: React.FC = () => {
             <button
               type="button"
               onClick={openPrincipalAppointmentModal}
-              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 rounded-full bg-gradient-to-r from-purple-500/20 via-slate-900 to-cyan-500/20 hover:from-purple-500/35 hover:to-cyan-500/35 border border-purple-500/40 hover:border-purple-300 text-purple-200 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all cursor-pointer group active:scale-95"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4.5 py-1.5 rounded-full bg-gradient-to-r from-purple-500/20 via-slate-900 to-cyan-500/20 hover:from-purple-500/35 hover:to-cyan-500/35 border border-purple-500/40 hover:border-purple-300 text-purple-200 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all cursor-pointer group active:scale-95"
               title="Book Official Appointment with Principal"
             >
-              <UserCheck className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
-              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-purple-200 group-hover:text-white">
+              <UserCheck className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="text-[14px] font-mono font-bold tracking-wider uppercase text-purple-200 group-hover:text-white">
                 Appointment with Principal
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-mono text-cyan-400/90 tracking-wider hidden xs:inline">
-                Campus Visit & Consultation
+              <span className="text-[14px] font-mono text-cyan-400/90 tracking-wider hidden sm:inline">
+                Campus Visit
               </span>
-              <ChevronRight className="w-3 h-3 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-3.5 h-3.5 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
             </button>
 
             {/* Right: Class Toppers Gallery Interactive Button */}
             <button
               type="button"
               onClick={() => openPublicGallery('toppers')}
-              className={`inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1 rounded-full border text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
+              className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border text-[14px] font-mono font-bold tracking-wider uppercase transition-all cursor-pointer group active:scale-95 ${
                 publicGalleryTab === 'toppers'
                   ? 'bg-amber-500/25 text-amber-300 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.4)] ring-1 ring-amber-400/50'
                   : 'bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 hover:text-white border-amber-500/40 hover:border-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
               }`}
               title="View Class Toppers & Academic Titans Hall of Fame"
             >
-              <Trophy className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
-              <span>Class Toppers Gallery</span>
+              <Trophy className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="text-[14px]">Class Toppers Gallery</span>
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
             </button>
           </div>

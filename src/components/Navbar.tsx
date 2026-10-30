@@ -72,12 +72,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 overflow-visible w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-8 h-18">
           
-          {/* Zone 1: Campus Emblem / Logo - Scaled Up & Floating down towards UGS Live Dispatch */}
-          <div className="flex items-center shrink-0 relative z-50">
+          {/* Zone 1: Campus Emblem / Logo - Always On Top with z-[100] & Floating down towards UGS Live Dispatch */}
+          <div className="flex items-center shrink-0 relative z-[100]">
             <button 
               onClick={() => {
                 setRole('public');
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateSection }) => {
               }}
               title={siteConfig.schoolName || 'United Global School'}
               aria-label={siteConfig.schoolName || 'United Global School'}
-              className="relative group focus:outline-none cursor-pointer translate-y-3.5 sm:translate-y-5 lg:translate-y-6"
+              className="relative z-[100] group focus:outline-none cursor-pointer top-[11mm] lg:top-[8mm] translate-y-3.5 sm:translate-y-5 lg:translate-y-6 pointer-events-auto"
             >
               {/* Outer Cyan/Blue Cyber Pulse Glow */}
               <div className="absolute -inset-1 sm:-inset-1.5 rounded-2xl bg-gradient-to-tr from-cyan-500/50 via-blue-500/40 to-indigo-500/50 opacity-75 group-hover:opacity-100 blur-md transition-all duration-300 pointer-events-none" />
